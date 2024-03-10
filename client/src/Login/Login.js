@@ -1,24 +1,45 @@
 import React, { useContext, useState } from "react";
-import AlertContext from "../../contexts/alert/AlertContext";
+import AlertContext from "../contexts/alert/AlertContext";
 import { Link, useNavigate } from "react-router-dom";
-import finImage from "../../assets/images/finance.webp";
-import logo from "../../assets/images/iitindorelogo.png"
+import finImage from "../assets/images/finance.webp";
+import logo from "../assets/images/iitindorelogo.png";
+
 const Login = () => {
-  // const [credentials, setCredentials] = useState({
-  //   username: "",
-  //   password: "",
-  // });
-  // const { successful, unsuccessful } = useContext(AlertContext);
-  // const navigate = useNavigate();
-  // const handleOnChange = async (e) => {
-  //   const { name, value } = e.target;
-  //   setCredentials({ ...credentials, [name]: value });
-  // };
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const json = {};
-  //   if (json.error) unsuccessful(json.error);
-  // };
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
+
+  const { successful, unSuccessful } = useContext(AlertContext);
+  const navigate = useNavigate();
+  const handleOnChange = async (e) => {
+    const { name, value } = e.target;
+    setCredentials({ ...credentials, [name]: value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch(
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/user/login`,
+      {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(credentials),
+      }
+    );
+    const json = await response.json();
+    console.log(json);
+    if (json.error) unSuccessful(json.error);
+    else {
+      console.log(json.user.role);
+      successful("You have been logged in succefully.");
+      setTimeout(() => {
+        if (!json.user.role) navigate("/dept");
+        else navigate("/fin");
+        window.location.reload();
+      }, 3000);
+    }
+  };
+
   return (
     <>
       <section className="bg-light p-3 p-md-4 p-xl-5">
@@ -43,11 +64,7 @@ const Login = () => {
                             <div className="mb-5">
                               <div className="text-center mb-4">
                                 <Link to="/">
-                                  <img
-                                    src={logo}
-                                    alt="IITI Logo"
-                                    width="70"
-                                  />
+                                  <img src={logo} alt="IITI Logo" width="70" />
                                 </Link>
                               </div>
                               <h4 className="text-center">Welcome User !</h4>
@@ -58,20 +75,24 @@ const Login = () => {
                           </div>
                         </div>
                         <div className="row"></div>
-                        <form action="/">
+                        <form onSubmit={handleSubmit}>
                           <div className="row gy-3 overflow-hidden">
                             <div className="col-12">
                               <div className="form-floating mb-3">
                                 <input
-                                  type="email"
                                   className="form-control"
-                                  name="email"
-                                  id="email"
-                                  placeholder="name@example.com"
+                                  name="username"
+                                  id="username"
+                                  placeholder="Username"
+                                  onChange={handleOnChange}
+                                  value={credentials.username}
                                   required
                                 />
-                                <label for="email" className="form-label">
-                                  Email
+                                <label
+                                  htmlFor="username"
+                                  className="form-label"
+                                >
+                                  Username
                                 </label>
                               </div>
                             </div>
@@ -82,11 +103,15 @@ const Login = () => {
                                   className="form-control"
                                   name="password"
                                   id="password"
-                                  value=""
+                                  value={credentials.password}
                                   placeholder="Password"
+                                  onChange={handleOnChange}
                                   required
                                 />
-                                <label for="password" className="form-label">
+                                <label
+                                  htmlFor="password"
+                                  className="form-label"
+                                >
                                   Password
                                 </label>
                               </div>
