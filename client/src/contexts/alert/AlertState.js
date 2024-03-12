@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 const AlertState = (props) => {
   const successful = (msg) => {
     toast.success(msg, {
-      position: "top-center",
+      position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -18,7 +18,7 @@ const AlertState = (props) => {
 
   const unSuccessful = (msg) => {
     toast.error(msg, {
-      position: "top-center",
+      position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
