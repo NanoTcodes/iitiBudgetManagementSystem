@@ -10,11 +10,12 @@ const ConsumableSchema = new Schema({
       entry_date: { type: Date, default: Date.now },
       particulars: String,
       indenter: String,
-      indent_no: { type: Number, required: true },
+      indent_no: { type: Number},
       po_no: Number,
       indent_amount: Number,
       amount: Number,
-      account_head: Number,
+      account_head: String,
+      active:Boolean
     },
   ],
   direct_purchase: [
@@ -22,11 +23,12 @@ const ConsumableSchema = new Schema({
       entry_date: { type: Date, default: Date.now },
       particulars: String,
       indenter: String,
-      indent_no: { type: Number, required: true },
+      indent_no: { type: Number },
       po_no: Number,
       indent_amount: Number,
       amount: Number,
-      account_head: Number,
+      account_head: String,
+      active: Boolean
     },
   ],
   indent_pay_done: [
@@ -34,11 +36,12 @@ const ConsumableSchema = new Schema({
       entry_date: { type: Date, default: Date.now },
       particulars: String,
       indenter: String,
-      indent_no: { type: Number, required: true },
+      indent_no: { type: Number},
       po_no: Number,
       indent_amount: Number,
       amount: Number,
-      account_head: Number,
+      account_head: String,
+      active:Boolean
     },
   ],
 });

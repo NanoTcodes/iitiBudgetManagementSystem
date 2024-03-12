@@ -1,5 +1,5 @@
 import express from "express";
-import { createUser, login } from "../controllers/userController.js";
+import { addEqEntry,addConEntry, addDept, createUser, login } from "../controllers/userController.js";
 import { body } from "express-validator";
 
 const router = express.Router();
@@ -27,6 +27,26 @@ router.post(
     body("password", "Password should not be empty!").exists(),
   ],
   login
+);
+router.post(
+  "/adddept",
+  
+  addDept
+);
+router.post(
+  "/addconsumableentry",
+
+  addConEntry
+);
+// router.post(
+//   "/addequipmentdept",
+
+//   addequipmentdept
+// );
+router.post(
+  "/addequipmententry",
+
+  addEqEntry
 );
 
 export default router;
