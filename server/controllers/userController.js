@@ -99,7 +99,7 @@ export const addDept =  async (req, res) => {
   //sample request --
   // "department":"CSE",
   // "budget":9000000,
-  // "expenditure":3444440,
+  // "expenditure":0,
   // "year":2022,
   // "indents_process":[],
   // "direct_purchase":[],
@@ -107,6 +107,7 @@ export const addDept =  async (req, res) => {
 
   //=========
   //adding entry in consumable
+  //the entry also adds to the expenditure
   export const addConEntry=async(req,res)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -122,12 +123,15 @@ export const addDept =  async (req, res) => {
       }
       if(array_name==="indents_process"){
         table.indents_process.push(array_data);
+        table.expenditure=table.expenditure+array_data.amount;
       }
       else if(array_name==="direct_purchase"){
         table.direct_purchase.push(array_data);
+        table.expenditure=table.expenditure+array_data.amount;
       }
       else if(array_name==="indent_pay_done"){
         table.indent_pay_done.push(array_data);
+        table.expenditure=table.expenditure+array_data.amount;
       }
       else {
         return res
@@ -205,12 +209,15 @@ export const addDept =  async (req, res) => {
       }
       if(array_name==="indents_process"){
         table.indents_process.push(array_data);
+        table.expenditure=table.expenditure+array_data.amount;
       }
       else if(array_name==="direct_purchase"){
         table.direct_purchase.push(array_data);
+        table.expenditure=table.expenditure+array_data.amount;
       }
       else if(array_name==="indent_pay_done"){
         table.indent_pay_done.push(array_data);
+        table.expenditure=table.expenditure+array_data.amount;
       }
       else {
         return res
@@ -243,6 +250,62 @@ export const addDept =  async (req, res) => {
     //       "active": true
     //   }
     // }
+    //==========================================================================================
+//fetching budget data
+    export const fetchtable = async(req,res)=>{
+      const errors = validationResult(req);
+      if(!errors.isEmpty()){
+        return res.status(404).json({errors:errors.array()});
+      }
+      try{
+        const{department_name,budget_type}=req.body;
+        if(budget_type=="Equipment"){
+          let table= await Equipment.findOne({department:department_name});
+          if (!table) {
+            return res
+              .status(400)
+              .json({ error: "Dept does not exist, contact Admin to add the department" });
+          }
+          let{expenditure,year,indents_process,direct_purchase,indent_pay_done,department,budget}=table;
+          return res.json({
+            department:department,
+            budget:budget,
+            expenditure:expenditure,
+            year:year,
+            indents_process:indents_process,
+            direct_purchase:direct_purchase,
+            indent_pay_done:indent_pay_done
+          })
+        }
+        else if(budget_type=="Consumable"){
+          let table= await Consumable.findOne({department:department_name});
+          if (!table) {
+            return res
+              .status(400)
+              .json({ error: "Dept does not exist, contact Admin to add the department" });
+          }
+          let{expenditure,year,indents_process,direct_purchase,indent_pay_done,department,budget}=table;
+          return res.json({
+            department:department,
+            budget:budget,
+            expenditure:expenditure,
+            year:year,
+            indents_process:indents_process,
+            direct_purchase:direct_purchase,
+            indent_pay_done:indent_pay_done
+          })
+        }
+      }
+      catch(err){
+        console.error(err.message);
+        res.status(500).send("Some error occured!");
+      }
+    }
+
+
+//{"department_name":"CSE",
+// "budget_type":"Equipment"
+// }
 
 
     

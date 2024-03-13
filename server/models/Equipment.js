@@ -2,12 +2,12 @@ import mongoose, { Schema } from "mongoose";
 
 const EquipmentSchema = new Schema({
   department: String,
-  budget: Number,
+  budget: {type:Number},
   expenditure: { type: Number, default: 0 },
   year: { type: Date, default: () => new Date().getFullYear() },
   indents_process: [
     {
-      entry_date: { type: Date, default: Date.now },
+      entry_date: { type: Date, default: Date.now.getFullYear },
       particulars: String,
       indenter: String,
       indent_no: { type: Number},
