@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from "./Navbar/Navbar";
 
 const Btable = () => {
   const [Data, setData] = useState([]);
