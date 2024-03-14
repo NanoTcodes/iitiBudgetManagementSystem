@@ -1,13 +1,16 @@
-import React from 'react'
-import Navbar from "./Navbar/Navbar"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
+import Navbar from "./Navbar/Navbar";
+import Home from "./Home/Home";
 
 const Department = () => {
   return (
     <>
-    <Navbar/>
+      <Navbar />
+
       Hello from Deparment page.
     </>
-  )
-}
+  );
+};
 
-export default Department
+export default Department;

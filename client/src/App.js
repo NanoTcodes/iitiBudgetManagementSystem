@@ -27,7 +27,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Login />} />
             <Route exact path="/dept" element={<Department />} />
-            <Route exact path="/fin" element={<Finance />} />
+            <Route exact path="/finance" element={<Finance />} />
           </Routes>
         </Router>
       </AlertState>
