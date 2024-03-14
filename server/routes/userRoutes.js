@@ -1,5 +1,5 @@
 import express from "express";
-import {addEqEntry,addConEntry, addDept, createUser, login, fetchtable } from "../controllers/userController.js";
+import {addEqEntry,addConEntry, addDept, createUser, login, fetchtable, summary } from "../controllers/userController.js";
 import { body } from "express-validator";
 
 const router = express.Router();
@@ -49,11 +49,15 @@ router.post(
   addEqEntry
 );
 
-router.post(
+router.get(
   "/fetchtable",
 
   fetchtable
 );
+router.get(
+  "/summary",
+  summary
+)
 
 export default router;
 
