@@ -1,29 +1,39 @@
-import React from "react";
-import { ToastContainer } from "react-toastify";
+import React, { useContext, useEffect, useState } from "react";
 import "./navbar.css";
 import logo from "../../assets/images/iitindorelogo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import YearContext from "../../contexts/year/YearContext";
+
 const Navbar = () => {
+  const navigate = useNavigate();
+  const [years, setYears] = useState([]);
+  const { setYear } = useContext(YearContext);
+
+  useEffect(() => {
+    if (!localStorage.getItem("authToken")) navigate("/");
+    let curYears = [];
+    for (let index = 2021; index <= new Date().getFullYear(); index++) {
+      curYears.push(index);
+    }
+    setYears(curYears);
+  }, []);
+
+  const logOut = () => {
+    localStorage.clear("authToken");
+    navigate("/");
+  };
+
+  const changeYear = (i) => {
+    setYear(i);
+  };
+
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        style={{ fontSize: "1.5em" }}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
       <header>
         <nav className="navbar navbar-expand-lg custom-navbar">
           <div className="container-fluid">
             <div className="container2">
-              <Link className="navbar-brand" to="/">
+              <Link className="navbar-brand" to="/finance">
                 <img
                   src={logo}
                   alt="Logo"
@@ -52,7 +62,11 @@ const Navbar = () => {
               >
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
-                    <Link className="nav-link active" aria-current="page" to="/">
+                    <Link
+                      className="nav-link active"
+                      aria-current="page"
+                      to="/finance"
+                    >
                       Home |
                     </Link>
                   </li>
@@ -64,19 +78,21 @@ const Navbar = () => {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Select year
+                      Change Year
                     </Link>
                     <ul className="dropdown-menu">
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          2022
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          2023
-                        </Link>
-                      </li>
+                      {years.map((year, i) => {
+                        return (
+                          <li
+                            role="button"
+                            className="dropdown-item"
+                            key={i}
+                            onClick={() => changeYear(year)}
+                          >
+                            {year}-{(year % 100) + 1}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </li>
                   <li className="nav-item dropdown">
@@ -137,10 +153,12 @@ const Navbar = () => {
                     </ul>
                   </li>
 
-                  <li className="nav-item">
-                    <Link className="nav-link active" aria-current="page" to="/login">
-                      Log in
-                    </Link>
+                  <li
+                    className="nav-item nav-link active"
+                    role="button"
+                    onClick={logOut}
+                  >
+                    Logout
                   </li>
                 </ul>
               </div>

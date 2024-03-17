@@ -27,14 +27,14 @@ const Login = () => {
       }
     );
     const json = await response.json();
-    console.log(json);
     if (json.error) unSuccessful(json.error);
     else {
-      console.log(json.user.role);
+      localStorage.setItem("authToken", json.authToken);
+      console.log(localStorage.getItem("authToken"));
       successful("You have been logged in succefully.");
       setTimeout(() => {
         if (!json.user.role) navigate("/dept");
-        else navigate("/fin");
+        else navigate("/finance");
         window.location.reload();
       }, 3000);
     }

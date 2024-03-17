@@ -1,8 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
 const EquipmentSchema = new Schema({
+  username: String,
   department: String,
-  budget: {type:Number},
+  budget: { type: Number },
   expenditure: { type: Number, default: 0 },
   year: { type: Date, default: () => new Date().getFullYear() },
   indents_process: [
@@ -10,13 +11,13 @@ const EquipmentSchema = new Schema({
       entry_date: { type: Date, default: Date.now.getFullYear },
       particulars: String,
       indenter: String,
-      indent_no: { type: Number},
+      indent_no: { type: Number },
       po_no: Number,
       indent_amount: Number,
       amount: Number,
-      nameofparty:String,
-      category:String,
-      active:Boolean
+      nameofparty: String,
+      category: String,
+      active: Boolean,
     },
   ],
   direct_purchase: [
@@ -28,9 +29,9 @@ const EquipmentSchema = new Schema({
       po_no: Number,
       indent_amount: Number,
       amount: Number,
-      nameofparty:String,
-      category:String,
-      active: Boolean
+      nameofparty: String,
+      category: String,
+      active: Boolean,
     },
   ],
   indent_pay_done: [
@@ -38,13 +39,13 @@ const EquipmentSchema = new Schema({
       entry_date: { type: Date, default: Date.now },
       particulars: String,
       indenter: String,
-      indent_no: { type: Number},
+      indent_no: { type: Number },
       po_no: Number,
       indent_amount: Number,
       amount: Number,
       nameofparty: String,
-      category:String,
-      active:Boolean
+      category: String,
+      active: Boolean,
     },
   ],
 });
