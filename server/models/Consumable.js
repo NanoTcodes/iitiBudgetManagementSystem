@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const ConsumableSchema = new Schema({
+  username: String,
   department: String,
   budget: Number,
   expenditure: { type: Number, default: 0 },
@@ -10,17 +11,17 @@ const ConsumableSchema = new Schema({
       entry_date: { type: Date, default: Date.now },
       particulars: String,
       indenter: String,
-      indent_no: { type: Number},
+      indent_no: { type: Number },
       po_no: Number,
       indent_amount: Number,
       amount: Number,
       account_head: String,
-      active:Boolean
+      active: Boolean,
     },
   ],
   direct_purchase: [
     {
-      entry_date: { type: Date, default: Date.now},
+      entry_date: { type: Date, default: Date.now },
       particulars: String,
       indenter: String,
       indent_no: { type: Number },
@@ -28,7 +29,7 @@ const ConsumableSchema = new Schema({
       indent_amount: Number,
       amount: Number,
       account_head: String,
-      active: Boolean
+      active: Boolean,
     },
   ],
   indent_pay_done: [
@@ -36,12 +37,12 @@ const ConsumableSchema = new Schema({
       entry_date: { type: Date, default: Date.now },
       particulars: String,
       indenter: String,
-      indent_no: { type: Number},
+      indent_no: { type: Number },
       po_no: Number,
       indent_amount: Number,
       amount: Number,
       account_head: String,
-      active:Boolean
+      active: Boolean,
     },
   ],
 });

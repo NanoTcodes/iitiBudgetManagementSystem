@@ -3,14 +3,13 @@ import React from "react";
 import Navbar from "./Navbar/Navbar";
 import Home from "./Home/Home";
 
-const Department = () => {
+const Departments = () => {
   return (
     <>
       <Navbar />
-
       Hello from Deparment page.
     </>
   );
 };
 
-export default Department;
+export default Departments;

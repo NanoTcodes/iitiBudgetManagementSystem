@@ -1,13 +1,13 @@
 import React from "react";
 import Navbar from "./Navbar/Navbar";
-import Home from "./Home/Home";
-import Btable from "./EntryTable/BTable";
+import { Outlet } from "react-router-dom";
 
 const Finance = () => {
+
   return (
     <>
-      <Navbar />
-      <Btable />
+      <Navbar/>
+      <Outlet />
     </>
   );
 };
