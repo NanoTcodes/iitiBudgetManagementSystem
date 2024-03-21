@@ -21,8 +21,7 @@ const ConsumableSchema = new Schema({
     },
   ],
   direct_purchase: [
-    {
-      entry_date: { type: Date, default: Date.now() },
+    { entry_date: { type: Date, default: Date.now() },
       particulars: String,
       indenter: String,
       indent_no: { type: Number },
@@ -31,6 +30,7 @@ const ConsumableSchema = new Schema({
       amount: Number,
       remark: String,
       active: Boolean,
+
     },
   ],
   // indent_pay_done: [

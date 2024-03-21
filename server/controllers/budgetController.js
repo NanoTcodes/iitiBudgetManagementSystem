@@ -3,11 +3,7 @@ import Consumable from "../models/Consumable.js";
 import User from "../models/User.js";
 import { validationResult } from "express-validator";
 
-export const addConEntry = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(404).json({ errors: errors.array() });
-  }
+export const addEntry = async (req, res) => {
   try {
     const { username, array_name, array_data } = req.body;
     let table = await Consumable.findOne({username });
@@ -16,6 +12,7 @@ export const addConEntry = async (req, res) => {
         error: "Dept does not exist, contact Admin to add the department",
       });
     }
+
     if (array_name === "indents_process") {
       const index = table.indents_process.findIndex(item => item.indent_no === array_data.indent_no);
       console.log(index);
@@ -278,22 +275,17 @@ export const addEqEntry = async (req, res) => {
 //==========================================================================================
 //fetching budget data
 export const fetchTable = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(404).json({ errors: errors.array() });
-  }
   try {
-    const { department_name, budget_type } = req.body;
-    if (budget_type == "Equipment") {
-      let table = await Equipment.findOne({ department: department_name });
+    const { username, type, year } = req.query;
+    if (type) {
+      let table = await Equipment.findOne({ username, year });
       if (!table) {
         return res.status(400).json({
-          error: "Dept does not exist, contact Admin to add the department",
+          error: " Data not found!",
         });
       }
-      let {
-        expenditure,
-        year,
+      let { indents_process, direct_purchase, indent_pay_done } = table;
+      return res.json({
         indents_process,
         direct_purchase,
         // indent_pay_done,
@@ -308,17 +300,17 @@ export const fetchTable = async (req, res) => {
         indents_process: indents_process,
         direct_purchase: direct_purchase,
         // indent_pay_done: indent_pay_done,
+
       });
-    } else if (budget_type == "Consumable") {
-      let table = await Consumable.findOne({ department: department_name });
+    } else {
+      let table = await Consumable.findOne({ username, year });
       if (!table) {
         return res.status(400).json({
-          error: "Dept does not exist, contact Admin to add the department",
+          error: " Data not found!",
         });
       }
-      let {
-        expenditure,
-        year,
+      let { indents_process, direct_purchase, indent_pay_done } = table;
+      return res.json({
         indents_process,
         direct_purchase,
         // indent_pay_done,
@@ -355,10 +347,10 @@ export const fetchSummary = async (req, res) => {
   const year = req.query.year;
   try {
     const con_departments = await Consumable.find({ year });
-    console.log(con_departments);
     const con_result = [];
     for (const con of con_departments) {
       con_result.push({
+        //Indent calculation Remaining
         username: con.username,
         name: con.department,
         budget: con.budget,
@@ -366,7 +358,7 @@ export const fetchSummary = async (req, res) => {
         in_process: con.in_process
       });
     }
-    const eq_departments = await Equipment.find({ year: year });
+    const eq_departments = await Equipment.find({ year });
     const eq_result = [];
     for (const eq of eq_departments) {
       eq_result.push({

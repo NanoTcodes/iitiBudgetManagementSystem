@@ -1,22 +1,13 @@
 import express from "express";
 import { fetchSummary,addConEntry,addEqEntry,fetchTable, deleteAll } from "../controllers/budgetController.js";
 
+
 const router = express.Router();
 
   router.post(
-    "/addconsumableentry",
+    "/addentry",
   
-    addConEntry
-  );
-  // router.post(
-  //   "/addequipmentdept",
-  
-  //   addequipmentdept
-  // );
-  router.post(
-    "/addequipmententry",
-  
-    addEqEntry
+    addEntry
   );
   
   router.get(

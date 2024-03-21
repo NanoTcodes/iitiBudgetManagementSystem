@@ -9,7 +9,7 @@ const EquipmentSchema = new Schema({
   year: { type: Number, default: () => new Date().getFullYear() },
   indents_process: [
     {
-      entry_date: { type: Date, default: Date.now.getFullYear },
+      entry_date: { type: Date, default: Date.now() },
       particulars: String,
       indenter: String,
       indent_no: { type: Number },
@@ -23,7 +23,7 @@ const EquipmentSchema = new Schema({
   ],
   direct_purchase: [
     {
-      entry_date: { type: Date, default: Date.now },
+      entry_date: { type: Date, default: Date.now() },
       particulars: String,
       indenter: String,
       indent_no: { type: Number },
