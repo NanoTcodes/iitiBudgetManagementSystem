@@ -1,12 +1,18 @@
 import express from "express";
-import { fetchSummary,addEntry,fetchTable } from "../controllers/budgetController.js";
+import { fetchSummary,addConEntry,addEqEntry,fetchTable, deleteAll } from "../controllers/budgetController.js";
+
 
 const router = express.Router();
 
   router.post(
-    "/addentry",
+    "/addconsumableentry",
   
-    addEntry
+    addConEntry
+  );
+  router.post(
+    "/addequipment",
+  
+    addEqEntry
   );
   
   router.get(
@@ -18,6 +24,10 @@ const router = express.Router();
   router.get(
     "/fetchsummary",
     fetchSummary
+  )
+  router.post(
+    "/deleteAll",
+    deleteAll
   )
 
 export default router;
