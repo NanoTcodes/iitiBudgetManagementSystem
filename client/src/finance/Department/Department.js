@@ -3,6 +3,7 @@ import DepartmentContext from "../../contexts/department/DepartmentContext";
 import "./department.css";
 import YearContext from "../../contexts/year/YearContext";
 import AlertContext from "../../contexts/alert/AlertContext";
+import Entry from "../Entry/Entry";
 
 const Department = () => {
   const { department } = useContext(DepartmentContext);
@@ -78,6 +79,7 @@ const Department = () => {
           <tr>
             <th colSpan="2">Budget (Rs.)</th>
             <th colSpan="3">Expenditure</th>
+            <th colSpan="3">Indents</th>
             <th colSpan="3">Fund Available</th>
             <th colSpan="2">Percent Utilised</th>
           </tr>
@@ -86,16 +88,18 @@ const Department = () => {
           <tr>
             <td colSpan="2">{budget}</td>
             <td colSpan="3">{expenditure}</td>
+            <td colSpan="3">{expenditure}</td>
             <td colSpan="3">{budget - expenditure}</td>
             <td colSpan="2">{((expenditure / budget) * 100).toFixed(2)}%</td>
           </tr>
           <tr>
-            <th colSpan={10} className="text-center">
+            <th colSpan={12} className="text-center">
               <h4>Indents in Process</h4>
             </th>
           </tr>
           <tr>
             <th>Sr. No.</th>
+            <th>Status</th>
             <th>Entry Date</th>
             <th>Particulars</th>
             <th>Year</th>
@@ -105,38 +109,14 @@ const Department = () => {
             <th>Indent Amount</th>
             <th>Amount (₹)</th>
             <th>Account Head</th>
+            <th>Edit</th>
           </tr>
           {indents.inProcess.map((indent, i) => {
-            const {
-              entry_date,
-              particulars,
-              indenter,
-              indent_no,
-              po_no,
-              indent_amount,
-              amount,
-              account_head,
-            } = indent;
-            const date = new Date(entry_date).toDateString();
-            return (
-              <tr key={i}>
-                <td>{i + 1}</td>
-                <td>{date}</td>
-                <td>{particulars}</td>
-                <td>
-                  {year}-{(year % 100) + 1}
-                </td>
-                <td>{indenter}</td>
-                <td>{indent_no}</td>
-                <td>{po_no}</td>
-                <td>{indent_amount}</td>
-                <td>{amount}</td>
-                <td>{account_head}</td>
-              </tr>
-            );
+            indent.i = i;
+            return <Entry initialIndent={indent} />;
           })}
 
-          <tr>
+          {/* <tr>
             <td colSpan="7" className="font-weight-bold">
               Total
             </td>
@@ -253,7 +233,7 @@ const Department = () => {
             <td>{total.directPur.indAmount}</td>
             <td>{total.directPur.amount}</td>
             <td></td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
     </>

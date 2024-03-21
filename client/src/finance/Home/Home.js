@@ -23,6 +23,7 @@ const Home = () => {
       }
     );
     const json = await response.json();
+    console.log(json)
     if (json.error) unSuccessful(json.error);
     else {
       setConsumable(json.con_result);
@@ -135,7 +136,7 @@ const Home = () => {
               equipment.map((eq, i) => {
                 const { name, budget, expenditure } = eq;
                 return (
-                  <tr onClick={() => handleClick(eq, 1)} role="button" id={i}>
+                  <tr onClick={() => handleClick(eq, 1)} role="button" id={i}key={i}>
                     <td>{i + 1}</td>
                     <td>{name}</td>
                     <td>{budget}</td>
