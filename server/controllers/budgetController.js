@@ -3,7 +3,7 @@ import Consumable from "../models/Consumable.js";
 import User from "../models/User.js";
 import { validationResult } from "express-validator";
 
-export const addEntry = async (req, res) => {
+export const addConEntry = async (req, res) => {
   try {
     const { username, array_name, array_data } = req.body;
     let table = await Consumable.findOne({username });
@@ -288,10 +288,8 @@ export const fetchTable = async (req, res) => {
       return res.json({
         indents_process,
         direct_purchase,
-        // indent_pay_done,
-        department,
-        budget,
-      } = table;
+      
+      });
       return res.json({
         department: department,
         budget: budget,
@@ -313,10 +311,8 @@ export const fetchTable = async (req, res) => {
       return res.json({
         indents_process,
         direct_purchase,
-        // indent_pay_done,
-        department,
-        budget,
-      } = table;
+        
+      })
       return res.json({
         department: department,
         budget: budget,
