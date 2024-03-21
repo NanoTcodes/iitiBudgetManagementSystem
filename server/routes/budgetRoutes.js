@@ -5,9 +5,14 @@ import { fetchSummary,addConEntry,addEqEntry,fetchTable, deleteAll } from "../co
 const router = express.Router();
 
   router.post(
-    "/addentry",
+    "/addconsumableentry",
   
-    addEntry
+    addConEntry
+  );
+  router.post(
+    "/addequipment",
+  
+    addEqEntry
   );
   
   router.get(
