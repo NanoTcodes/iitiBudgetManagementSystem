@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react";
 import YearContext from "../../contexts/year/YearContext";
 import "./entry.css";
 
-const Entry = ({ initialIndent }) => {
+const Entry = ({ props }) => {
+  const { initialIndent, submitIndent, setIndentActive } = props;
+  initialIndent.status = 0;
   const { year } = useContext(YearContext);
   const [edit, setEdit] = useState(0);
   const [indent, setIndent] = useState(initialIndent);
-  indent.status = 0;
-  indent.id = 0;
   const {
     i,
     entry_date,
@@ -17,12 +17,11 @@ const Entry = ({ initialIndent }) => {
     po_no,
     indent_amount,
     amount,
-    account_head,
+    remark,
     status,
-    id,
+    type,
   } = indent;
-  const statusArr = ["Indent in Process", "PO Raised", "Indent Payment Done"];
-  const years = [2023, 2323];
+  const statusArr = ["Indent in Process", "Indent Payment Done"];
 
   let date;
   if (entry_date) date = new Date(entry_date).toDateString();
@@ -31,17 +30,30 @@ const Entry = ({ initialIndent }) => {
     const { name, value } = e.target;
     setIndent({ ...indent, [name]: value });
   };
+  const handleSubmit = async () => {
+    const response = await submitIndent(indent);
+    console.log(response);
+    if (response == 1) setEdit(0);
+  };
 
   return edit ? (
     <tr key={i}>
       <td>{i + 1}</td>
-      <td>
-        <select name="status" value={status} onChange={handleOnChange}>
-          {statusArr.map((status, i) => {
-            return <option>{status}</option>;
-          })}
-        </select>
-      </td>
+      {type ? (
+        <>Direct Purchased</>
+      ) : (
+        <td>
+          <select name="status" value={indent.status} onChange={handleOnChange}>
+            {statusArr.map((mess, i) => {
+              return (
+                <option value={i} key={i}>
+                  {mess}
+                </option>
+              );
+            })}
+          </select>
+        </td>
+      )}
       <td>{date}</td>
       <td>
         <input
@@ -60,15 +72,19 @@ const Entry = ({ initialIndent }) => {
           name="indenter"
         ></input>
       </td>
-      <td>
-        <input
-          value={indent_no}
-          onChange={handleOnChange}
-          name="indent_no"
-          type="number"
-          required
-        ></input>
-      </td>
+      {initialIndent.indent_no == "" ? (
+        <td>
+          <input
+            value={indent_no}
+            onChange={handleOnChange}
+            name="indent_no"
+            type="number"
+            required
+          ></input>
+        </td>
+      ) : (
+        <td>{indent_no}</td>
+      )}
       <td>
         <input
           value={po_no}
@@ -94,20 +110,16 @@ const Entry = ({ initialIndent }) => {
         ></input>
       </td>
       <td>
-        <input
-          value={account_head}
-          onChange={handleOnChange}
-          name="account_head"
-        ></input>
+        <input value={remark} onChange={handleOnChange} name="remark"></input>
       </td>
       <td>
-        <button onClick={() => setEdit(0)}>Submit</button>
+        <button onClick={handleSubmit}>Submit</button>
       </td>
     </tr>
   ) : (
     <tr key={i}>
       <td>{i + 1}</td>
-      <td>{statusArr[status]}</td>
+      <td>{type ? "Direct Purchased" : statusArr[status]}</td>
       <td>{date}</td>
       <td>{particulars}</td>
       <td>
@@ -118,9 +130,16 @@ const Entry = ({ initialIndent }) => {
       <td>{po_no}</td>
       <td>{indent_amount}</td>
       <td>{amount}</td>
-      <td>{account_head}</td>
+      <td>{remark}</td>
       <td>
-        <button onClick={() => setEdit(1)}>Edit</button>
+        <button
+          onClick={() => {
+            setEdit(1);
+            setIndentActive(indent_no);
+          }}
+        >
+          Edit
+        </button>
       </td>
     </tr>
   );

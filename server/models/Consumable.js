@@ -17,7 +17,6 @@ const ConsumableSchema = new Schema({
       indent_amount: Number,
       amount: {type: Number,default:0},
       remark: String,
-      active: Boolean,
     },
   ],
   direct_purchase: [
@@ -29,23 +28,9 @@ const ConsumableSchema = new Schema({
       indent_amount: Number,
       amount: Number,
       remark: String,
-      active: Boolean,
 
     },
-  ],
-  // indent_pay_done: [
-  //   {
-  //     entry_date: { type: Date, default: Date.now },
-  //     particulars: String,
-  //     indenter: String,
-  //     indent_no: { type: Number },
-  //     po_no: Number,
-  //     indent_amount: Number,
-  //     amount: Number,
-  //     account_head: String,
-  //     active: Boolean,
-  //   },
-  // ],
+  ]
 });
 
 const Consumable = mongoose.model("consumable", ConsumableSchema);

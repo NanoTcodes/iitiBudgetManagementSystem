@@ -8,21 +8,15 @@ import Entry from "../Entry/Entry";
 const Department = () => {
   const { department } = useContext(DepartmentContext);
   const { year } = useContext(YearContext);
-  const { unSuccessful } = useContext(AlertContext);
-  const { name, budget, expenditure, username, type } = department;
+  const { unSuccessful, successful } = useContext(AlertContext);
+  const { name, budget, expenditure, in_process, username, type } = department;
   const initialIndents = {
     inProcess: [],
     directPur: [],
-    payDone: [],
   };
   const [indents, setIndents] = useState(initialIndents);
-  const initialTotal = {
-    inProcess: { amount: 0, indAmount: 0 },
-    directPur: { amount: 0, indAmount: 0 },
-    payDone: { amount: 0, indAmount: 0 },
-  };
-  const [total, setTotal] = useState(initialTotal);
-
+  const [indentActive, setIndentActive] = useState(0);
+  const [total, setTotal] = useState({ expenditure, inProcess: in_process });
   const fetchData = async () => {
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/fetchtable?username=${username}&type=${type}&year=${year}`,
@@ -34,39 +28,106 @@ const Department = () => {
       }
     );
     const json = await response.json();
+    console.log(json);
     if (json.error) {
       unSuccessful(json.error);
       setIndents(initialIndents);
-      setTotal(initialTotal);
     } else {
-      const { indents_process, direct_purchase, indent_pay_done } = json;
-      let inProcess = { amount: 0, indAmount: 0 };
-      indents_process.map((indent) => {
-        inProcess.amount += indent.amount;
-        inProcess.indAmount += indent.indent_amount;
-      });
-      let payDone = { amount: 0, indAmount: 0 };
-      indent_pay_done.map((indent) => {
-        payDone.amount += indent.amount;
-        payDone.indAmount += indent.indent_amount;
-      });
-      let directPur = { amount: 0, indAmount: 0 };
-      direct_purchase.map((indent) => {
-        directPur.amount += indent.amount;
-        directPur.indAmount += indent.indent_amount;
-      });
+      const { indents_process, direct_purchase } = json;
       setIndents({
         inProcess: indents_process,
         directPur: direct_purchase,
-        payDone: indent_pay_done,
       });
-      setTotal({ inProcess, payDone, directPur });
     }
+  };
+  const blankIndent = {
+    entry_date: new Date(),
+    particulars: "",
+    indenter: "",
+    indent_no: "",
+    po_no: "",
+    indent_amount: 0,
+    amount: 0,
+    remark: "",
+    status: 0,
   };
 
   useEffect(() => {
     fetchData();
   }, [year]);
+  const addEntry = async (type) => {
+    if (!type) {
+      let inProcess = indents.inProcess;
+      inProcess.push(blankIndent);
+      setIndents({ ...indents, inProcess });
+    } else {
+      let directPur = indents.directPur;
+      directPur.push(blankIndent);
+      setIndents({ ...indents, directPur });
+    }
+  };
+
+  let match;
+  const submitIndent = async (indent) => {
+    const { indent_no } = indent;
+    if (!indent_no) {
+      unSuccessful("Indent number can't be empty");
+      return 0;
+    }
+    if (indent.type)
+      indents.directPur.map((indent) => {
+        if (indent.indent_no == indent_no && indent_no != indentActive)
+          match = 1;
+      });
+    else
+      indents.inProcess.map((indent) => {
+        if (indent.indent_no == indent_no && indent_no != indentActive)
+          match = 1;
+      });
+    if (match) {
+      unSuccessful("Indent number already exixts!");
+      return 0;
+    }
+    const {
+      status,
+      particulars,
+      indenter,
+      po_no,
+      indent_amount,
+      amount,
+      remark,
+    } = indent;
+    const response = await fetch(
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/updateentry`,
+      {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          username,
+          year,
+          type,
+          indent_type: indent.type,
+          indent: {
+            status,
+            particulars,
+            indent_no,
+            indenter,
+            po_no,
+            indent_amount,
+            remark,
+            amount,
+          },
+        }),
+      }
+    );
+    const json = await response.json();
+    if (json.error) unSuccessful(json.error);
+    else {
+      successful("Entry updated succesfully!");
+      console.log(json)
+      return 1;
+    }
+  };
 
   return (
     <>
@@ -79,7 +140,7 @@ const Department = () => {
           <tr>
             <th colSpan="2">Budget (Rs.)</th>
             <th colSpan="3">Expenditure</th>
-            <th colSpan="3">Indents</th>
+            <th colSpan="3">Indents in Process</th>
             <th colSpan="3">Fund Available</th>
             <th colSpan="2">Percent Utilised</th>
           </tr>
@@ -87,8 +148,8 @@ const Department = () => {
         <tbody>
           <tr>
             <td colSpan="2">{budget}</td>
-            <td colSpan="3">{expenditure}</td>
-            <td colSpan="3">{expenditure}</td>
+            <td colSpan="3">{total.expenditure}</td>
+            <td colSpan="3">{total.inProcess}</td>
             <td colSpan="3">{budget - expenditure}</td>
             <td colSpan="2">{((expenditure / budget) * 100).toFixed(2)}%</td>
           </tr>
@@ -108,84 +169,54 @@ const Department = () => {
             <th>PO No.</th>
             <th>Indent Amount</th>
             <th>Amount (₹)</th>
-            <th>Account Head</th>
+            <th>Remarks</th>
             <th>Edit</th>
           </tr>
-          {indents.inProcess.map((indent, i) => {
-            indent.i = i;
-            return <Entry initialIndent={indent} />;
-          })}
-
-          {/* <tr>
-            <td colSpan="7" className="font-weight-bold">
+          {indents.inProcess.length ? (
+            indents.inProcess.map((indent, i) => {
+              indent.i = i;
+              indent.type = 0;
+              return (
+                <Entry
+                  props={{
+                    initialIndent: indent,
+                    submitIndent,
+                    setIndentActive,
+                  }}
+                  key={i}
+                />
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan={12} className="text-center">
+                No Indents in Process
+              </td>
+            </tr>
+          )}
+          <tr>
+            <td colSpan={12} className="text-center">
+              <button className="btn btn-secondary" onClick={() => addEntry(0)}>
+                Add new Indent
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td colSpan="8" className="font-weight-bold">
               Total
             </td>
-            <td>{total.inProcess.indAmount}</td>
-            <td>{total.inProcess.amount}</td>
-            <td></td>
+            <td>total.inProcess.indAmount</td>
+            <td>total.inProcess.amount</td>
+            <td colSpan={2}></td>
           </tr>
           <tr>
-            <th colSpan="10">
-              <h4 className="text-center">Indent Payment Done</h4>
-            </th>
-          </tr>
-          <tr>
-            <th>Sr. No.</th>
-            <th>Entry Date</th>
-            <th>Particulars</th>
-            <th>Year</th>
-            <th>Indenter</th>
-            <th>Indent No.</th>
-            <th>PO No.</th>
-            <th>Indent Amount</th>
-            <th>Amount (₹)</th>
-            <th>Account Head</th>
-          </tr>
-          {indents.payDone.map((indent, i) => {
-            const {
-              entry_date,
-              particulars,
-              indenter,
-              indent_no,
-              po_no,
-              indent_amount,
-              amount,
-              account_head,
-            } = indent;
-            const date = new Date(entry_date).toDateString();
-            return (
-              <tr key={i}>
-                <td>{i + 1}</td>
-                <td>{date}</td>
-                <td>{particulars}</td>
-                <td>
-                  {year}-{(year % 100) + 1}
-                </td>
-                <td>{indenter}</td>
-                <td>{indent_no}</td>
-                <td>{po_no}</td>
-                <td>{indent_amount}</td>
-                <td>{amount}</td>
-                <td>{account_head}</td>
-              </tr>
-            );
-          })}
-
-          <tr>
-            <td colSpan="7" className="font-weight-bold">
-              Total
-            </td>
-            <td>{total.payDone.indAmount}</td>
-            <td>{total.payDone.amount}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <th colSpan="10">
+            <th colSpan="13">
               <h4 className="text-center">Direct Purchase</h4>
             </th>
           </tr>
           <tr>
             <th>Sr. No.</th>
+            <th>Status</th>
             <th>Entry Date</th>
             <th>Particulars</th>
             <th>Year</th>
@@ -194,46 +225,46 @@ const Department = () => {
             <th>PO No.</th>
             <th>Indent Amount</th>
             <th>Amount (₹)</th>
-            <th>Account Head</th>
+            <th>Remarks</th>
+            <th>Edit</th>
           </tr>
-          {indents.directPur.map((indent, i) => {
-            const {
-              entry_date,
-              particulars,
-              indenter,
-              indent_no,
-              po_no,
-              indent_amount,
-              amount,
-              account_head,
-            } = indent;
-            const date = new Date(entry_date).toDateString();
-            return (
-              <tr key={i}>
-                <td>{i + 1}</td>
-                <td>{date}</td>
-                <td>{particulars}</td>
-                <td>
-                  {year}-{(year % 100) + 1}
-                </td>
-                <td>{indenter}</td>
-                <td>{indent_no}</td>
-                <td>{po_no}</td>
-                <td>{indent_amount}</td>
-                <td>{amount}</td>
-                <td>{account_head}</td>
-              </tr>
-            );
-          })}
-
+          {indents.directPur.length ? (
+            indents.directPur.map((indent, i) => {
+              indent.i = i;
+              indent.type = 1;
+              return (
+                <Entry
+                  props={{
+                    initialIndent: indent,
+                    submitIndent,
+                    setIndentActive,
+                  }}
+                  key={i}
+                />
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan={12} className="text-center">
+                No Direct Purchases
+              </td>
+            </tr>
+          )}{" "}
           <tr>
-            <td colSpan="7" className="font-weight-bold">
+            <td colSpan={12} className="text-center">
+              <button className="btn btn-secondary" onClick={() => addEntry(1)}>
+                Add new Direct Purchase
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td colSpan="8" className="font-weight-bold">
               Total
             </td>
-            <td>{total.directPur.indAmount}</td>
-            <td>{total.directPur.amount}</td>
-            <td></td>
-          </tr> */}
+            <td>total.directPur.indAmount</td>
+            <td>total.directPur.amount</td>
+            <td colSpan={2}></td>
+          </tr>
         </tbody>
       </table>
     </>
