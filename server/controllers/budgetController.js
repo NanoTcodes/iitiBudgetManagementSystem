@@ -6,6 +6,8 @@ import { validationResult } from "express-validator";
 export const updateEntry = async (req, res) => {
   try {
     const { username, year, type, indent_type, indent } = req.body;
+    console.log(indent);
+
     let table;
     if (type == 0) table = await Consumable.findOne({ username, year });
     else table = await Equipment.findOne({ username, year });
@@ -14,8 +16,7 @@ export const updateEntry = async (req, res) => {
         error: "Dept does not exist, contact Admin to add the department",
       });
     }
-    console.log(table)
-    let { indents_process, in_process, expenditure, direct_purchase } = table;
+    let { indents_process, direct_purchase } = table;
 
     if (!indent_type) {
       const index = indents_process.findIndex(
@@ -24,9 +25,9 @@ export const updateEntry = async (req, res) => {
       console.log(index);
 
       if (index === -1) {
-        indents_process.push(indent);
-        in_process += indent.indent_amount;
-        expenditure += indent.indent_amount;
+        table.indents_process.push(indent);
+        table.in_process += indent.indent_amount;
+        table.expenditure += indent.indent_amount;
       } else {
         // indents_process[index] = indent;
         // table.indents_process[index].entry_date = array_data.entry_date;
@@ -37,10 +38,12 @@ export const updateEntry = async (req, res) => {
         // table.indents_process[index].active = array_data.active;
 
         const { status, amount, indent_amount } = indents_process[index];
-        console.log(indent.status);
+        console.log(indent, indents_process[index]);
+
         if (!indent.status) {
-          in_process += indent.indent_amount - indent_amount;
-          expenditure +=
+          table.in_process += indent.indent_amount;
+          if (!status) table.in_process -= indent_amount;
+          table.expenditure +=
             indent.indent_amount - (status ? amount : indent_amount);
           // const initial_indent_amount = indents_process[index].indent_amount;
           // indents_process[index].indent_amount = indent.indent_amount;
@@ -55,7 +58,9 @@ export const updateEntry = async (req, res) => {
           // table.expenditure = table.expenditure + array_data.amount;
         } else {
           // in_process -= indent_amount;
-          expenditure += amount - (status ? amount : indent_amount);
+          table.expenditure +=
+            indent.amount - (status ? amount : indent_amount);
+          if (!status) table.in_process -= indent_amount;
 
           //set po number
           // table.indents_process[index].po_no = array_data.po_no;
@@ -78,18 +83,18 @@ export const updateEntry = async (req, res) => {
           // table.expenditure =
           //   table.expenditure + table.indents_process[index].amount;
         }
-        indents_process[index] = indent;
+        table.indents_process[index] = indent;
       }
     } else {
       const index = direct_purchase.findIndex(
         (item) => item.indent_no === indent.indent_no
       );
       if (index === -1) {
-        direct_purchase.push(indent);
-        expenditure += indent.amount;
+        table.direct_purchase.push(indent);
+        table.expenditure += indent.amount;
       } else {
-        expenditure += indent.amount - direct_purchase[index].amount;
-        direct_purchase[index] = indent;
+        table.expenditure += indent.amount - direct_purchase[index].amount;
+        table.direct_purchase[index] = indent;
         // const init_amt = table.direct_purchase[index].amount;
         // table.direct_purchase[index].entry_date = array_data.entry_date;
         // table.direct_purchase[index].particulars = array_data.particulars;
@@ -110,9 +115,10 @@ export const updateEntry = async (req, res) => {
     // else {
     //   return res.status(400).json({ error: "wrong array name" });
     // }
-    console.log(expenditure,table.expenditure)
+    console.log(table.expenditure);
+    const { expenditure, in_process } = table;
     await table.save();
-    res.json({ expenditure,in_process });
+    return res.json({ expenditure, in_process });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Some error occured!");

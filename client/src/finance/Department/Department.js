@@ -69,7 +69,8 @@ const Department = () => {
 
   let match;
   const submitIndent = async (indent) => {
-    const { indent_no } = indent;
+    let { indent_no } = indent;
+    indent_no = indent_no == "" ? 0 : parseInt(indent_no);
     if (!indent_no) {
       unSuccessful("Indent number can't be empty");
       return 0;
@@ -86,9 +87,10 @@ const Department = () => {
       });
     if (match) {
       unSuccessful("Indent number already exixts!");
+      match=0;
       return 0;
     }
-    const {
+    let {
       status,
       particulars,
       indenter,
@@ -97,6 +99,10 @@ const Department = () => {
       amount,
       remark,
     } = indent;
+    indent_amount = indent_amount == "" ? 0 : parseInt(indent_amount);
+    amount = amount == "" ? 0 : parseInt(amount);
+    status = status == "1" ? true : false;
+
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/updateentry`,
       {
@@ -124,7 +130,9 @@ const Department = () => {
     if (json.error) unSuccessful(json.error);
     else {
       successful("Entry updated succesfully!");
-      console.log(json)
+      console.log(json);
+      const { expenditure, in_process } = json;
+      setTotal({ expenditure: expenditure, inProcess: in_process });
       return 1;
     }
   };
@@ -150,8 +158,10 @@ const Department = () => {
             <td colSpan="2">{budget}</td>
             <td colSpan="3">{total.expenditure}</td>
             <td colSpan="3">{total.inProcess}</td>
-            <td colSpan="3">{budget - expenditure}</td>
-            <td colSpan="2">{((expenditure / budget) * 100).toFixed(2)}%</td>
+            <td colSpan="3">{budget - total.expenditure}</td>
+            <td colSpan="2">
+              {((total.expenditure / budget) * 100).toFixed(2)}%
+            </td>
           </tr>
           <tr>
             <th colSpan={12} className="text-center">

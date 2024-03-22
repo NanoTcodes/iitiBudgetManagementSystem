@@ -79,7 +79,6 @@ const Entry = ({ props }) => {
             onChange={handleOnChange}
             name="indent_no"
             type="number"
-            required
           ></input>
         </td>
       ) : (
@@ -114,6 +113,7 @@ const Entry = ({ props }) => {
       </td>
       <td>
         <button onClick={handleSubmit}>Submit</button>
+        <button onClick={() => setEdit(0)}>Cancel</button>
       </td>
     </tr>
   ) : (
@@ -139,6 +139,13 @@ const Entry = ({ props }) => {
           }}
         >
           Edit
+        </button>
+        <button
+          onClick={() => {
+            alert("Will be implemented soon.");
+          }}
+        >
+          Delete
         </button>
       </td>
     </tr>
