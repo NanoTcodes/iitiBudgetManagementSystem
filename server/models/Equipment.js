@@ -18,7 +18,7 @@ const EquipmentSchema = new Schema({
       amount: {type: Number,default:0},
       remark: String,
       category: String,
-      active: Boolean,
+      status: Boolean,
     },
   ],
   direct_purchase: [

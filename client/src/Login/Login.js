@@ -31,7 +31,7 @@ const Login = () => {
     else {
       localStorage.setItem("authToken", json.authToken);
       console.log(localStorage.getItem("authToken"));
-      successful("You have been logged in succefully.");
+      successful("You have been logged in succesfully.");
       setTimeout(() => {
         if (!json.user.role) navigate("/dept");
         else navigate("/finance");

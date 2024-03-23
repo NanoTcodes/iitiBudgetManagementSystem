@@ -65,7 +65,6 @@ export const addDept = async (req, res) => {
       year,
       indents_process: [],
       direct_purchase: [],
-      // indent_pay_done: [],
     });
     let entry2 = await Equipment.create({
       username,
@@ -76,7 +75,6 @@ export const addDept = async (req, res) => {
       year,
       indents_process: [],
       direct_purchase: [],
-      // indent_pay_done: [],
     });
     const salt = await bcrypt.genSalt(10);
     let secPass = await bcrypt.hash(password, salt);
