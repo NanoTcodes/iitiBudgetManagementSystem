@@ -1,6 +1,6 @@
 import express from "express";
 import { body } from "express-validator";
-import { createUser, addDept } from "../controllers/adminController.js";
+import { createUser, addDept, increase_budget } from "../controllers/adminController.js";
 const router = express.Router();
 
 router.post(
@@ -34,5 +34,10 @@ router.post(
   ],
   addDept
 );
+
+router.post(
+  "/increaseBudget",
+  increase_budget
+)
 
 export default router;
