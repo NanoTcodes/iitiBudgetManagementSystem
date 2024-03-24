@@ -62,26 +62,26 @@ export const updateEntry = async (req, res) => {
             indent.amount - (status ? amount : indent_amount);
           if (!status) table.in_process -= indent_amount;
 
-          //set po number
-          // table.indents_process[index].po_no = array_data.po_no;
-          // console.log(array_data.po_no, table.indents_process[index].po_no);
-          //initial indent amount
-          // const initial_indent_amount=table.indents_process[index].indent_amount
-          // //editiing indent amount
-          // table.indents_process[index].indent_amount=array_data.indent_amount;
-          // //updating in_process amount by only adding the difference
-          // table.in_process=table.in_process-initial_indent_amount;
-          // table.in_process=table.in_process+array_data.indent_amount;
+        //set po number
+        // table.indents_process[index].po_no = array_data.po_no;
+        // console.log(array_data.po_no, table.indents_process[index].po_no);
+        //initial indent amount
+        // const initial_indent_amount=table.indents_process[index].indent_amount
+        // editiing indent amount
+        // table.indents_process[index].indent_amount=array_data.indent_amount;
+        // //updating in_process amount by only adding the difference
+        // table.in_process=table.in_process-initial_indent_amount;
+        // table.in_process=table.in_process+array_data.indent_amount;
 
-          // if(!array_data.amount)array_data.amount=array_data.indent_amount;
-          // //handling expenditure
+        //   if(!array_data.amount)array_data.amount=array_data.indent_amount;
+        //   //handling expenditure
 
-          // table.in_process=table.in_process-array_data.indent_amount;
-          // const initial_amount = table.indents_process[index].amount;
-          // table.expenditure = table.expenditure - initial_amount;
-          // table.indents_process[index].amount = array_data.amount;
-          // table.expenditure =
-          //   table.expenditure + table.indents_process[index].amount;
+        //   table.in_process=table.in_process-array_data.indent_amount;
+        //   const initial_amount = table.indents_process[index].amount;
+        //   table.expenditure = table.expenditure - initial_amount;
+        //   table.indents_process[index].amount = array_data.amount;
+        //   table.expenditure =
+        //     table.expenditure + table.indents_process[index].amount;
         }
         table.indents_process[index] = indent;
       }
@@ -90,11 +90,14 @@ export const updateEntry = async (req, res) => {
         (item) => item.indent_no === indent.indent_no
       );
       if (index === -1) {
+        if(!indent.amount)indent.amount=indent.indent_amount;
         table.direct_purchase.push(indent);
         table.expenditure += indent.amount;
       } else {
+        if(!indent.amount)indent.amount=indent.indent_amount;
         table.expenditure += indent.amount - direct_purchase[index].amount;
         table.direct_purchase[index] = indent;
+        console.log(table.direct_purchase[index] )
         // const init_amt = table.direct_purchase[index].amount;
         // table.direct_purchase[index].entry_date = array_data.entry_date;
         // table.direct_purchase[index].particulars = array_data.particulars;

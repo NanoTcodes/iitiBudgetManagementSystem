@@ -100,3 +100,28 @@ export const addDept = async (req, res) => {
 // "in_process":0,
 // "year":2022
 // }
+
+
+export const increase_budget=async(req,res)=>{
+  try{const {username,budget_type,new_amount,year}=req.body;
+    let table;
+    if(budget_type=="Equipment"){
+      table=await Equipment.findOne({username,year});
+    }
+    else{
+      table=await Consumable.findOne({username,year});
+    }
+    console.log(table)
+    const old_amount=table.budget;
+    table.budget=new_amount;
+    const indent={remark:`previous budget was ${old_amount}, increased to ${new_amount} by admin`};
+    console.log(indent)
+    table.indents_process.push(indent);
+    table.direct_purchase.push(indent);
+    await table.save();
+  }
+  catch (err) {
+    console.error(err.message);
+    res.status(500).send("Some error occured!");
+  }
+}
