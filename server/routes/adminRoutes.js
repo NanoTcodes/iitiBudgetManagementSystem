@@ -1,6 +1,6 @@
 import express from "express";
 import { body } from "express-validator";
-import { createUser, addDept, increase_budget } from "../controllers/adminController.js";
+import { createUser, addDept, increase_budget,newyear } from "../controllers/adminController.js";
 const router = express.Router();
 
 router.post(
@@ -39,5 +39,11 @@ router.post(
   "/increaseBudget",
   increase_budget
 )
+
+router.post(
+  "/newYear",
+  newyear
+)
+
 
 export default router;

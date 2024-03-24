@@ -125,3 +125,60 @@ export const increase_budget=async(req,res)=>{
     res.status(500).send("Some error occured!");
   }
 }
+
+
+//department names, eq budg ,cons budg , usernames,
+
+export const newyear=async(req,res)=>{
+  try{
+    const {new_year,curr_year} = req.body;
+    //const department_list=[];
+    // let dep_object={
+    //   username:String,
+    //   department:String,
+    //   budget:Number,
+    //   expenditure:{type:Number,default:0},
+    //   in_process:{type:Number,default:0},
+    //   year:Number
+    // };
+
+    let tables1=await Consumable.find({year:curr_year})
+    for(let table1 of tables1){
+      await Consumable.create({
+        username:table1.username,
+        department: table1.department,
+
+        budget:table1.budget,
+        expenditure:0,
+        in_process:0,
+        year:new_year,
+        indents_process: [],
+        direct_purchase: [],
+      });
+    }
+    
+    let tables2=await Equipment.find({year:curr_year})
+    for(let table2 of tables2){
+      await Equipment.create({
+        username:table2.username,
+        department: table2.department,
+
+        budget:table2.budget,
+        expenditure:0,
+        in_process:0,
+        year:new_year,
+        indents_process: [],
+        direct_purchase: [],
+      });
+    }
+}
+  catch (err) {
+    console.error(err.message);
+    res.status(500).send("Some error occured!");
+  }
+}
+
+// {
+//   "new_year":2024,
+//   "curr_year":2023
+// }
