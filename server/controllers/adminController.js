@@ -216,3 +216,60 @@ export const removeUser = async (req, res) => {
     res.status(500).send({ error: "Some error occured!" });
   }
 };
+
+//updating user
+//limitation -- username is immutable (this is reasonable)
+export const updateUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  try {
+    let user = await User.findOne({ username: req.body.username });
+    if (!user) {
+      return res.status(400).json({ error: "Username not found!" });
+    }
+    else{
+      const { username, name } = req.body;
+      let {role}=req.body;
+      console.log(role)
+
+      await Consumable.updateMany({username}, { $set: { department:name } })
+      await Equipment.updateMany({username}, { $set: { department:name } })
+
+
+      if(req.body.password){
+        let user=await User.findOne({username})
+        if(role!=0&&!role) role= user.role;
+        console.log(role)
+        await User.findOneAndDelete({username});
+        const salt = await bcrypt.genSalt(10);
+        let secPass = await bcrypt.hash(req.body.password, salt);
+        
+        user = await User.create({
+          username,
+          name,
+          password: secPass,
+          role,
+        });
+      }
+      else{
+        //console.log(User.findOne({username}));
+        await User.updateOne({username},{$set:{name:name}})
+        //console.log(User.findOne({username}));
+      }
+      
+      
+      res.json({ success: "User has been updated!" });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ error: "Some error occured!" });
+  }
+};
+// {
+//   "username":"Electrical",
+//   "name":"Electrical change3",
+//   "password":"pp"
+  
+// }
