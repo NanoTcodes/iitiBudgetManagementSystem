@@ -143,33 +143,46 @@ export const newyear=async(req,res)=>{
     // };
 
     let tables1=await Consumable.find({year:curr_year})
-    for(let table1 of tables1){
-      await Consumable.create({
-        username:table1.username,
-        department: table1.department,
+    let users =await User.find({role:0});
+    let usernames=[];
+    for(let user of users){
+      usernames.push(user.username)
+    }
 
-        budget:table1.budget,
-        expenditure:0,
-        in_process:0,
-        year:new_year,
-        indents_process: [],
-        direct_purchase: [],
-      });
+    for(let table1 of tables1){
+      const username=table1.username
+
+      if(usernames.includes(username)){
+        await Consumable.create({
+          username:table1.username,
+          department: table1.department,
+          budget:table1.budget,
+          expenditure:0,
+          in_process:0,
+          year:new_year,
+          indents_process: [],
+          direct_purchase: [],
+        });
+      }
+    
+      
     }
     
     let tables2=await Equipment.find({year:curr_year})
     for(let table2 of tables2){
-      await Equipment.create({
-        username:table2.username,
-        department: table2.department,
-
-        budget:table2.budget,
-        expenditure:0,
-        in_process:0,
-        year:new_year,
-        indents_process: [],
-        direct_purchase: [],
-      });
+      const username=table2.username
+      if(usernames.includes(username)){
+        await Equipment.create({
+          username:table2.username,
+          department: table2.department,
+          budget:table2.budget,
+          expenditure:0,
+          in_process:0,
+          year:new_year,
+          indents_process: [],
+          direct_purchase: [],
+        });
+      }
     }
 }
   catch (err) {
@@ -182,3 +195,24 @@ export const newyear=async(req,res)=>{
 //   "new_year":2024,
 //   "curr_year":2023
 // }
+
+
+//removing user
+export const removeUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  try {
+    let user = await User.findOne({ username: req.body.username });
+    if (!user) {
+      return res.status(400).json({ error: "Username not found!" });
+    }
+    else{
+      await User.findOneAndDelete({username:req.body.username});
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ error: "Some error occured!" });
+  }
+};
