@@ -23,7 +23,7 @@ const Home = () => {
       }
     );
     const json = await response.json();
-    console.log(json)
+    console.log(json);
     if (json.error) unSuccessful(json.error);
     else {
       setConsumable(json.con_result);
@@ -49,9 +49,7 @@ const Home = () => {
           </b>
         </h1>
       </div>
-      <div className="container table-container">
-      
-      </div>
+      <div className="container table-container"></div>
       <div className="container table-container">
         <table className="table table-bordered">
           <thead>
@@ -74,16 +72,24 @@ const Home = () => {
           <tbody>
             {equipment.length ? (
               equipment.map((eq, i) => {
-                const { name, budget, expenditure,in_process,remarks } = eq;
+                const { name, budget, expenditure, in_process, remarks } = eq;
                 return (
-                  <tr onClick={() => handleClick(eq, 1)} role="button" id={i}key={i}>
+                  <tr
+                    onClick={() => handleClick(eq, 1)}
+                    role="button"
+                    id={i}
+                    key={i}
+                  >
                     <td>{i + 1}</td>
                     <td>{name}</td>
                     <td>{budget}</td>
                     <td>{expenditure}</td>
                     <td>{in_process}</td>
                     <td>{budget - expenditure}</td>
-                    <td>{((expenditure / budget) * 100).toFixed(2)}%</td>
+                    <td>
+                      {budget ? ((expenditure / budget) * 100).toFixed(2) : "-"}
+                      %
+                    </td>
                     {/* <td></td> */}
                   </tr>
                 );
@@ -121,7 +127,7 @@ const Home = () => {
           <tbody>
             {consumable.length ? (
               consumable.map((con, i) => {
-                const { name, budget,in_process, expenditure } = con;
+                const { name, budget, in_process, expenditure } = con;
                 return (
                   <tr onClick={() => handleClick(con, 0)} role="button">
                     <td>{i + 1}</td>
@@ -130,7 +136,10 @@ const Home = () => {
                     <td>{expenditure}</td>
                     <td>{in_process}</td>
                     <td>{budget - expenditure}</td>
-                    <td>{((expenditure / budget) * 100).toFixed(2)}%</td>
+                    <td>
+                      {budget ? ((expenditure / budget) * 100).toFixed(2) : "-"}
+                      %
+                    </td>
                     {/* <td>None</td> */}
                   </tr>
                 );
