@@ -28,7 +28,6 @@ const Department = () => {
       }
     );
     const json = await response.json();
-    console.log(json);
     if (json.error) {
       unSuccessful(json.error);
       setIndents(initialIndents);
@@ -67,8 +66,8 @@ const Department = () => {
     }
   };
 
-  let match;
   const submitIndent = async (indent) => {
+    let match;
     let { indent_no } = indent;
     indent_no = indent_no == "" ? 0 : parseInt(indent_no);
     if (!indent_no) {
@@ -87,7 +86,6 @@ const Department = () => {
       });
     if (match) {
       unSuccessful("Indent number already exixts!");
-      match=0;
       return 0;
     }
     let {
@@ -130,9 +128,8 @@ const Department = () => {
     if (json.error) unSuccessful(json.error);
     else {
       successful("Entry updated succesfully!");
-      console.log(json);
       const { expenditure, in_process } = json;
-      setTotal({ expenditure: expenditure, inProcess: in_process });
+      setTotal({ expenditure, inProcess: in_process });
       return 1;
     }
   };
