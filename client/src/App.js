@@ -3,6 +3,7 @@ import Login from "./Login/Login";
 import AlertState from "./contexts/alert/AlertState";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Departments from "./department/Departments";
 import Finance from "./finance/Finance";
 import Home from "./finance/Home/Home";
