@@ -10,7 +10,7 @@ import Home from "./finance/Home/Home";
 import YearState from "./contexts/year/YearState";
 import DepartmentState from "./contexts/department/DepartmentState";
 import Department from "./finance/Department/Department";
-// import 'bootstrap/dist/js/bootstrap.bundle.min'; 
+import AddUser from "./finance/AddUser/AddUser";
 
 function App() {
   return (
@@ -36,8 +36,9 @@ function App() {
                 <Route exact path="/" element={<Login />} />
                 <Route exact path="/dept" element={<Departments />} />
                 <Route exact path="/finance/" element={<Finance />}>
-                <Route path="" element={<Home />} />
-                <Route path="dept" element={<Department />} />
+                  <Route path="" element={<Home />} />
+                  <Route path="dept" element={<Department />} />
+                  <Route path="adduser" element={<AddUser />}></Route>
                 </Route>
               </Routes>
             </Router>

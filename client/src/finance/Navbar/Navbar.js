@@ -139,24 +139,19 @@ useEffect(() => {
                     </Link>
                     <ul className="dropdown-menu">
                       <li>
-                        <Link className="dropdown-item" to="/">
-                          Add new dept
+                        <Link className="dropdown-item" to="/finance/adduser">
+                          Add new user/dept
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="/">
-                          Remove existing dept
+                        <Link className="dropdown-item" to="/finance/updateuser">
+                          Update user/dept profile
                         </Link>
                       </li>
                       <hr className="dropdown-divider" />
                       <li>
                         <Link className="dropdown-item" to="/">
-                          Add new user
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          Remove existing user
+                          Remove existing user/dept
                         </Link>
                       </li>
                     </ul>
