@@ -3,12 +3,14 @@ import Login from "./Login/Login";
 import AlertState from "./contexts/alert/AlertState";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Departments from "./department/Departments";
 import Finance from "./finance/Finance";
 import Home from "./finance/Home/Home";
 import YearState from "./contexts/year/YearState";
 import DepartmentState from "./contexts/department/DepartmentState";
 import Department from "./finance/Department/Department";
+// import 'bootstrap/dist/js/bootstrap.bundle.min'; 
 
 function App() {
   return (

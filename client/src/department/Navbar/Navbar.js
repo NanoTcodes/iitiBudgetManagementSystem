@@ -1,9 +1,22 @@
+/* global bootstrap */
+
+
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import "./navbar.css";
 import logo from "../../assets/images/iitindorelogo.png";
 import { Link } from "react-router-dom";
+//import useExternalScripts from "../../hooks/useExternalScripts"
+
+//import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+ //import 'bootstrap/dist/js/bootstrap.bundle.min'; 
+
+
 const Navbar = () => {
+  //useExternalScripts("https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js")
+
   return (
     <>
       <ToastContainer
@@ -39,7 +52,7 @@ const Navbar = () => {
                 className="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="/navbarSupportedContent"
+                data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent"
                 aria-expanded="false"
                 aria-label="Toggle navigation"
