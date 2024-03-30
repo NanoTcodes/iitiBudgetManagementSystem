@@ -11,6 +11,7 @@ import YearState from "./contexts/year/YearState";
 import DepartmentState from "./contexts/department/DepartmentState";
 import Department from "./finance/Department/Department";
 import AddUser from "./finance/AddUser/AddUser";
+import UpdateProfile from "./finance/UpdateProfile/UpdateProfile";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
                   <Route path="" element={<Home />} />
                   <Route path="dept" element={<Department />} />
                   <Route path="adduser" element={<AddUser />}></Route>
+                  <Route path="updateuser" element={<UpdateProfile />}></Route>
                 </Route>
               </Routes>
             </Router>
