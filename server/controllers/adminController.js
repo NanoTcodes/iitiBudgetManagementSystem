@@ -11,7 +11,7 @@ export const createUser = async (req, res) => {
   }
   try {
     const { username, password, role, name } = req.body;
-    console.log(req.body);
+    console.log(`body`,req.body);
     let user = await User.findOne({ username });
     if (user) {
       return res.status(400).json({ error: "Username already exists!" });
@@ -125,10 +125,10 @@ export const createUser = async (req, res) => {
 // }
 
 
-export const increase_budget=async(req,res)=>{
+export const increaseBudget=async(req,res)=>{
   try{const {username,budget_type,new_amount,year}=req.body;
     let table;
-    if(budget_type=="Equipment"){
+    if(budget_type==1){
       table=await Equipment.findOne({username,year});
     }
     else{

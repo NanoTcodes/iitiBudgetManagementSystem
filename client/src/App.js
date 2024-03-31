@@ -3,7 +3,7 @@ import Login from "./Login/Login";
 import AlertState from "./contexts/alert/AlertState";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+ import 'bootstrap/dist/css/bootstrap.min.css';
 import Departments from "./department/Departments";
 import Finance from "./finance/Finance";
 import Home from "./finance/Home/Home";
@@ -12,6 +12,8 @@ import DepartmentState from "./contexts/department/DepartmentState";
 import Department from "./finance/Department/Department";
 import AddUser from "./finance/AddUser/AddUser";
 import UpdateProfile from "./finance/UpdateProfile/UpdateProfile";
+import AllUsers from "./finance/AllUsers/AllUsers";
+import NotFound from "./NotFound/NotFound";
 
 function App() {
   return (
@@ -41,7 +43,9 @@ function App() {
                   <Route path="dept" element={<Department />} />
                   <Route path="adduser" element={<AddUser />}></Route>
                   <Route path="updateuser" element={<UpdateProfile />}></Route>
+                  <Route path="allusers" element={<AllUsers />}></Route>
                 </Route>
+                <Route path="/*" element={<NotFound />} />
               </Routes>
             </Router>
           </DepartmentState>

@@ -17,6 +17,7 @@ const Department = () => {
   const [indents, setIndents] = useState(initialIndents);
   const [indentActive, setIndentActive] = useState(0);
   const [total, setTotal] = useState({ expenditure, inProcess: in_process });
+  const [update, setUpdate] = useState(0);
   const fetchData = async () => {
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/fetchtable?username=${username}&type=${type}&year=${year}`,
@@ -28,15 +29,18 @@ const Department = () => {
       }
     );
     const json = await response.json();
+    console.log(json);
     if (json.error) {
       unSuccessful(json.error);
       setIndents(initialIndents);
     } else {
-      const { indents_process, direct_purchase } = json;
+      const { indents_process, direct_purchase, expenditure, in_process } =
+        json;
       setIndents({
         inProcess: indents_process,
         directPur: direct_purchase,
       });
+      setTotal({ expenditure, inProcess: in_process });
     }
   };
   const blankIndent = {
@@ -100,7 +104,6 @@ const Department = () => {
     indent_amount = indent_amount == "" ? 0 : parseInt(indent_amount);
     amount = amount == "" ? 0 : parseInt(amount);
     status = status == "1" ? true : false;
-
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/updateentry`,
       {
@@ -125,6 +128,7 @@ const Department = () => {
       }
     );
     const json = await response.json();
+    console.log(json);
     if (json.error) unSuccessful(json.error);
     else {
       successful("Entry updated succesfully!");
@@ -132,6 +136,10 @@ const Department = () => {
       setTotal({ expenditure, inProcess: in_process });
       return 1;
     }
+  };
+
+  const updateBudget = async () => {
+    setUpdate(1);
   };
 
   return (
@@ -144,20 +152,28 @@ const Department = () => {
         <thead>
           <tr>
             <th colSpan="2">Budget (Rs.)</th>
-            <th colSpan="3">Expenditure</th>
+            <th colSpan={3 - update}>Expenditure</th>
             <th colSpan="3">Indents in Process</th>
-            <th colSpan="3">Fund Available</th>
-            <th colSpan="2">Percent Utilised</th>
+            <th colSpan="1">Fund Available</th>
+            <th colSpan={2-update}>Percent Utilised</th>
+            <th colSpan="2">Budget Control</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td colSpan="2">{budget}</td>
-            <td colSpan="3">{total.expenditure}</td>
+            <td colSpan={3 - update}>{total.expenditure}</td>
             <td colSpan="3">{total.inProcess}</td>
-            <td colSpan="3">{budget - total.expenditure}</td>
-            <td colSpan="2">
+            <td colSpan="1">{budget - total.expenditure}</td>
+            <td colSpan={2-update}>
               {((total.expenditure / budget) * 100).toFixed(2)}%
+            </td>
+            <td>
+              {update ? (
+                <button onClick={() => setUpdate(0)}>Cancel</button>
+              ) : (
+                <button onClick={updateBudget}>Update Allocated Budget</button>
+              )}
             </td>
           </tr>
           <tr>
@@ -209,16 +225,11 @@ const Department = () => {
             </td>
           </tr>
           <tr>
-            <td colSpan="8" className="font-weight-bold">
-              Total
-            </td>
-            <td>total.inProcess.indAmount</td>
-            <td>total.inProcess.amount</td>
-            <td colSpan={2}></td>
+            <td colSpan={12}></td>
           </tr>
           <tr>
             <th colSpan="13">
-              <h4 className="text-center">Direct Purchase</h4>
+              <h4 className="text-center">Direct Purchases</h4>
             </th>
           </tr>
           <tr>
@@ -265,12 +276,7 @@ const Department = () => {
             </td>
           </tr>
           <tr>
-            <td colSpan="8" className="font-weight-bold">
-              Total
-            </td>
-            <td>total.directPur.indAmount</td>
-            <td>total.directPur.amount</td>
-            <td colSpan={2}></td>
+            <td colSpan={12}></td>
           </tr>
         </tbody>
       </table>

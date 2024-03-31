@@ -9,14 +9,18 @@ const AddUser = () => {
     username: "",
     password: "",
     cPassword: "",
-    role: -1,
+    role: "-1",
   };
   const [creds, setCreds] = useState(initialCreds);
   const handleSubmit = async (e) => {
     e.preventDefault();
+   
     if (creds.password != creds.cPassword)
       return unSuccessful("Passwords didn\t match");
-    if (creds.role == -1) return unSuccessful("Please select valid user type.");
+    if (creds.role === "-1")
+      return unSuccessful("Please select valid user type.");
+    creds.role = Number(creds.role); 
+    console.log(creds);
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/createuser`,
       {

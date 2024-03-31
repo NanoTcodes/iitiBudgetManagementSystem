@@ -1,9 +1,10 @@
 import express from "express";
 import { body } from "express-validator";
-import { createUser,  increase_budget,newyear, removeUser, updateUser } from "../controllers/adminController.js";
+import { createUser,  increaseBudget,newyear, removeUser, updateUser } from "../controllers/adminController.js";
 const router = express.Router();
 
 router.post(
+
   "/createuser",
   [
     body("username", "Username should be atleast 2 characters long.").isLength({
@@ -37,7 +38,7 @@ router.post(
 
 router.post(
   "/increaseBudget",
-  increase_budget
+  increaseBudget
 )
 
 router.post(

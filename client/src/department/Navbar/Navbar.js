@@ -1,6 +1,5 @@
 /* global bootstrap */
 
-
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import "./navbar.css";
@@ -10,28 +9,13 @@ import { Link } from "react-router-dom";
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
-
- //import 'bootstrap/dist/js/bootstrap.bundle.min'; 
-
+//import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 const Navbar = () => {
   //useExternalScripts("https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js")
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        style={{ fontSize: "1.5em" }}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
       <header>
         <nav className="navbar navbar-expand-lg custom-navbar">
           <div className="container-fluid">
@@ -65,7 +49,11 @@ const Navbar = () => {
               >
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
-                    <Link className="nav-link active" aria-current="page" to="/">
+                    <Link
+                      className="nav-link active"
+                      aria-current="page"
+                      to="/"
+                    >
                       Home |
                     </Link>
                   </li>
@@ -150,11 +138,27 @@ const Navbar = () => {
                     </ul>
                   </li>
 
-                  <li className="nav-item">
-                    <Link className="nav-link active" aria-current="page" to="/login">
-                      Log in
-                    </Link>
-                  </li>
+                  {localStorage.getItem("authToken") ? (
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link active"
+                        aria-current="page"
+                        to="/login"
+                      >
+                        Logout
+                      </Link>
+                    </li>
+                  ) : (
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link active"
+                        aria-current="page"
+                        to="/login"
+                      >
+                        Log in
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
