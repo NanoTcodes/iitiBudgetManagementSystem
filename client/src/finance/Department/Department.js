@@ -6,7 +6,7 @@ import AlertContext from "../../contexts/alert/AlertContext";
 import Entry from "../Entry/Entry";
 
 const Department = () => {
-  const { department } = useContext(DepartmentContext);
+  const { department, setDepartment } = useContext(DepartmentContext);
   const { year } = useContext(YearContext);
   const { unSuccessful, successful } = useContext(AlertContext);
   const { name, budget, expenditure, in_process, username, type } = department;
@@ -18,6 +18,7 @@ const Department = () => {
   const [indentActive, setIndentActive] = useState(0);
   const [total, setTotal] = useState({ expenditure, inProcess: in_process });
   const [update, setUpdate] = useState(0);
+  const [newAmount, setNewAmount] = useState("");
   const fetchData = async () => {
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/fetchtable?username=${username}&type=${type}&year=${year}`,
@@ -29,7 +30,6 @@ const Department = () => {
       }
     );
     const json = await response.json();
-    console.log(json);
     if (json.error) {
       unSuccessful(json.error);
       setIndents(initialIndents);
@@ -138,8 +138,29 @@ const Department = () => {
     }
   };
 
+  const handleOnChange = async (e) => {
+    setNewAmount(e.target.value);
+  };
+
   const updateBudget = async () => {
-    setUpdate(1);
+    const new_amount = parseInt(newAmount);
+    console.log(new_amount, username, type);
+    const response = await fetch(
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/updatebudget`,
+      {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({ username, new_amount, type, year }),
+      }
+    );
+    const json = await response.json();
+    console.log(json);
+    if (json.error) unSuccessful(json.error);
+    else {
+      successful(json.success);
+      setUpdate(0);
+      setDepartment({ ...department, budget: new_amount });
+    }
   };
 
   return (
@@ -155,8 +176,9 @@ const Department = () => {
             <th colSpan={3 - update}>Expenditure</th>
             <th colSpan="3">Indents in Process</th>
             <th colSpan="1">Fund Available</th>
-            <th colSpan={2-update}>Percent Utilised</th>
-            <th colSpan="2">Budget Control</th>
+            <th colSpan={2 - update}>Percent Utilised</th>
+            {update === 1 && <th>Enter New Amount</th>}
+            <th colSpan={1 + update}>Budget Control</th>
           </tr>
         </thead>
         <tbody>
@@ -165,14 +187,30 @@ const Department = () => {
             <td colSpan={3 - update}>{total.expenditure}</td>
             <td colSpan="3">{total.inProcess}</td>
             <td colSpan="1">{budget - total.expenditure}</td>
-            <td colSpan={2-update}>
+            <td colSpan={2 - update}>
               {((total.expenditure / budget) * 100).toFixed(2)}%
             </td>
+            {update === 1 && (
+              <td>
+                <input
+                  type="number"
+                  value={newAmount}
+                  onChange={handleOnChange}
+                ></input>
+              </td>
+            )}
+            {update === 1 && (
+              <td>
+                <button onClick={updateBudget}>Submit</button>
+              </td>
+            )}
             <td>
               {update ? (
                 <button onClick={() => setUpdate(0)}>Cancel</button>
               ) : (
-                <button onClick={updateBudget}>Update Allocated Budget</button>
+                <button onClick={() => setUpdate(1)}>
+                  Update Allocated Budget
+                </button>
               )}
             </td>
           </tr>

@@ -21,7 +21,6 @@ const Entry = ({ props }) => {
     status,
     type,
   } = indent;
-  console.log(indent);
   const statusArr = ["Indent in Process", "Indent Payment Done"];
 
   let date;

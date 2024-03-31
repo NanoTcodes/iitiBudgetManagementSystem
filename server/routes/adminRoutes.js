@@ -1,6 +1,6 @@
 import express from "express";
 import { body } from "express-validator";
-import { createUser,  increaseBudget,newyear, removeUser, updateUser } from "../controllers/adminController.js";
+import { createUser,  updateBudget,newyear, removeUser, updateUser } from "../controllers/adminController.js";
 const router = express.Router();
 
 router.post(
@@ -37,8 +37,8 @@ router.post(
 // );
 
 router.post(
-  "/increaseBudget",
-  increaseBudget
+  "/updatebudget",
+  updateBudget
 )
 
 router.post(
