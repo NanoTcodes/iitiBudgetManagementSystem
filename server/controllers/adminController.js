@@ -126,23 +126,22 @@ export const createUser = async (req, res) => {
 
 export const updateBudget = async (req, res) => {
   try {
-    console.log(req.body);
     const { username, type, new_amount, year } = req.body;
+    if (req.user.role != 2) return res.json({ error: "You are not admin!" });
     let table;
     if (type == 1) {
       table = await Equipment.findOne({ username, year });
     } else {
       table = await Consumable.findOne({ username, year });
     }
-    console.log(table);
+    if (!table) return res.json({ error: "Data not found!" });
     const old_amount = table.budget;
     table.budget = new_amount;
     const indent = {
       remark: `previous budget was ${old_amount}, increased to ${new_amount} by admin`,
     };
-    console.log(indent);
-    table.indents_process.push(indent);
-    table.direct_purchase.push(indent);
+    // table.indents_process.push(indent);
+    // table.direct_purchase.push(indent);
     await table.save();
     return res.json({ success: "Budget Updated Succssfully" });
   } catch (err) {

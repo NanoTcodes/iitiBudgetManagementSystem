@@ -108,7 +108,9 @@ const Department = () => {
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/updateentry`,
       {
         method: "POST",
-        headers: { "Content-type": "application/json" },
+        headers: {
+          "Content-type": "application/json",
+        },
         body: JSON.stringify({
           username,
           year,
@@ -145,11 +147,15 @@ const Department = () => {
   const updateBudget = async () => {
     const new_amount = parseInt(newAmount);
     console.log(new_amount, username, type);
+    console.log(localStorage.getItem("authToken"));
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/updatebudget`,
       {
         method: "POST",
-        headers: { "Content-type": "application/json" },
+        headers: {
+          "auth-token": localStorage.getItem("authToken"),
+          "Content-type": "application/json",
+        },
         body: JSON.stringify({ username, new_amount, type, year }),
       }
     );
