@@ -154,6 +154,11 @@ useEffect(() => {
                           Remove existing user/dept
                         </Link>
                       </li>
+                      <li>
+                        <Link className="dropdown-item" to="/finance/allusers">
+                          View all users/depts
+                        </Link>
+                      </li>
                     </ul>
                   </li>
                   <li className="nav-item dropdown">

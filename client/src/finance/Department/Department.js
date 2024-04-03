@@ -6,7 +6,7 @@ import AlertContext from "../../contexts/alert/AlertContext";
 import Entry from "../Entry/Entry";
 
 const Department = () => {
-  const { department } = useContext(DepartmentContext);
+  const { department, setDepartment } = useContext(DepartmentContext);
   const { year } = useContext(YearContext);
   const { unSuccessful, successful } = useContext(AlertContext);
   const { name, budget, expenditure, in_process, username, type } = department;
@@ -17,6 +17,8 @@ const Department = () => {
   const [indents, setIndents] = useState(initialIndents);
   const [indentActive, setIndentActive] = useState(0);
   const [total, setTotal] = useState({ expenditure, inProcess: in_process });
+  const [update, setUpdate] = useState(0);
+  const [newAmount, setNewAmount] = useState("");
   const fetchData = async () => {
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/fetchtable?username=${username}&type=${type}&year=${year}`,
@@ -32,11 +34,13 @@ const Department = () => {
       unSuccessful(json.error);
       setIndents(initialIndents);
     } else {
-      const { indents_process, direct_purchase } = json;
+      const { indents_process, direct_purchase, expenditure, in_process } =
+        json;
       setIndents({
         inProcess: indents_process,
         directPur: direct_purchase,
       });
+      setTotal({ expenditure, inProcess: in_process });
     }
   };
   const blankIndent = {
@@ -100,12 +104,13 @@ const Department = () => {
     indent_amount = indent_amount == "" ? 0 : parseInt(indent_amount);
     amount = amount == "" ? 0 : parseInt(amount);
     status = status == "1" ? true : false;
-
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/updateentry`,
       {
         method: "POST",
-        headers: { "Content-type": "application/json" },
+        headers: {
+          "Content-type": "application/json",
+        },
         body: JSON.stringify({
           username,
           year,
@@ -125,12 +130,42 @@ const Department = () => {
       }
     );
     const json = await response.json();
+    console.log(json);
     if (json.error) unSuccessful(json.error);
     else {
       successful("Entry updated succesfully!");
       const { expenditure, in_process } = json;
       setTotal({ expenditure, inProcess: in_process });
       return 1;
+    }
+  };
+
+  const handleOnChange = async (e) => {
+    setNewAmount(e.target.value);
+  };
+
+  const updateBudget = async () => {
+    const new_amount = parseInt(newAmount);
+    console.log(new_amount, username, type);
+    console.log(localStorage.getItem("authToken"));
+    const response = await fetch(
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/updatebudget`,
+      {
+        method: "POST",
+        headers: {
+          "auth-token": localStorage.getItem("authToken"),
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ username, new_amount, type, year }),
+      }
+    );
+    const json = await response.json();
+    console.log(json);
+    if (json.error) unSuccessful(json.error);
+    else {
+      successful(json.success);
+      setUpdate(0);
+      setDepartment({ ...department, budget: new_amount });
     }
   };
 
@@ -144,20 +179,45 @@ const Department = () => {
         <thead>
           <tr>
             <th colSpan="2">Budget (Rs.)</th>
-            <th colSpan="3">Expenditure</th>
+            <th colSpan={3 - update}>Expenditure</th>
             <th colSpan="3">Indents in Process</th>
-            <th colSpan="3">Fund Available</th>
-            <th colSpan="2">Percent Utilised</th>
+            <th colSpan="1">Fund Available</th>
+            <th colSpan={2 - update}>Percent Utilised</th>
+            {update === 1 && <th>Enter New Amount</th>}
+            <th colSpan={1 + update}>Budget Control</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td colSpan="2">{budget}</td>
-            <td colSpan="3">{total.expenditure}</td>
+            <td colSpan={3 - update}>{total.expenditure}</td>
             <td colSpan="3">{total.inProcess}</td>
-            <td colSpan="3">{budget - total.expenditure}</td>
-            <td colSpan="2">
+            <td colSpan="1">{budget - total.expenditure}</td>
+            <td colSpan={2 - update}>
               {((total.expenditure / budget) * 100).toFixed(2)}%
+            </td>
+            {update === 1 && (
+              <td>
+                <input
+                  type="number"
+                  value={newAmount}
+                  onChange={handleOnChange}
+                ></input>
+              </td>
+            )}
+            {update === 1 && (
+              <td>
+                <button onClick={updateBudget}>Submit</button>
+              </td>
+            )}
+            <td>
+              {update ? (
+                <button onClick={() => setUpdate(0)}>Cancel</button>
+              ) : (
+                <button onClick={() => setUpdate(1)}>
+                  Update Allocated Budget
+                </button>
+              )}
             </td>
           </tr>
           <tr>
@@ -209,16 +269,11 @@ const Department = () => {
             </td>
           </tr>
           <tr>
-            <td colSpan="8" className="font-weight-bold">
-              Total
-            </td>
-            <td>total.inProcess.indAmount</td>
-            <td>total.inProcess.amount</td>
-            <td colSpan={2}></td>
+            <td colSpan={12}></td>
           </tr>
           <tr>
             <th colSpan="13">
-              <h4 className="text-center">Direct Purchase</h4>
+              <h4 className="text-center">Direct Purchases</h4>
             </th>
           </tr>
           <tr>
@@ -265,12 +320,7 @@ const Department = () => {
             </td>
           </tr>
           <tr>
-            <td colSpan="8" className="font-weight-bold">
-              Total
-            </td>
-            <td>total.directPur.indAmount</td>
-            <td>total.directPur.amount</td>
-            <td colSpan={2}></td>
+            <td colSpan={12}></td>
           </tr>
         </tbody>
       </table>

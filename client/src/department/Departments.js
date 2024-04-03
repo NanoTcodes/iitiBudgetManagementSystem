@@ -7,7 +7,7 @@ const Departments = () => {
   return (
     <>
       <Navbar />
-      Hello from Deparment page.
+    <Home/>
     </>
   );
 };

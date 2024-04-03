@@ -5,27 +5,15 @@ import {
   fetchTable,
   deleteAll,
 } from "../controllers/budgetController.js";
+import authMiddleware from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-// router.post(
-//   "/addconsumableentry",
+router.post("/updateentry", authMiddleware, updateEntry);
 
-//   addConEntry
-// );
-router.post(
-  "/updateentry",
+router.get("/fetchtable", authMiddleware, fetchTable);
 
-  updateEntry
-);
-
-router.get(
-  "/fetchtable",
-
-  fetchTable
-);
-
-router.get("/fetchsummary", fetchSummary);
-router.post("/deleteAll", deleteAll);
+router.get("/fetchsummary", authMiddleware, fetchSummary);
+router.post("/deleteAll", authMiddleware, deleteAll);
 
 export default router;

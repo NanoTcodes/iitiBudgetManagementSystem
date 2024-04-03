@@ -1,13 +1,14 @@
 import jwt from "jsonwebtoken";
-const JWT_SECRET = "SaintMSGInsan";
+const JWT_SECRET = process.env.JWT_SECRET;
 
-const errorMessage = "Please authenticate using a valid token!";
+const errorMessage = "Please login again!";
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware =async (req, res, next) => {
   const token = req.header("auth-token");
-  if (!token) res.status(401).send({ error: errorMessage });
+  if (!token) return res.status(401).send({ error: errorMessage });
   try {
     const data = jwt.verify(token, JWT_SECRET);
+    console.log(data);
     req.user = data.user;
     next();
   } catch (err) {

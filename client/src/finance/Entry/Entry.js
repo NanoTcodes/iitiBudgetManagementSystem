@@ -4,7 +4,7 @@ import "./entry.css";
 
 const Entry = ({ props }) => {
   const { initialIndent, submitIndent, setIndentActive } = props;
-  initialIndent.status = 0;
+  initialIndent.status = initialIndent.status ? 1 : 0;
   const { year } = useContext(YearContext);
   const [edit, setEdit] = useState(0);
   const [indent, setIndent] = useState(initialIndent);
@@ -90,6 +90,7 @@ const Entry = ({ props }) => {
           onChange={handleOnChange}
           name="po_no"
           type="number"
+          disabled={type}
         ></input>
       </td>
       <td>
@@ -98,6 +99,7 @@ const Entry = ({ props }) => {
           onChange={handleOnChange}
           name="indent_amount"
           type="number"
+          disabled={type}
         ></input>
       </td>
       <td>
