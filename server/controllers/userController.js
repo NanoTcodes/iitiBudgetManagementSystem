@@ -53,3 +53,24 @@ export const login = async (req, res) => {
 //=========
 //adding entry in consumable
 //the entry also adds to the expenditure
+
+
+export const allUsers = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  try {
+    const users=await User.find({});
+    console.log(users)
+    // const users_arr=[];
+    // for(let user of users){
+    //   users_arr.push(user);
+    // }
+    return res.json({users});
+    
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ error: "Some error occured!" });
+  }
+};
