@@ -19,6 +19,18 @@ const Department = () => {
   const [total, setTotal] = useState({ expenditure, inProcess: in_process });
   const [update, setUpdate] = useState(0);
   const [newAmount, setNewAmount] = useState("");
+  const blankIndent = {
+    entry_date: new Date(),
+    particulars: "",
+    indenter: "",
+    indent_no: "",
+    po_no: "",
+    indent_amount: 0,
+    amount: 0,
+    remark: "",
+    status: 0,
+  };
+
   const fetchData = async () => {
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/fetchtable?username=${username}&type=${type}&year=${year}`,
@@ -43,21 +55,11 @@ const Department = () => {
       setTotal({ expenditure, inProcess: in_process });
     }
   };
-  const blankIndent = {
-    entry_date: new Date(),
-    particulars: "",
-    indenter: "",
-    indent_no: "",
-    po_no: "",
-    indent_amount: 0,
-    amount: 0,
-    remark: "",
-    status: 0,
-  };
 
   useEffect(() => {
     fetchData();
   }, [year]);
+
   const addEntry = async (type) => {
     if (!type) {
       let inProcess = indents.inProcess;
@@ -110,6 +112,7 @@ const Department = () => {
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          "auth-token": localStorage.getItem("authToken"),
         },
         body: JSON.stringify({
           username,
