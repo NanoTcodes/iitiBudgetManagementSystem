@@ -1,5 +1,5 @@
 import express from "express";
-import { login} from "../controllers/userController.js";
+import { login,allUsers} from "../controllers/userController.js";
 import { body } from "express-validator";
 
 const router = express.Router();
@@ -12,6 +12,8 @@ router.post(
   ],
   login
 );
+
+router.post("/allUsers",allUsers);
 
 
 export default router;
