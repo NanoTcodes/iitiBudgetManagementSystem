@@ -174,10 +174,11 @@ const Department = () => {
 
   return (
     <>
-      <h2 className="m-3 text-center">{name}</h2>
-      <h3 className="m-3 text-center">
+      <h3 className="m-3 text-center">{name}</h3>
+      <h4 className="m-3 text-center">
         {type ? "Equipment" : "Consumable"} Budget {year}-{(year % 100) + 1}
-      </h3>
+      </h4>
+      <div className="p-4">
       <table>
         <thead>
           <tr>
@@ -223,11 +224,18 @@ const Department = () => {
               )}
             </td>
           </tr>
-          <tr>
-            <th colSpan={12} className="text-center">
-              <h4>Indents in Process</h4>
-            </th>
-          </tr>
+          <th colSpan={12} className="text-center">
+  <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <h4 style={{ fontFamily: "Arial", fontSize: "16px", fontWeight: "bold" }}>Indents in Process</h4>
+    <div>
+      <button className="btn btn-secondary" onClick={() => addEntry(0)}>
+        Add new Indent
+      </button>
+    </div>
+  </div>
+</th>
+
+
           <tr>
             <th>Sr. No.</th>
             <th>Status</th>
@@ -264,21 +272,17 @@ const Department = () => {
               </td>
             </tr>
           )}
-          <tr>
-            <td colSpan={12} className="text-center">
-              <button className="btn btn-secondary" onClick={() => addEntry(0)}>
-                Add new Indent
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={12}></td>
-          </tr>
-          <tr>
-            <th colSpan="13">
-              <h4 className="text-center">Direct Purchases</h4>
-            </th>
-          </tr>
+          
+          <th colSpan={12} className="text-center">
+  <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <h4 style={{ fontFamily: "Arial", fontSize: "16px", fontWeight: "bold" }}>Direct Purchases</h4>
+    <div>
+      <button className="btn btn-secondary" onClick={() => addEntry(1)}>
+        Add new Direct Purchase
+      </button>
+    </div>
+  </div>
+</th>
           <tr>
             <th>Sr. No.</th>
             <th>Status</th>
@@ -314,19 +318,10 @@ const Department = () => {
                 No Direct Purchases
               </td>
             </tr>
-          )}{" "}
-          <tr>
-            <td colSpan={12} className="text-center">
-              <button className="btn btn-secondary" onClick={() => addEntry(1)}>
-                Add new Direct Purchase
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={12}></td>
-          </tr>
+          )}
         </tbody>
       </table>
+      </div>
     </>
   );
 };

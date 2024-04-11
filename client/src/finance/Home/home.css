@@ -58,8 +58,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(0.8);
 }
 
-
-
 .custom-navbar {
     background-color: #27374d; /* Your custom color */
   }
@@ -79,19 +77,114 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: flex;
     justify-content: center; /* Centers horizontally */
     align-items: center; /* Centers vertically */
-    
-
   }
+
   .container2{
     display: flex;
     align-items: center;
   }
 
   .centered-div2 {
-    padding: 5%;
+    padding: 1%;
     /* Add styling for your centered div here */
   }
 
   .centered-div{
     width: 600px;
   }
+  /* Table Styles */
+ /* .table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.table tr:hover {
+  background-color: #f9f9f9;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.table .text-center {
+  text-align: center;
+}
+
+.table .font-weight-bold {
+  font-weight: bold;
+}
+
+.table-container {
+  margin-top: 6px;
+  overflow-x: auto;
+}   
+
+ */
+
+ /* Table Styles */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-top: none; /* Remove top border */
+  border-right: none; /* Remove right border */
+  border-left: none; /* Remove left border */
+}
+
+.table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.table td {
+  border-bottom: 1px solid #ddd; 
+}
+
+.table tr:last-child {
+  border-bottom: none; 
+}
+
+.table tr:hover {
+  background-color: #61c9e1;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.table .text-center {
+  text-align: center;
+}
+
+.table .font-weight-bold {
+  font-weight: bold;
+}
+
+.table-container {
+  margin-top: 6px;
+  overflow-x: auto;
+}   

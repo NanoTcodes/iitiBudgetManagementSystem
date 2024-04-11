@@ -3,6 +3,7 @@ import YearContext from "../../contexts/year/YearContext";
 import AlertContext from "../../contexts/alert/AlertContext";
 import DepartmentContext from "../../contexts/department/DepartmentContext";
 import { useNavigate } from "react-router-dom";
+import './home.css';
 
 const Home = () => {
   const { unSuccessful } = useContext(AlertContext);
@@ -49,15 +50,14 @@ const Home = () => {
           </b>
         </h1>
       </div>
-      <div className="container table-container"></div>
+      <div className="text-center">
+        <h3>Equipment Budget</h3>
+      </div>
+      <div className="container table-container">
+      </div>
       <div className="container table-container">
         <table className="table table-bordered">
           <thead>
-            <tr>
-              <td colSpan={8} className="text-center">
-                <h3>Equipment Budget</h3>
-              </td>
-            </tr>
             <tr>
               <th scope="col">#</th>
               <th scope="col">Department</th>
@@ -105,14 +105,12 @@ const Home = () => {
         </table>
       </div>
       <br />
+      <div className="text-center">
+        <h3>Consumable Budget</h3>
+      </div>
       <div className="container table-container">
         <table className="table table-bordered">
           <thead>
-            <tr>
-              <td colSpan={8} className="text-center">
-                <h3>Consumable Budget</h3>
-              </td>
-            </tr>
             <tr>
               <th scope="col">#</th>
               <th scope="col">Department</th>
@@ -159,3 +157,4 @@ const Home = () => {
 };
 
 export default Home;
+
