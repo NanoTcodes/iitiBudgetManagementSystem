@@ -1,20 +1,28 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import AlertContext from "../../contexts/alert/AlertContext";
-import "./updateProfile.css"
+import SelectedUserContext from "../../contexts/select/SelectedUserContext";
+import "./updateProfile.css";
+
 const UpdateProfile = () => {
   const { successful, unSuccessful } = useContext(AlertContext);
+  const { SelectedUser } = useContext(SelectedUserContext);
+
+  // Set initial form state with selected user's data
   const initialCreds = {
-    name: "",
-    username: "",
+    name: SelectedUser.name || "", // Set default to empty string if name is not available
+    username: SelectedUser.username|| "", // Set default to empty string if username is not available
     password: "",
     cPassword: ""
   };
+
   const [creds, setCreds] = useState(initialCreds);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (creds.password != creds.cPassword)
-      return unSuccessful("Passwords didn\t match");
-    //if (creds.role == -1) return unSuccessful("Please select valid user type.");
+    if (creds.password !== creds.cPassword) {
+      return unSuccessful("Passwords didn't match");
+    }
+
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/updateUser`,
       {
@@ -23,18 +31,29 @@ const UpdateProfile = () => {
         body: JSON.stringify(creds),
       }
     );
+
     const json = await response.json();
-    if (json.error) unSuccessful(json.error);
-    else {
+    if (json.error) {
+      unSuccessful(json.error);
+    } else {
       successful(json.success);
       setCreds(initialCreds);
     }
   };
 
-  const handleOnChange = async (e) => {
+  const handleOnChange = (e) => {
     const { name, value } = e.target;
     setCreds({ ...creds, [name]: value });
   };
+
+  // Update form fields when SelectedUser changes
+  useEffect(() => {
+    setCreds({
+      ...creds,
+      name: SelectedUser.name || "", // Update name if available
+      username: SelectedUser.username|| "", // Update username if available
+    });
+  }, [SelectedUser]);
 
   return (
     <div className="add-user">
@@ -69,8 +88,8 @@ const UpdateProfile = () => {
           placeholder="Enter password"
           value={creds.password}
           onChange={handleOnChange}
-          
         />
+
         <label htmlFor="confirmpassword">Confirm New Password:</label>
         <input
           type="password"
@@ -79,16 +98,8 @@ const UpdateProfile = () => {
           placeholder="Confirm password"
           value={creds.cPassword}
           onChange={handleOnChange}
-          
         />
 
-        {/* <label htmlFor="userType">User Type:</label>
-        <select id="userType" name="role" required onChange={handleOnChange}>
-          <option value="-1">Select user type</option>
-          <option value="2">Admin</option>
-          <option value="1">F&A User</option>
-          <option value="0">Department</option>
-        </select> */}
         <div className="container">
           <button className="btn btn-primary" type="submit">
             Submit{" "}
@@ -103,6 +114,6 @@ const UpdateProfile = () => {
       </form>
     </div>
   );
-}
+};
 
-export default UpdateProfile
+export default UpdateProfile;

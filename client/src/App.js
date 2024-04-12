@@ -9,6 +9,7 @@ import Finance from "./finance/Finance";
 import Home from "./finance/Home/Home";
 import YearState from "./contexts/year/YearState";
 import DepartmentState from "./contexts/department/DepartmentState";
+import UserState from "./contexts/select/SelectedUserState";
 import Department from "./finance/Department/Department";
 import AddUser from "./finance/AddUser/AddUser";
 import UpdateProfile from "./finance/UpdateProfile/UpdateProfile";
@@ -21,6 +22,7 @@ function App() {
       <AlertState>
         <YearState>
           <DepartmentState>
+            <UserState>
             <ToastContainer
               position="top-right"
               autoClose={5000}
@@ -48,6 +50,7 @@ function App() {
                 <Route path="/*" element={<NotFound />} />
               </Routes>
             </Router>
+            </UserState>
           </DepartmentState>
         </YearState>
       </AlertState>
