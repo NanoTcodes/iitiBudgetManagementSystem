@@ -5,7 +5,7 @@ import YearContext from "../../contexts/year/YearContext";
 import AlertContext from "../../contexts/alert/AlertContext";
 import Entry from "../Entry/Entry";
 
-const Department = () => {
+const DeptDetails = () => {
   const { department, setDepartment } = useContext(DepartmentContext);
   const { year } = useContext(YearContext);
   const { unSuccessful, successful } = useContext(AlertContext);
@@ -29,6 +29,7 @@ const Department = () => {
     amount: 0,
     remark: "",
     status: 0,
+    edit:1
   };
 
   const fetchData = async () => {
@@ -326,4 +327,4 @@ const Department = () => {
   );
 };
 
-export default Department;
+export default DeptDetails;

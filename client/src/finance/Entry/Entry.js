@@ -6,8 +6,8 @@ const Entry = ({ props }) => {
   const { initialIndent, submitIndent, setIndentActive } = props;
   initialIndent.status = initialIndent.status ? 1 : 0;
   const { year } = useContext(YearContext);
-  const [edit, setEdit] = useState(0);
   const [indent, setIndent] = useState(initialIndent);
+  const [edit, setEdit] = useState(indent.edit==1);
   const {
     i,
     entry_date,

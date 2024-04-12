@@ -1,53 +1,50 @@
 /* global bootstrap */
 
-
 import React, { useContext, useEffect, useState } from "react";
 import "./navbar.css";
 import logo from "../../assets/images/iitindorelogo.png";
 import { Link, useNavigate } from "react-router-dom";
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min'; 
+// import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 import YearContext from "../../contexts/year/YearContext";
 
 const Navbar = () => {
-
   const navigate = useNavigate();
-  const [years, setYears] = useState([]);
+  const [years] = useState(() => {
+    let years = [];
+    for (let i = 2021; i <= new Date().getFullYear(); i++) years.push(i);
+    return years;
+  });
   const { setYear } = useContext(YearContext);
 
-//   useEffect(() => {
-//     // Initialize Bootstrap Navbar component
-//     const navbarElement = document.querySelector('.navbar');
-//     if (navbarElement) {
-//         const navbar = new bootstrap.Navbar(navbarElement);
-//     }
-// }, []);
+  //   useEffect(() => {
+  //     // Initialize Bootstrap Navbar component
+  //     const navbarElement = document.querySelector('.navbar');
+  //     if (navbarElement) {
+  //         const navbar = new bootstrap.Navbar(navbarElement);
+  //     }
+  // }, []);
 
-//   useEffect(() => {
-//     // Initialize Bootstrap Navbar component
-//     const navbar = document.querySelector('.navbar');
-//     if (navbar) {
-//         new bootstrap.Navbar(navbar);
-//     }
-// }, []);
-useEffect(() => {
-  if (!localStorage.getItem("authToken")) navigate("/");
-  let curYears = [];
-  for (let index = 2021; index <= new Date().getFullYear(); index++) {
-    curYears.push(index);
-  }
-  setYears(curYears);
-}, []);
+  //   useEffect(() => {
+  //     // Initialize Bootstrap Navbar component
+  //     const navbar = document.querySelector('.navbar');
+  //     if (navbar) {
+  //         new bootstrap.Navbar(navbar);
+  //     }
+  // }, []);
+  useEffect(() => {
+    if (!localStorage.getItem("authToken")) navigate("/");
+  }, []);
 
-// useEffect(() => {
-//   // Initialize Bootstrap Navbar component
-//   const navbarCollapse = document.getElementById("navbarSupportedContent");
-//   if (navbarCollapse) {
-//     new bootstrap.Collapse(navbarCollapse,{toggle:false});
-//   }
-// }, []);
+  // useEffect(() => {
+  //   // Initialize Bootstrap Navbar component
+  //   const navbarCollapse = document.getElementById("navbarSupportedContent");
+  //   if (navbarCollapse) {
+  //     new bootstrap.Collapse(navbarCollapse,{toggle:false});
+  //   }
+  // }, []);
 
   const logOut = () => {
     localStorage.clear("authToken");
@@ -108,7 +105,6 @@ useEffect(() => {
                       role="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
-                    
                     >
                       Change Year
                     </Link>
@@ -144,7 +140,10 @@ useEffect(() => {
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="/finance/updateuser">
+                        <Link
+                          className="dropdown-item"
+                          to="/finance/updateuser"
+                        >
                           Update user/dept profile
                         </Link>
                       </li>

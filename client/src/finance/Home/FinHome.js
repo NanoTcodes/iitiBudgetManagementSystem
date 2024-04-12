@@ -5,7 +5,7 @@ import DepartmentContext from "../../contexts/department/DepartmentContext";
 import { useNavigate } from "react-router-dom";
 import './home.css';
 
-const Home = () => {
+const FinHome = () => {
   const { unSuccessful } = useContext(AlertContext);
   const { year } = useContext(YearContext);
   const { setDepartment } = useContext(DepartmentContext);
@@ -156,5 +156,5 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default FinHome;
 

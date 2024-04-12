@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import AlertContext from "../../contexts/alert/AlertContext";
-import "./updateProfile.css"
+import "./updateProfile.css";
 const UpdateProfile = () => {
   const { successful, unSuccessful } = useContext(AlertContext);
   const initialCreds = {
     name: "",
     username: "",
     password: "",
-    cPassword: ""
+    cPassword: "",
   };
   const [creds, setCreds] = useState(initialCreds);
   const handleSubmit = async (e) => {
@@ -19,7 +19,10 @@ const UpdateProfile = () => {
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/updateUser`,
       {
         method: "POST",
-        headers: { "Content-type": "application/json" },
+        headers: {
+          "Content-type": "application/json",
+          "auth-token": localStorage.getItem("authToken"),
+        },
         body: JSON.stringify(creds),
       }
     );
@@ -69,7 +72,6 @@ const UpdateProfile = () => {
           placeholder="Enter password"
           value={creds.password}
           onChange={handleOnChange}
-          
         />
         <label htmlFor="confirmpassword">Confirm New Password:</label>
         <input
@@ -79,7 +81,6 @@ const UpdateProfile = () => {
           placeholder="Confirm password"
           value={creds.cPassword}
           onChange={handleOnChange}
-          
         />
 
         {/* <label htmlFor="userType">User Type:</label>
@@ -103,6 +104,6 @@ const UpdateProfile = () => {
       </form>
     </div>
   );
-}
+};
 
-export default UpdateProfile
+export default UpdateProfile;

@@ -1,10 +1,10 @@
 /* global bootstrap */
 
-import React from "react";
-import { ToastContainer } from "react-toastify";
+import React, { useContext, useState } from "react";
 import "./navbar.css";
 import logo from "../../assets/images/iitindorelogo.png";
 import { Link } from "react-router-dom";
+import YearContext from "../../contexts/year/YearContext";
 //import useExternalScripts from "../../hooks/useExternalScripts"
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,6 +13,17 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   //useExternalScripts("https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js")
+
+  const {setYear}=useContext(YearContext)
+  const [years] = useState(() => {
+    let years=[];
+    for (let i = 2021; i <= new Date().getFullYear(); i++) years.push(i);
+    return years;
+  });
+
+  const changeYear = (i) => {
+    setYear(i);
+  };
 
   return (
     <>
@@ -65,19 +76,21 @@ const Navbar = () => {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      Select year
+                      Change Year
                     </Link>
                     <ul className="dropdown-menu">
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          2022
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          2023
-                        </Link>
-                      </li>
+                      {years.map((year, i) => {
+                        return (
+                          <li
+                            role="button"
+                            className="dropdown-item"
+                            key={i}
+                            onClick={() => changeYear(year)}
+                          >
+                            {year}-{(year % 100) + 1}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </li>
                   <li className="nav-item dropdown">
@@ -143,7 +156,7 @@ const Navbar = () => {
                       <Link
                         className="nav-link active"
                         aria-current="page"
-                        to="/login"
+                        to="/"
                       >
                         Logout
                       </Link>
