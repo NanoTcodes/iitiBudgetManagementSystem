@@ -3,6 +3,7 @@ import DepartmentContext from "../../contexts/department/DepartmentContext";
 import YearContext from "../../contexts/year/YearContext";
 import AlertContext from "../../contexts/alert/AlertContext";
 import Entry from "../Entry/Entry";
+import './home.css';
 
 const Home = () => {
   const { department } = useContext(DepartmentContext);
@@ -113,10 +114,12 @@ const Home = () => {
 
   return (
     <>
-      <h2 className="m-3 text-center">{name}</h2>
-      <h3 className="m-3 text-center">
+      <div className="p-4" style={{ backgroundColor: 'white' }}>
+      <h3 className="m-3 text-center">{name}</h3>
+      <h4 className="m-3 text-center">
         {type ? "Equipment" : "Consumable"} Budget {year}-{(year % 100) + 1}
-      </h3>
+      </h4>
+      <div className="p-4">
       <table>
         <thead>
           <tr>
@@ -137,9 +140,10 @@ const Home = () => {
               {((total.expenditure / budget) * 100).toFixed(2)}%
             </td>
           </tr>
+          
           <tr>
             <th colSpan={12} className="text-center">
-              <h4>Indents in Process</h4>
+            <h4 style={{ fontFamily: "Arial", fontSize: "16px", fontWeight: "bold" }}>Indents in Process</h4>
             </th>
           </tr>
           <tr>
@@ -178,7 +182,7 @@ const Home = () => {
           </tr>
           <tr>
             <th colSpan="13">
-              <h4 className="text-center">Direct Purchases</h4>
+            <h4 style={{ fontFamily: "Arial", fontSize: "16px", fontWeight: "bold" }}>Direct Purchases</h4>
             </th>
           </tr>
           <tr>
@@ -217,6 +221,8 @@ const Home = () => {
           </tr>
         </tbody>
       </table>
+      </div>
+      </div>
     </>
   );
 };
