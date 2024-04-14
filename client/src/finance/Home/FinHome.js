@@ -9,6 +9,7 @@ const FinHome = () => {
   const { unSuccessful } = useContext(AlertContext);
   const { year } = useContext(YearContext);
   const { setDepartment } = useContext(DepartmentContext);
+  
   const [equipment, setEquipment] = useState([]);
   const [consumable, setConsumable] = useState([]);
   const navigate = useNavigate();
