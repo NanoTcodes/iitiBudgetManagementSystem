@@ -190,7 +190,7 @@ const DeptDetails = () => {
             <th colSpan="3" style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indents in Process</th>
             <th colSpan="1" style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Fund Available</th>
             <th colSpan={2 - update} style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Percent Utilised</th>
-            {update === 1 && <th>Enter New Amount</th>}
+            {update === 1 && <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Enter New Amount</th>}
             <th colSpan={1 + update} style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Budget Control</th>
           </tr>
         </thead>

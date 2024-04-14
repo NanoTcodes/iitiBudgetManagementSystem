@@ -1,16 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 import AlertContext from "../../contexts/alert/AlertContext";
-import SelectedUserContext from "../../contexts/select/SelectedUserContext";
+// import SelectedUserContext from "../../contexts/select/SelectedUserContext";
 import "./updateProfile.css";
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ props }) => {
+  const { update, setUsers, users, setUpdate } = props;
+  const user = update;
+  console.log(user);
   const { successful, unSuccessful } = useContext(AlertContext);
-  const { SelectedUser } = useContext(SelectedUserContext);
+  // const { SelectedUser } = useContext(SelectedUserContext);
 
-  // Set initial form state with selected user's data
   const initialCreds = {
-    name: SelectedUser.name || "", // Set default to empty string if name is not available
-    username: SelectedUser.username|| "", // Set default to empty string if username is not available
+    name: user.name,
+    username: user.username,
     password: "",
     cPassword: "",
   };
@@ -40,7 +42,19 @@ const UpdateProfile = () => {
       unSuccessful(json.error);
     } else {
       successful(json.success);
-      setCreds(initialCreds);
+      let { emp, dept, admin } = users;
+      if (user.role == 1) {
+        for (let i = 0; i < emp.length; i++)
+          if (emp[i].username == user.username) emp[i].name = creds.name;
+      } else if (user.role == 2) {
+        for (let i = 0; i < admin.length; i++)
+          if (admin[i].username == user.username) admin[i].name = creds.name;
+      } else {
+        for (let i = 0; i < dept.length; i++)
+          if (dept[i].username == user.username) dept[i].name = creds.name;
+      }
+      setUsers({ emp, dept, admin });
+      setUpdate(null);
     }
   };
 
@@ -50,13 +64,13 @@ const UpdateProfile = () => {
   };
 
   // Update form fields when SelectedUser changes
-  useEffect(() => {
-    setCreds({
-      ...creds,
-      name: SelectedUser.name || "", // Update name if available
-      username: SelectedUser.username|| "", // Update username if available
-    });
-  }, [SelectedUser]);
+  // useEffect(() => {
+  //   // setCreds({
+  //   //   ...creds,
+  //   //   name: SelectedUser.name || "", // Update name if available
+  //   //   username: SelectedUser.username || "", // Update username if available
+  //   // });
+  // }, [SelectedUser]);
 
   return (
     <div className="add-user">
@@ -68,8 +82,7 @@ const UpdateProfile = () => {
           name="username"
           placeholder="Enter username"
           value={creds.username}
-          onChange={handleOnChange}
-          required
+          disabled
         />
 
         <label htmlFor="name">Updated Name:</label>
@@ -105,13 +118,21 @@ const UpdateProfile = () => {
 
         <div className="container">
           <button className="btn btn-primary" type="submit">
-            Submit{" "}
+            Submit
           </button>
           <button
             className="btn btn-primary"
+            type="reset"
             onClick={() => setCreds(initialCreds)}
           >
-            Reset{" "}
+            Reset
+          </button>
+          <button
+            className="btn btn-primary"
+            type="reset"
+            onClick={() => setUpdate(null)}
+          >
+            Cancel
           </button>
         </div>
       </form>

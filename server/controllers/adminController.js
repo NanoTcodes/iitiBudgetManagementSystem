@@ -223,12 +223,16 @@ export const removeUser = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   try {
+    const { username } = req.body;
+    if (username == req.user.username)
+      return res.json({ error: "You can't remove yourself!" });
     let user = await User.findOne({ username: req.body.username });
     if (!user) {
       return res.status(400).json({ error: "Username not found!" });
     } else {
       await User.findOneAndDelete({ username: req.body.username });
     }
+    return res.json({ success: "User has been removed!" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send({ error: "Some error occured!" });
