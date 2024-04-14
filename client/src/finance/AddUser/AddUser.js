@@ -14,18 +14,21 @@ const AddUser = () => {
   const [creds, setCreds] = useState(initialCreds);
   const handleSubmit = async (e) => {
     e.preventDefault();
-   
+
     if (creds.password != creds.cPassword)
       return unSuccessful("Passwords didn\t match");
     if (creds.role === "-1")
       return unSuccessful("Please select valid user type.");
-    creds.role = Number(creds.role); 
+    creds.role = Number(creds.role);
     console.log(creds);
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/createuser`,
       {
         method: "POST",
-        headers: { "Content-type": "application/json" },
+        headers: {
+          "auth-token": localStorage.getItem("authToken"),
+          "Content-type": "application/json",
+        },
         body: JSON.stringify(creds),
       }
     );

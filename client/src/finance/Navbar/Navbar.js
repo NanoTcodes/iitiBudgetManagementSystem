@@ -1,13 +1,7 @@
-/* global bootstrap */
-
 import React, { useContext, useEffect, useState } from "react";
 import "./navbar.css";
 import logo from "../../assets/images/iitindorelogo.png";
 import { Link, useNavigate } from "react-router-dom";
-
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/dist/js/bootstrap.bundle.min';
-
 import YearContext from "../../contexts/year/YearContext";
 
 const Navbar = () => {
@@ -18,33 +12,11 @@ const Navbar = () => {
     return years;
   });
   const { setYear } = useContext(YearContext);
-
-  //   useEffect(() => {
-  //     // Initialize Bootstrap Navbar component
-  //     const navbarElement = document.querySelector('.navbar');
-  //     if (navbarElement) {
-  //         const navbar = new bootstrap.Navbar(navbarElement);
-  //     }
-  // }, []);
-
-  //   useEffect(() => {
-  //     // Initialize Bootstrap Navbar component
-  //     const navbar = document.querySelector('.navbar');
-  //     if (navbar) {
-  //         new bootstrap.Navbar(navbar);
-  //     }
-  // }, []);
+  const role = localStorage.getItem("userRole");
+  
   useEffect(() => {
     if (!localStorage.getItem("authToken")) navigate("/");
   }, []);
-
-  // useEffect(() => {
-  //   // Initialize Bootstrap Navbar component
-  //   const navbarCollapse = document.getElementById("navbarSupportedContent");
-  //   if (navbarCollapse) {
-  //     new bootstrap.Collapse(navbarCollapse,{toggle:false});
-  //   }
-  // }, []);
 
   const logOut = () => {
     localStorage.clear("authToken");
@@ -123,66 +95,73 @@ const Navbar = () => {
                       })}
                     </ul>
                   </li>
-                  <li className="nav-item dropdown">
-                    <Link
-                      className="nav-link dropdown-toggle"
-                      to="/"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Manage Users
-                    </Link>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <Link className="dropdown-item" to="/finance/adduser">
-                          Add new user/dept
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          className="dropdown-item"
-                          to="/finance/updateuser"
-                        >
-                          Update user/dept profile
-                        </Link>
-                      </li>
-                      <hr className="dropdown-divider" />
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          Remove existing user/dept
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/finance/allusers">
-                          View all users/depts
-                        </Link>
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <Link
-                      className="nav-link dropdown-toggle"
-                      to="/"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Budget Controls
-                    </Link>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          Increase Allocated Budget
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          Reset Financial Year
-                        </Link>
-                      </li>
-                    </ul>
-                  </li>
+                  {role == 2 && (
+                    <li className="nav-item dropdown">
+                      <Link
+                        className="nav-link dropdown-toggle"
+                        to="/"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Manage Users
+                      </Link>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <Link className="dropdown-item" to="/finance/adduser">
+                            Add new user/dept
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="dropdown-item"
+                            to="/finance/updateuser"
+                          >
+                            Update user/dept profile
+                          </Link>
+                        </li>
+                        <hr className="dropdown-divider" />
+                        <li>
+                          <Link className="dropdown-item" to="/">
+                            Remove existing user/dept
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="dropdown-item"
+                            to="/finance/allusers"
+                          >
+                            View all users/depts
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  )}
+                  {role == 2 && (
+                    <li className="nav-item dropdown">
+                      <Link
+                        className="nav-link dropdown-toggle"
+                        to="/"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Budget Controls
+                      </Link>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <Link className="dropdown-item" to="/">
+                            Increase Allocated Budget
+                          </Link>
+                        </li>
+                        <li>
+                          <Link className="dropdown-item" to="/">
+                            Reset Financial Year
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  )}
 
                   <li
                     className="nav-item nav-link active"

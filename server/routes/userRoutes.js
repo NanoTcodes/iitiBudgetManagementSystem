@@ -12,6 +12,7 @@ router.post(
   ],
   login
 );
+
 router.get("/allUsers",allUsers);
 
 

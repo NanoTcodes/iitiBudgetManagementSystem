@@ -128,7 +128,7 @@ const FinHome = () => {
               consumable.map((con, i) => {
                 const { name, budget, in_process, expenditure } = con;
                 return (
-                  <tr onClick={() => handleClick(con, 0)} role="button">
+                  <tr key={i} onClick={() => handleClick(con, 0)} role="button">
                     <td>{i + 1}</td>
                     <td>{name}</td>
                     <td>{budget}</td>
