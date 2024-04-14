@@ -42,7 +42,7 @@ const FinHome = () => {
   }, [year]);
 
   return (
-    <div>
+    <div >
       <div className="container centered-div2">
         <h1 className="text-center">
           <b className="w3-large">

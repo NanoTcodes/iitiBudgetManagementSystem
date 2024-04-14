@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AlertContext from "../../contexts/alert/AlertContext";
 import { useNavigate } from "react-router-dom";
-
+import "./allUsers.css";
 const AllUsers = () => {
   const { unSuccessful } = useContext(AlertContext);
   const [users, setUsers] = useState([]);
@@ -93,21 +93,26 @@ const AllUsers = () => {
   };
 
   return (
-    <div>
-      <div className="container centered-div2">
-        <h1 className="text-center">
+    <div className="user">
+      <div className="centered-div2">
+      <div className="heading">
+        <h1 className="text-center" >
           <b className="w3-large">User Details</b>
         </h1>
       </div>
+        <h3 className="text-center" >
+          <b className="w3-large">Departments</b>
+        </h3>
+      
+          {/* <div className="container centered-div2">
+                <h3 className="text-center" color="white">Departments</h3>
+                </div> */}
       <div className="container table-container">
+              
+            
         <table className="table table-bordered">
           <thead>
-          <tr>
-              <td colSpan={8} className="text-center">
-                <h3>Departments</h3>
-              </td>
-            </tr>
-            <tr>
+            <tr >
               <th>#</th>
               <th>Name</th>
               <th>Username</th>
@@ -116,14 +121,13 @@ const AllUsers = () => {
           <tbody>{renderDepartmentUsers()}</tbody>
         </table>
       </div>
+      <h3 className="text-center" >
+          <b className="w3-large">F&A Employees</b>
+        </h3>
       <div className="container table-container">
         <table className="table table-bordered">
           <thead>
-          <tr>
-              <td colSpan={8} className="text-center">
-                <h3>F&A Employees</h3>
-              </td>
-            </tr>
+         
             <tr>
               <th>#</th>
               <th>Name</th>
@@ -133,14 +137,13 @@ const AllUsers = () => {
           <tbody>{renderFaEmployeeUsers()}</tbody>
         </table>
       </div>
+      <h3 className="text-center" >
+          <b className="w3-large">Admin</b>
+        </h3>
       <div className="container table-container">
         <table className="table table-bordered">
           <thead>
-          <tr>
-              <td colSpan={8} className="text-center">
-                <h3>Admin</h3>
-              </td>
-            </tr>
+          
             <tr>
               <th>#</th>
               <th>Name</th>
@@ -149,7 +152,7 @@ const AllUsers = () => {
           </thead>
           <tbody>{renderAdminUsers()}</tbody>
         </table>
-      </div>
+      </div></div>
     </div>
   );
 };

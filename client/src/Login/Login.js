@@ -32,6 +32,7 @@ const Login = () => {
       const{ role} = json.user;
       localStorage.setItem("authToken", json.authToken);
       localStorage.setItem("userRole", role);
+      console.log(json)
       successful("You have been logged in succesfully.");
       setTimeout(() => {
         if (!role) navigate("/dept");

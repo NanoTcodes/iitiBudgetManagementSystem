@@ -1,3 +1,6 @@
+body{
+  background-color: white;
+}
 table {
   background-color: white;
   border-collapse: collapse;
@@ -7,21 +10,28 @@ table {
 }
 
 th, td {
-  border: 1px solid #ddd;
+  background-color: '#eaf0f6';
+  border: 1px solid #ffffff;
   padding: 12px;
-  text-align: left;
+  color: black;
+  text-align: center;
 }
-
 th {
-  background-color: #f2f2f2;
+  color :white;
   font-weight: bold;
+  text-align: center;
+  
+}
+.table th {
+  border-right: 1px solid #fcf8f8; 
+  
 }
 
 button {
   display: block;
   margin: 10px auto;
   padding: 8px 16px;
-  background-color:rgb(75, 137, 172);
+  background-color:rgb(71, 130, 160);
   color: white;
   border: none;
   border-radius: 4px;
@@ -30,7 +40,7 @@ button {
 }
 
 button:hover {
-  background-color:#2978c7;
+  background-color:rgb(11, 62, 91);
 }
 
 input[type="number"] {
@@ -46,6 +56,8 @@ h2, h3, h4 {
   text-align: center;
   margin: 16px 0;
   font-family: Arial, sans-serif;
+  color : #27374d;
+  
 }
 
 .p-4 {
