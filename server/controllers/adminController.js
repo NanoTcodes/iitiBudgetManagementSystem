@@ -219,11 +219,14 @@ export const newyear = async (req, res) => {
 //removing user
 export const removeUser = async (req, res) => {
   const errors = validationResult(req);
+  console.log(req.body)
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
   try {
+    console.log(req.body)
     let user = await User.findOne({ username: req.body.username });
+  
     if (!user) {
       return res.status(400).json({ error: "Username not found!" });
     } else {
