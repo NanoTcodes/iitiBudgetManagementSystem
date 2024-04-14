@@ -13,7 +13,7 @@ router.post(
   login
 );
 
-router.post("/allUsers",allUsers);
+router.get("/allUsers",allUsers);
 
 
 export default router;
