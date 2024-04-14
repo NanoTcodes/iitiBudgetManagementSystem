@@ -12,7 +12,7 @@ const UpdateProfile = () => {
     name: SelectedUser.name || "", // Set default to empty string if name is not available
     username: SelectedUser.username|| "", // Set default to empty string if username is not available
     password: "",
-    cPassword: ""
+    cPassword: "",
   };
 
   const [creds, setCreds] = useState(initialCreds);
@@ -27,7 +27,10 @@ const UpdateProfile = () => {
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/updateUser`,
       {
         method: "POST",
-        headers: { "Content-type": "application/json" },
+        headers: {
+          "Content-type": "application/json",
+          "auth-token": localStorage.getItem("authToken"),
+        },
         body: JSON.stringify(creds),
       }
     );

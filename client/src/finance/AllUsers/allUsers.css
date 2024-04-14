@@ -1,9 +1,12 @@
-body {
+.user{
     font-family: sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #fdf8f8;
+    color: #ffffff;
 }
 
+h3{
+  color: #17393e;
+}
 .entry-form {
     max-width: 600px;
     margin: 0 auto;
@@ -33,6 +36,7 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+    background-color: none;
 }
 
 input[type="submit"] {
@@ -52,6 +56,10 @@ input[type="submit"]:hover {
 
 textarea {
     resize: vertical;
+
+}
+.heading{
+  color: #17393e;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -88,7 +96,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 
   .centered-div2 {
-    padding: 5%;
+    padding: 4%;
     /* Add styling for your centered div here */
   }
 

@@ -1,7 +1,14 @@
 body {
     font-family: sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+    /* background-color: #f0f0f0; */
+    color: #ffffff;        /*year color*/
+    background-image: url('night1.jpg');
+    background-size: cover;
+    background-position: center;
+    /* Add blur effect */
+    /* filter: blur(2px); */
+    /* Add fixed position to prevent background from moving */
+  
 }
 
 .entry-form {
@@ -140,10 +147,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
  /* Table Styles */
 .table {
   width: 100%;
-  border-collapse: separate;
+  /* border-collapse: separate; */
   border-spacing: 0;
   font-family: Arial, sans-serif;
   font-size: 14px;
+
 }
 
 .table th,
@@ -156,12 +164,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .table th {
-  background-color: #f5f5f5;
-  font-weight: bold;
+  background-color: #0a5095;
+  /* font-weight: bold; */
+  color: #fff;
+
 }
 
 .table td {
-  border-bottom: 1px solid #ddd; 
+  /* border-right: 1px solid #080505;  */
+  border-bottom: 1px solid #080505; 
+  border-left: 1px solid #080505; 
+  background-color: rgb(230, 235, 240); /*table backbround color*/
+ 
+}
+.table td:last-child {
+  border-right: 1px solid #080505; 
+}
+.table th {
+  border-right: 1px solid #fcf8f8; 
+  
 }
 
 .table tr:last-child {
@@ -170,21 +191,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .table tr:hover {
   background-color: #61c9e1;
+
 }
 
 .table td {
   vertical-align: middle;
 }
 
-.table .text-center {
+.body .text-center {
   text-align: center;
+    /* color: #f7f8dd; */
+  
 }
-
+.text-center h3 {
+  color: white; /* Set text color to white */
+}
 .table .font-weight-bold {
   font-weight: bold;
+  color: white;
 }
 
 .table-container {
   margin-top: 6px;
   overflow-x: auto;
 }   
+

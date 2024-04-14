@@ -29,9 +29,10 @@ const Login = () => {
     const json = await response.json();
     if (json.error) unSuccessful(json.error);
     else {
-      const role = json.user;
+      const{ role} = json.user;
       localStorage.setItem("authToken", json.authToken);
       localStorage.setItem("userRole", role);
+      console.log(json)
       successful("You have been logged in succesfully.");
       setTimeout(() => {
         if (!role) navigate("/dept");

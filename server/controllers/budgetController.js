@@ -30,7 +30,6 @@ export const updateEntry = async (req, res) => {
         table.in_process += indent.indent_amount;
         table.expenditure += indent.indent_amount;
       } else {
-
         const { status, amount, indent_amount } = indents_process[index];
         console.log(indent, indents_process[index]);
 
@@ -77,7 +76,6 @@ export const updateEntry = async (req, res) => {
 export const fetchTable = async (req, res) => {
   try {
     const { username, type, year } = req.query;
-    console.log(username, year, type);
     let table;
     if (type == 1) table = await Equipment.findOne({ username, year });
     else table = await Consumable.findOne({ username, year });
@@ -87,45 +85,12 @@ export const fetchTable = async (req, res) => {
       });
     }
     let { indents_process, direct_purchase, expenditure, in_process } = table;
-    console.log(table);
     return res.json({
       expenditure,
       in_process,
       indents_process,
       direct_purchase,
     });
-    // return res.json({
-    //   department: department,
-    //   budget: budget,
-    //   expenditure: expenditure,
-    //   year: year,
-    //   indents_process: indents_process,
-    //   direct_purchase: direct_purchase,
-    //   // indent_pay_done: indent_pay_done,
-    // });
-    // }
-    // else {
-    //   let table = await Consumable.findOne({ username, year });
-    //   if (!table) {
-    //     return res.status(400).json({
-    //       error: " Data not found!",
-    //     });
-    //   }
-    //   let { indents_process, direct_purchase } = table;
-    //   return res.json({
-    //     indents_process,
-    //     direct_purchase,
-    //   });
-    // return res.json({
-    //   department: department,
-    //   budget: budget,
-    //   expenditure: expenditure,
-    //   year: year,
-    //   indents_process: indents_process,
-    //   direct_purchase: direct_purchase,
-    //   // indent_pay_done: indent_pay_done,
-    // });
-    // }
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Some error occured!");
@@ -174,6 +139,15 @@ export const fetchSummary = async (req, res) => {
     console.error(err.message);
     res.status(500).send("Some error occured!");
   }
+};
+
+export const fetchBudget = async (req, res) => {
+  const { username, role } = req.user;
+  const { year } = req.query;
+  if (role) return res.json({ error: "You are not logged in as department!" });
+  const equipment = await Equipment.findOne({ username, year });
+  const consumable = await Consumable.findOne({ username, year });
+  return res.json({ equipment, consumable });
 };
 
 //THIS WILL DELETE THE DATABASE , DONT USE
