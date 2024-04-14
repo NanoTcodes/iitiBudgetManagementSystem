@@ -54,7 +54,7 @@ const AllUsers = () => {
 
 const remUser = async (username) => {
   try {
-    console.log(username);
+    console.log('User ${username} is removed. Plz refresh');
     const response = await fetch(`http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/removeUser`,
     {
       method: "POST",
@@ -93,12 +93,20 @@ useEffect(() => {
             <td>{index}</td>
             <td>{name}</td>
             <td>{username}</td>
-            <td><a href="/finance/updateuser" onClick={()=>selectUser(username,name)}>
+            {/* <td><button href="/finance/updateuser" onClick={()=>selectUser(username,name)}>
                           Update
-                        </a></td>
-            <td><a onClick={()=>remUser(username)}>
+                        </button></td> */}
+                        
+                        <td>
+  <button onClick={() => { window.location.href = "/finance/updateuser"; selectUser(username, name); }}>
+    Update
+  </button>
+</td>
+
+
+            <td><button onClick={()=>remUser(username)}>
                           Remove
-                        </a></td>
+                        </button></td>
           </tr>
         );
       }
@@ -117,12 +125,17 @@ useEffect(() => {
             <td>{index}</td>
             <td>{name}</td>
             <td>{username}</td>
-            <td><a href="/finance/updateuser" onClick={()=>selectUser(username,name)}>
+            {/* <td><button href="/finance/updateuser" onClick={()=>selectUser(username,name)}>
                           Update
-                        </a></td>
-            <td><a onClick={()=>remUser(username)}>
+                        </button></td> */}
+                    <td>
+  <button onClick={() => { window.location.href = "/finance/updateuser"; selectUser(username, name); }}>
+    Update
+  </button>
+</td>    
+            <td><button onClick={()=>remUser(username)}>
                           Remove
-                        </a></td>
+                        </button></td>
           </tr>
         );
       }
@@ -137,16 +150,21 @@ useEffect(() => {
       if (role === 2) {
         index++;
         return (
-          <tr key={id}>
-            <td>{index}</td>
+          <tr  key={id}  >
+            <td >{index}</td>
             <td>{name}</td>
             <td>{username}</td>
-            <td><a href="/finance/updateuser" onClick={()=>selectUser(username,name)}>
+            {/* <td><a href="/finance/updateuser" onClick={()=>selectUser(username,name)}>
                           Update
-                        </a></td>
-          <td><a onClick={()=>remUser(username)}>
+                        </a></td> */}
+                        <td>
+  <button onClick={() => { window.location.href = "/finance/updateuser"; selectUser(username, name); }}>
+    Update
+  </button>
+</td>
+          <td ><button onClick={()=>remUser(username)}>
                           Remove
-                        </a></td>
+                        </button></td>
           </tr>
         );
       }
@@ -178,7 +196,8 @@ useEffect(() => {
               <th>#</th>
               <th>Name</th>
               <th>Username</th>
-              <th></th>
+              <th>Update</th>
+              <th>Remove</th>
             </tr>
           </thead>
           <tbody>{renderDepartmentUsers()}</tbody>
@@ -195,7 +214,10 @@ useEffect(() => {
               <th>#</th>
               <th>Name</th>
               <th>Username</th>
-              <th></th>
+              <th>Update</th>
+              <th>Remove</th>
+              
+
             </tr>
           </thead>
           <tbody>{renderFaEmployeeUsers()}</tbody>
@@ -212,7 +234,8 @@ useEffect(() => {
               <th>#</th>
               <th>Name</th>
               <th>Username</th>
-              <th></th>
+              <th>Update</th>
+              <th>Remove</th>
             </tr>
           </thead>
           <tbody>{renderAdminUsers()}</tbody>
