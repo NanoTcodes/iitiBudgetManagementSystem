@@ -14,12 +14,11 @@ const AddUser = () => {
   const [creds, setCreds] = useState(initialCreds);
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (creds.password != creds.cPassword)
-      return unSuccessful("Passwords didn\t match");
+      return unSuccessful("Passwords didn\'t match!");
     if (creds.role === "-1")
       return unSuccessful("Please select valid user type.");
-    creds.role = Number(creds.role);
+    creds.role = parseInt(creds.role);
     console.log(creds);
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/createuser`,
@@ -33,6 +32,7 @@ const AddUser = () => {
       }
     );
     const json = await response.json();
+    console.log(json);
     if (json.error) unSuccessful(json.error);
     else {
       successful(json.success);
@@ -92,7 +92,13 @@ const AddUser = () => {
         />
 
         <label htmlFor="userType">User Type:</label>
-        <select id="userType" name="role" required onChange={handleOnChange}>
+        <select
+          id="userType"
+          name="role"
+          value={creds.role}
+          required
+          onChange={handleOnChange}
+        >
           <option value="-1">Select user type</option>
           <option value="2">Admin</option>
           <option value="1">F&A User</option>

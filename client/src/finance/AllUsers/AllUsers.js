@@ -1,23 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import AlertContext from "../../contexts/alert/AlertContext";
-// import SelectedUserContext from "../../contexts/select/SelectedUserContext";
-// import { unstable_HistoryRouter, useNavigate } from "react-router-dom";
 import "./allUsers.css";
 import UpdateProfile from "../UpdateProfile/UpdateProfile";
-const AllUsers = () => {
-  // console.log("AllUsers component mounted");
 
+const AllUsers = () => {
   const { unSuccessful, successful } = useContext(AlertContext);
   const [users, setUsers] = useState({ dept: [], admin: [], emp: [] });
   const [update, setUpdate] = useState(null);
-  // const { SelectedUser, setSelectedUser } = useContext(SelectedUserContext);
-  // console.log("SelectedUserContext value:", SelectedUser);
-  // console.log("setSelectedUser function:", setSelectedUser);
-
-  // const [departmentIndex, setDepartmentIndex] = useState(0);
-  // const [faEmployeeIndex, setFaEmployeeIndex] = useState(0);
-  // const [adminIndex, setAdminIndex] = useState(0);
-
   const roleArr = ["Admin", "F&A Employee", "Department"];
 
   const fetchData = async () => {
@@ -54,12 +43,6 @@ const AllUsers = () => {
     fetchData();
   }, []);
 
-  // const selectUser = async (s1, s2) => {
-  //   setSelectedUser({ username: s1, name: s2 });
-  //   console.log("user set", s1, s2);
-  // };
-  // const [forceUpdate, setForceUpdate] = useState(false); // Add dummy state
-
   const remUser = async (username) => {
     try {
       const response = await fetch(
@@ -93,94 +76,6 @@ const AllUsers = () => {
     setUpdate(user);
   };
 
-  // Use forceUpdate as a dependency in useEffect
-
-  // const renderDepartmentUsers = () => {
-  //   let index = 0;
-  //   return users.map((user) => {
-  //     const { id, username, name, role } = user;
-  //     if (role === 0) {
-  //       index++;
-  //       return (
-  //         <tr key={id}>
-  //           <td>{index}</td>
-  //           <td>{name}</td>
-  //           <td>{username}</td>
-  //           <td>
-  //             <a
-  //               href="/finance/updateuser"
-  //               onClick={() => selectUser(username, name)}
-  //             >
-  //               Update
-  //             </a>
-  //           </td>
-  //           <td>
-  //             <a onClick={() => remUser(username)}>Remove</a>
-  //           </td>
-  //         </tr>
-  //       );
-  //     }
-  //     return null;
-  //   });
-  // };
-
-  // const renderFaEmployeeUsers = () => {
-  //   let index = 0;
-  //   return users.map((user) => {
-  //     const { id, username, name, role } = user;
-  //     if (role === 1) {
-  //       index++;
-  //       return (
-  //         <tr key={id}>
-  //           <td>{index}</td>
-  //           <td>{name}</td>
-  //           <td>{username}</td>
-  //           <td>
-  //             <a
-  //               href="/finance/updateuser"
-  //               onClick={() => selectUser(username, name)}
-  //             >
-  //               Update
-  //             </a>
-  //           </td>
-  //           <td>
-  //             <a onClick={() => remUser(username)}>Remove</a>
-  //           </td>
-  //         </tr>
-  //       );
-  //     }
-  //     return null;
-  //   });
-  // };
-
-  // const renderAdminUsers = () => {
-  //   let index = 0;
-  //   return users.map((user) => {
-  //     const { id, username, name, role } = user;
-  //     if (role === 2) {
-  //       index++;
-  //       return (
-  //         <tr key={id}>
-  //           <td>{index}</td>
-  //           <td>{name}</td>
-  //           <td>{username}</td>
-  //           <td>
-  //             <a
-  //               href="/finance/updateuser"
-  //               onClick={() => selectUser(username, name)}
-  //             >
-  //               Update
-  //             </a>
-  //           </td>
-  //           <td>
-  //             <a onClick={() => remUser(username)}>Remove</a>
-  //           </td>
-  //         </tr>
-  //       );
-  //     }
-  //     return null;
-  //   });
-  // };
   const UserDetails = ({ props }) => {
     const { user, i, role } = props;
     const { name, username } = user;
@@ -190,12 +85,7 @@ const AllUsers = () => {
         <td>{username}</td>
         <td>{name}</td>
         <td>
-          <button
-            // href="/finance/updateuser"
-            onClick={() => updateUser(user)}
-          >
-            Update
-          </button>
+          <button onClick={() => updateUser(user)}>Update</button>
         </td>
         <td>
           <button onClick={() => remUser(username, role)}>Remove</button>
@@ -205,7 +95,7 @@ const AllUsers = () => {
   };
 
   return update ? (
-    <UpdateProfile props={{ update, setUpdate,users, setUsers }} />
+    <UpdateProfile props={{ update, setUpdate, users, setUsers }} />
   ) : (
     <div className="user">
       <div className="centered-div2">
@@ -267,36 +157,6 @@ const AllUsers = () => {
             </div>
           );
         })}
-        {/* <h3 className="text-center">
-          <b className="w3-large">F&A Employees</b>
-        </h3>
-        <div className="container table-container">
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Username</th>
-                <th></th>
-              </tr>
-            </thead>
-          </table>
-        </div> 
-        <h3 className="text-center">
-          <b className="w3-large">Admin</b>
-        </h3>
-        <div className="container table-container">
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Username</th>
-                <th></th>
-              </tr>
-            </thead>
-          </table>
-        </div>*/}
       </div>
     </div>
   );

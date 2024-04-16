@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState} from "react";
 import AlertContext from "../../contexts/alert/AlertContext";
 // import SelectedUserContext from "../../contexts/select/SelectedUserContext";
 import "./updateProfile.css";
@@ -43,15 +43,15 @@ const UpdateProfile = ({ props }) => {
     } else {
       successful(json.success);
       let { emp, dept, admin } = users;
-      if (user.role == 1) {
+      if (user.role === 1) {
         for (let i = 0; i < emp.length; i++)
-          if (emp[i].username == user.username) emp[i].name = creds.name;
-      } else if (user.role == 2) {
+          if (emp[i].username === user.username) emp[i].name = creds.name;
+      } else if (user.role === 2) {
         for (let i = 0; i < admin.length; i++)
-          if (admin[i].username == user.username) admin[i].name = creds.name;
+          if (admin[i].username === user.username) admin[i].name = creds.name;
       } else {
         for (let i = 0; i < dept.length; i++)
-          if (dept[i].username == user.username) dept[i].name = creds.name;
+          if (dept[i].username === user.username) dept[i].name = creds.name;
       }
       setUsers({ emp, dept, admin });
       setUpdate(null);
@@ -62,15 +62,6 @@ const UpdateProfile = ({ props }) => {
     const { name, value } = e.target;
     setCreds({ ...creds, [name]: value });
   };
-
-  // Update form fields when SelectedUser changes
-  // useEffect(() => {
-  //   // setCreds({
-  //   //   ...creds,
-  //   //   name: SelectedUser.name || "", // Update name if available
-  //   //   username: SelectedUser.username || "", // Update username if available
-  //   // });
-  // }, [SelectedUser]);
 
   return (
     <div className="add-user">

@@ -4,6 +4,7 @@ import "./department.css";
 import YearContext from "../../contexts/year/YearContext";
 import AlertContext from "../../contexts/alert/AlertContext";
 import Entry from "../Entry/Entry";
+import DownloadBudget from "../../DownloadBudget/DownloadBudget";
 
 const DeptDetails = () => {
   const { department, setDepartment } = useContext(DepartmentContext);
@@ -29,7 +30,7 @@ const DeptDetails = () => {
     amount: 0,
     remark: "",
     status: 0,
-    edit:1
+    edit: 1,
   };
 
   const fetchData = async () => {
@@ -76,19 +77,19 @@ const DeptDetails = () => {
   const submitIndent = async (indent) => {
     let match;
     let { indent_no } = indent;
-    indent_no = indent_no == "" ? 0 : parseInt(indent_no);
+    indent_no = indent_no === "" ? 0 : parseInt(indent_no);
     if (!indent_no) {
       unSuccessful("Indent number can't be empty");
       return 0;
     }
     if (indent.type)
       indents.directPur.map((indent) => {
-        if (indent.indent_no == indent_no && indent_no != indentActive)
+        if (indent.indent_no === indent_no && indent_no !== indentActive)
           match = 1;
       });
     else
       indents.inProcess.map((indent) => {
-        if (indent.indent_no == indent_no && indent_no != indentActive)
+        if (indent.indent_no === indent_no && indent_no !== indentActive)
           match = 1;
       });
     if (match) {
@@ -104,9 +105,9 @@ const DeptDetails = () => {
       amount,
       remark,
     } = indent;
-    indent_amount = indent_amount == "" ? 0 : parseInt(indent_amount);
-    amount = amount == "" ? 0 : parseInt(amount);
-    status = status == "1" ? true : false;
+    indent_amount = indent_amount === "" ? 0 : parseInt(indent_amount);
+    amount = amount === "" ? 0 : parseInt(amount);
+    status = status === "1" ? true : false;
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/updateentry`,
       {
@@ -175,166 +176,349 @@ const DeptDetails = () => {
 
   return (
     <>
-    <div className = "body"><div className="p-4" style={{backgroundColor : 'white'}}>
-      <h3 className="m-3 text-center" style={{ fontFamily: "Arial", fontSize: "30px", fontWeight: "bold" }}>{name}</h3>
-      <h4 className="m-3 text-center" style={{ fontFamily: "Arial", fontSize: "23px", fontWeight: "bold" }}>
-        {type ? "Equipment" : "Consumable"} Budget {year}-{(year % 100) + 1}
-      </h4>
-      <div className="p-4">
-      <table>
-        <thead>
-          <tr>
-          {/* style={{backgroundColor: '#0a5095' , textAlign: 'center'}} */}
-            <th colSpan="2" style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Budget (Rs.) </th>
-            <th colSpan={3 - update} style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Expenditure</th>
-            <th colSpan="3" style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indents in Process</th>
-            <th colSpan="1" style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Fund Available</th>
-            <th colSpan={2 - update} style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Percent Utilised</th>
-            {update === 1 && <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Enter New Amount</th>}
-            <th colSpan={1 + update} style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Budget Control</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style={{textAlign: 'center'}}>
-            <td colSpan="2">{budget}</td>
-            <td colSpan={3 - update}>{total.expenditure}</td>
-            <td colSpan="3">{total.inProcess}</td>
-            <td colSpan="1">{budget - total.expenditure}</td>
-            <td colSpan={2 - update}>
-              {((total.expenditure / budget) * 100).toFixed(2)}%
-            </td>
-            {update === 1 && (
-              <td>
-                <input
-                  type="number"
-                  value={newAmount}
-                  onChange={handleOnChange}
-                ></input>
-              </td>
-            )}
-            {update === 1 && (
-              <td>
-                <button onClick={updateBudget}>Submit</button>
-              </td>
-            )}
-            <td>
-              {update ? (
-                <button onClick={() => setUpdate(0)}>Cancel</button>
-              ) : (
-                <button onClick={() => setUpdate(1)}>
-                  Update Allocated Budget
-                </button>
-              )}
-            </td>
-          </tr>
-          </tbody>
-      </table><br></br>
-  <div>
-    <h4 className="m-3  text-center" style={{ fontFamily: "Arial", fontSize: "20px", fontWeight: "bold" , color: '#27374d'}}>Indents in Process</h4>
-    </div>
-    {/* <div className="p-4"> */}
-      <table>
-
-<thead>
-
-          <tr style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Sr. No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Status</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Entry Date</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Particulars</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Year</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indenter</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indent No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>PO No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indent Amount</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Amount (₹)</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Remarks</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Edit</th>
-          </tr>
-          </thead>
-              
-          {indents.inProcess.length ? (
-            indents.inProcess.map((indent, i) => {
-              indent.i = i;
-              indent.type = 0;
-              return (
-                <Entry
-                props={{
-                  initialIndent: indent,
-                  submitIndent,
-                  setIndentActive,
+      <div className="body">
+        <div className="p-4" style={{ backgroundColor: "white" }}>
+          <h3
+            className="m-3 text-center"
+            style={{
+              fontFamily: "Arial",
+              fontSize: "30px",
+              fontWeight: "bold",
+            }}
+          >
+            {name}
+          </h3>
+          <h4
+            className="m-3 text-center"
+            style={{
+              fontFamily: "Arial",
+              fontSize: "23px",
+              fontWeight: "bold",
+            }}
+          >
+            {type ? "Equipment" : "Consumable"} Budget {year}-{(year % 100) + 1}
+          </h4>
+          <div className="p-4">
+            <table>
+              <thead>
+                <tr>
+                  {/* style={{backgroundColor: '#0a5095' , textAlign: 'center'}} */}
+                  <th
+                    colSpan="2"
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Budget (Rs.){" "}
+                  </th>
+                  <th
+                    colSpan={3 - update}
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Expenditure
+                  </th>
+                  <th
+                    colSpan="3"
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Indents in Process
+                  </th>
+                  <th
+                    colSpan="1"
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Fund Available
+                  </th>
+                  <th
+                    colSpan={2 - update}
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Percent Utilised
+                  </th>
+                  {update === 1 && (
+                    <th
+                      style={{
+                        backgroundColor: "#0a5095",
+                        textAlign: "center",
+                      }}
+                    >
+                      Enter New Amount
+                    </th>
+                  )}
+                  <th
+                    colSpan={1 + update}
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Budget Control
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style={{ textAlign: "center" }}>
+                  <td colSpan="2">{budget}</td>
+                  <td colSpan={3 - update}>{total.expenditure}</td>
+                  <td colSpan="3">{total.inProcess}</td>
+                  <td colSpan="1">{budget - total.expenditure}</td>
+                  <td colSpan={2 - update}>
+                    {((total.expenditure / budget) * 100).toFixed(2)}%
+                  </td>
+                  {update === 1 && (
+                    <td>
+                      <input
+                        type="number"
+                        value={newAmount}
+                        onChange={handleOnChange}
+                      ></input>
+                    </td>
+                  )}
+                  {update === 1 && (
+                    <td>
+                      <button onClick={updateBudget}>Submit</button>
+                    </td>
+                  )}
+                  <td>
+                    {update ? (
+                      <button onClick={() => setUpdate(0)}>Cancel</button>
+                    ) : (
+                      <button onClick={() => setUpdate(1)}>
+                        Update Allocated Budget
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br></br>
+            <div>
+              <DownloadBudget
+                budget={{
+                  total,
+                  totalBudget: budget,
+                  year,
+                  department,
+                  indents,
                 }}
-                key={i}
-                />
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan={12} className="text-center">
-                No Indents in Process
-              </td>
-            </tr>
-          )}
-          </table>
-           <div className="buttons">
-                     {/* <th colSpan={12} className="text-center"> */}
-                <button className="btn btn-secondary" onClick={() => addEntry(0)}>
-                  Add new Indent
-                </button>
+              />
+            </div>
+            <div>
+              <h4
+                className="m-3  text-center"
+                style={{
+                  fontFamily: "Arial",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  color: "#27374d",
+                }}
+              >
+                Indents
+              </h4>
+            </div>
+            {/* <div className="p-4"> */}
+            <table>
+              <thead>
+                <tr style={{ backgroundColor: "#0a5095", textAlign: "center" }}>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Sr. No.
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Status
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Entry Date
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Particulars
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Year
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Indenter
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Indent No.
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    PO No.
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Indent Amount
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Final Amount (₹)
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Remarks
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Edit
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {indents.inProcess.length ? (
+                  indents.inProcess.map((indent, i) => {
+                    indent.i = i;
+                    indent.type = 0;
+                    return (
+                      <Entry
+                        props={{
+                          initialIndent: indent,
+                          submitIndent,
+                          setIndentActive,
+                        }}
+                        key={i}
+                      />
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={12} className="text-center">
+                      No Indents in Process
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+            <div className="buttons">
+              {/* <th colSpan={12} className="text-center"> */}
+              <button className="btn btn-secondary" onClick={() => addEntry(0)}>
+                Add new Indent
+              </button>
             </div>
             {/* </div> */}
-  <div >
-    <h4 style={{ fontFamily: "Arial", fontSize: "20px", fontWeight: "bold" , color: '#27374d', textAlign: 'center'}}>Direct Purchases</h4>
-  </div>
-          <table>
-          
-  <thead>
-    <tr>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Sr. No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Status</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Entry Date</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Particulars</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Year</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indenter</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indent No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>PO No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indent Amount</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Amount (₹)</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Remarks</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Edit</th>
-          </tr>
-          </thead>
-          {indents.directPur.length ? (
-            indents.directPur.map((indent, i) => {
-              indent.i = i;
-              indent.type = 1;
-              return (
-                <Entry
-                props={{
-                  initialIndent: indent,
-                  submitIndent,
-                  setIndentActive,
+            <div>
+              <h4
+                style={{
+                  fontFamily: "Arial",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  color: "#27374d",
+                  textAlign: "center",
                 }}
-                key={i}
-                />
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan={12} className="text-center">
-                No Direct Purchases
-              </td>
-            </tr>
-          )}
-          </table>
-                <div>
-                  <button className="btn btn-secondary" onClick={() => addEntry(1)}>
-                    Add new Direct Purchase
-                  </button>
-                </div>
-      
-      </div>
-      </div>
+              >
+                Direct Purchases
+              </h4>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Sr. No.
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Status
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Entry Date
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Particulars
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Year
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Indenter
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Indent No.
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    PO No.
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Indent Amount
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Amount (₹)
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Remarks
+                  </th>
+                  <th
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                  >
+                    Edit
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {indents.directPur.length ? (
+                  indents.directPur.map((indent, i) => {
+                    indent.i = i;
+                    indent.type = 1;
+                    return (
+                      <Entry
+                        props={{
+                          initialIndent: indent,
+                          submitIndent,
+                          setIndentActive,
+                        }}
+                        key={i}
+                      />
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={12} className="text-center">
+                      No Direct Purchases
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+            <div>
+              <button className="btn btn-secondary" onClick={() => addEntry(1)}>
+                Add new Direct Purchase
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -25,7 +25,6 @@ const FinHome = () => {
       }
     );
     const json = await response.json();
-    console.log(json);
     if (json.error) unSuccessful(json.error);
     else {
       setConsumable(json.con_result);
