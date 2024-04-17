@@ -112,51 +112,13 @@ const Navbar = () => {
                             Add new user/dept
                           </Link>
                         </li>
-                        <li>
-                          <Link
-                            className="dropdown-item"
-                            to="/finance/updateuser"
-                          >
-                            Update user/dept profile
-                          </Link>
-                        </li>
                         <hr className="dropdown-divider" />
-                        <li>
-                          <Link className="dropdown-item" to="/">
-                            Remove existing user/dept
-                          </Link>
-                        </li>
                         <li>
                           <Link
                             className="dropdown-item"
                             to="/finance/allusers"
                           >
                             View all users/depts
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                  )}
-                  {role == 2 && (
-                    <li className="nav-item dropdown">
-                      <Link
-                        className="nav-link dropdown-toggle"
-                        to="/"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        Budget Controls
-                      </Link>
-                      <ul className="dropdown-menu">
-                        <li>
-                          <Link className="dropdown-item" to="/">
-                            Increase Allocated Budget
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="dropdown-item" to="/">
-                            Reset Financial Year
                           </Link>
                         </li>
                       </ul>

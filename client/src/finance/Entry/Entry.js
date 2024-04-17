@@ -7,7 +7,7 @@ const Entry = ({ props }) => {
   initialIndent.status = initialIndent.status ? 1 : 0;
   const { year } = useContext(YearContext);
   const [indent, setIndent] = useState(initialIndent);
-  const [edit, setEdit] = useState(indent.edit==1);
+  const [edit, setEdit] = useState(indent.edit === 1);
   const {
     i,
     entry_date,
@@ -32,15 +32,14 @@ const Entry = ({ props }) => {
   };
   const handleSubmit = async () => {
     const response = await submitIndent(indent);
-    console.log(response);
-    if (response == 1) setEdit(0);
+    if (response === 1) setEdit(0);
   };
 
   return edit ? (
     <tr key={i}>
       <td>{i + 1}</td>
       {type ? (
-        <>Direct Purchased</>
+        <td>Direct Purchased</td>
       ) : (
         <td>
           <select name="status" value={indent.status} onChange={handleOnChange}>
@@ -72,7 +71,7 @@ const Entry = ({ props }) => {
           name="indenter"
         ></input>
       </td>
-      {initialIndent.indent_no == "" ? (
+      {initialIndent.indent_no === "" ? (
         <td>
           <input
             value={indent_no}

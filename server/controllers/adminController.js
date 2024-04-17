@@ -7,15 +7,15 @@ import bcrypt from "bcryptjs";
 export const createUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ error: errors.array()[0].msg });
   }
   try {
     const { username, password, role, name } = req.body;
     console.log(`body`, req.body);
     let user = await User.findOne({ username });
-    if (user) {
+    if (user) 
       return res.status(400).json({ error: "Username already exists!" });
-    }
+    
 
     const salt = await bcrypt.genSalt(10);
     let secPass = await bcrypt.hash(password, salt);
@@ -224,7 +224,9 @@ export const removeUser = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   try {
-    console.log(req.body)
+    const { username } = req.body;
+    if (username == req.user.username)
+      return res.json({ error: "You can't remove yourself!" });
     let user = await User.findOne({ username: req.body.username });
   
     if (!user) {
@@ -232,6 +234,7 @@ export const removeUser = async (req, res) => {
     } else {
       await User.findOneAndDelete({ username: req.body.username });
     }
+    return res.json({ success: "User has been removed!" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send({ error: "Some error occured!" });
@@ -243,7 +246,7 @@ export const removeUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ error: errors.array()[0].msg });
   }
   try {
     let user = await User.findOne({ username: req.body.username });

@@ -16,8 +16,8 @@ router.post(
     body("username", "Username should be atleast 2 characters long.").isLength({
       min: 2,
     }),
-    body("name", "Name should be atleast 3 characters long. ").isLength({
-      min: 5,
+    body("name", "Name should be atleast 2 characters long. ").isLength({
+      min: 2,
     }),
     body("password", "Password should be atleast 6 characters long.").isLength({
       min: 6,
@@ -33,6 +33,18 @@ router.post("/newYear", authMiddleware, newyear);
 
 router.post("/removeUser", authMiddleware, removeUser);
 
-router.post("/updateUser", authMiddleware, updateUser);
+router.post(
+  "/updateUser",
+  [
+    body("name", "Name should be atleast 2 characters long. ").isLength({
+      min: 2,
+    }),
+    body("password", "Password should be atleast 6 characters long.").isLength({
+      min: 6,
+    }),
+  ],
+  authMiddleware,
+  updateUser
+);
 
 export default router;

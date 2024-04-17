@@ -1,70 +1,75 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project Title
+IITI Budget Allocation website
 
-## Available Scripts
 
-In the project directory, you can run:
+## Description
 
-### `npm start`
+The "IIT Indore Budget Allocation System" is a web-based solution designed to replace the traditional offline management of budget-related activities at IIT Indore.Admin has rights to user and department management, viewing, editing, and downloading budget data.Admin also has the control over features such as resetting the financial year, adding new users and increasing the allocated budget. F&A Employees can make the expense entries(indents) within the allocated budget, view, and download budget data. Departments have access to their own budgets and can report any anomalies present.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Motivation
 
-### `npm test`
+The finance department at IIT Indore, currently relying on Excel sheets, seeks a centralized website accessible to Admin, F&A Employees, and individual Departments.This project will reduce the time and efforts of managing budget-related data.
+## Tech/Framework used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* [![React](https://www.vectorlogo.zone/logos/reactjs/reactjs-ar21.svg)](https://reactjs.org/)
 
-### `npm run build`
+* [![Node js](https://www.vectorlogo.zone/logos/nodejs/nodejs-ar21.svg)](https://nodejs.org/en)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* [![CSS](https://www.vectorlogo.zone/logos/w3_css/w3_css-ar21.svg)](https://www.w3schools.com/css/css_intro.asp)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* [![Mongodb](https://www.vectorlogo.zone/logos/mongodb/mongodb-ar21.svg)](https://www.mongodb.com/)
+## Run Locally
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Clone the project
 
-### `npm run eject`
+```bash
+  git clone https://github.com/hiteshmaurya56/iitiBudgetManagementSystem.git
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Go to the project directory
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+  cd iitiBudgetManagementSystem
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Install dependencies
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+  npm install
+```
 
-## Learn More
+Start the server
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+  cd server
+  npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Start the developing server
 
-### Code Splitting
+```bash
+  cd client
+  npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Open http://localhost:3000 with your browser to see the result.
+## Usage
+The "IIT Indore Budget Allocation System" caters to distinct user roles.Upon logging in, users will be directed to their respective dashboards based on their roles.
 
-### Analyzing the Bundle Size
+### Department
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* Get an interface ,showing all details regarding allocated budget ,  expence , current balance and indents
+* User go through these deatils and have a option to download it.
 
-### Making a Progressive Web App
+### F/A Employee
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+* Get an interface, showing details regarding allocated budget( consumable and equipmental) ,  expence and current balance of every department .
+* go to a department to see/modify/add their indent details.
+* get a option to download these details.  
 
-### Advanced Configuration
+### Admin
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+* Get some additional features over F/A Employee : Reset the year , manage users, allocate budget.   
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

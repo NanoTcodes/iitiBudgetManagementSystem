@@ -5,6 +5,7 @@ import DepartmentContext from "../../contexts/department/DepartmentContext";
 import { useNavigate } from "react-router-dom";
 import './home.css';
 
+
 const FinHome = () => {
   const { unSuccessful } = useContext(AlertContext);
   const { year } = useContext(YearContext);
@@ -25,7 +26,6 @@ const FinHome = () => {
       }
     );
     const json = await response.json();
-    console.log(json);
     if (json.error) unSuccessful(json.error);
     else {
       setConsumable(json.con_result);
@@ -154,6 +154,7 @@ const FinHome = () => {
         </table>
       </div>
     </div>
+   
   );
 };
 
