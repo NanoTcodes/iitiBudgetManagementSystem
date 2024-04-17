@@ -7,15 +7,15 @@ import bcrypt from "bcryptjs";
 export const createUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ error: errors.array()[0].msg });
   }
   try {
     const { username, password, role, name } = req.body;
     console.log(`body`, req.body);
     let user = await User.findOne({ username });
-    if (user) {
+    if (user) 
       return res.status(400).json({ error: "Username already exists!" });
-    }
+    
 
     const salt = await bcrypt.genSalt(10);
     let secPass = await bcrypt.hash(password, salt);
@@ -244,7 +244,7 @@ export const removeUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ error: errors.array()[0].msg });
   }
   try {
     let user = await User.findOne({ username: req.body.username });
