@@ -5,6 +5,7 @@ import {
   fetchTable,
   deleteAll,
   fetchBudget,
+  fetchCompleteBudget,
 } from "../controllers/budgetController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 
@@ -18,5 +19,6 @@ router.get("/fetchbudget", authMiddleware, fetchBudget);
 
 router.get("/fetchsummary", authMiddleware, fetchSummary);
 router.post("/deleteAll", authMiddleware, deleteAll);
+router.get("/fetchCompleteBudget",fetchCompleteBudget)
 
 export default router;
