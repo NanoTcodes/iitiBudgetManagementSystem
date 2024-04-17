@@ -150,6 +150,31 @@ export const fetchBudget = async (req, res) => {
   return res.json({ equipment, consumable });
 };
 
+//new addition fetching all budget for excel
+export const fetchCompleteBudget = async (req, res) => {
+  try{const { year } = req.query;
+  let budget_info_equipment=[];
+  let budget_info_consumable=[];
+  const department_list=await User.find({role:0})
+  let department_username_list=[];
+  for(let department of department_list){
+    department_username_list.push(department.username);
+  }
+  for(let username of department_username_list){
+    const equipment = await Equipment.find({ year,username });
+    const consumable = await Consumable.find({ year,username });
+    budget_info_consumable.push(consumable);
+    budget_info_equipment.push(equipment);
+  }
+
+  
+  return res.json({ budget_info_consumable,budget_info_equipment });}
+  catch (err) {
+    console.error(err.message);
+    res.status(500).send("Some error occured!");
+  }
+};
+
 //THIS WILL DELETE THE DATABASE , DONT USE
 
 //DONT USE AT ALL
