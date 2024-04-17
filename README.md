@@ -5,7 +5,7 @@ IITI Budget Allocation website
 
 ## Description
 
-The "IIT Indore Budget Allocation System" is a web-based solution designed to replace the traditional offline management of budget-related activities at IIT Indore.Admin has rights to user and department management, viewing, editing, and downloading budget data.Admin also has the control over features such as resetting the financial year, adding new users and increasing the allocated budget. F&A Employees can make the expense entries(indents) within the allocated budget, view, and download budget data. Departments have access to their own budgets and can report any anomalies present.
+The "IIT Indore Budget Allocation System" is a web-based solution designed to replace the traditional offline management of budget-related activities at IIT Indore.Admin has rights to user and department management, viewing, editing, and downloading budget data.Admin also has the control over features such as resetting the financial year, adding new users and increasing the allocated budget. F&A Employees can make the expense entries(indents) within the allocated budget, view, and download budget data. Departments have access to view and download their own budget.
 
 
 ## Motivation
