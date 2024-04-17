@@ -44,7 +44,7 @@ Start the server
 
 ```bash
   cd server
-  node index.js
+  npm start
 ```
 
 Start the developing server

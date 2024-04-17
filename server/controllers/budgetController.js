@@ -150,6 +150,18 @@ export const fetchBudget = async (req, res) => {
   return res.json({ equipment, consumable });
 };
 
+//new addition fetching all budget for excel
+export const fetchCompleteBudget = async (req, res) => {
+  try{const { year } = req.query;
+  const equipment = await Equipment.find({ year });
+  const consumable = await Consumable.find({ year });
+  return res.json({ equipment, consumable });}
+  catch (err) {
+    console.error(err.message);
+    res.status(500).send("Some error occured!");
+  }
+};
+
 //THIS WILL DELETE THE DATABASE , DONT USE
 
 //DONT USE AT ALL
