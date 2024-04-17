@@ -185,13 +185,13 @@ const DeptDetails = () => {
         <thead>
           <tr>
           {/* style={{backgroundColor: '#0a5095' , textAlign: 'center'}} */}
-            <th colSpan="2" style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Budget (Rs.) </th>
-            <th colSpan={3 - update} style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Expenditure</th>
-            <th colSpan="3" style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indents in Process</th>
-            <th colSpan="1" style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Fund Available</th>
-            <th colSpan={2 - update} style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Percent Utilised</th>
-            {update === 1 && <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Enter New Amount</th>}
-            <th colSpan={1 + update} style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Budget Control</th>
+            <th colSpan="2" style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Budget (Rs.) </th>
+            <th colSpan={3 - update} style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Expenditure</th>
+            <th colSpan="3" style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Indents in Process</th>
+            <th colSpan="1" style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Fund Available</th>
+            <th colSpan={2 - update} style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Percent Utilised</th>
+            {update === 1 && <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Enter New Amount</th>}
+            <th colSpan={1 + update} style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Budget Control</th>
           </tr>
         </thead>
         <tbody>
@@ -237,19 +237,19 @@ const DeptDetails = () => {
 
 <thead>
 
-          <tr style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Sr. No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Status</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Entry Date</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Particulars</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Year</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indenter</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indent No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>PO No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indent Amount</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Amount (₹)</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Remarks</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Edit</th>
+          <tr style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Sr. No.</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Status</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Entry Date</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Particulars</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Year</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Indenter</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Indent No.</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>PO No.</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Indent Amount</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Amount (₹)</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Remarks</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Edit</th>
           </tr>
           </thead>
               
@@ -290,18 +290,18 @@ const DeptDetails = () => {
           
   <thead>
     <tr>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Sr. No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Status</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Entry Date</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Particulars</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Year</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indenter</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indent No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>PO No.</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Indent Amount</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Amount (₹)</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Remarks</th>
-            <th style={{backgroundColor: '#0a5095' , textAlign: 'center'}}>Edit</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Sr. No.</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Status</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Entry Date</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Particulars</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Year</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Indenter</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Indent No.</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>PO No.</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Indent Amount</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Amount (₹)</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Remarks</th>
+            <th style={{backgroundColor: '#0891B2' , textAlign: 'center'}}>Edit</th>
           </tr>
           </thead>
           {indents.directPur.length ? (

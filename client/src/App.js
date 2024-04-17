@@ -15,6 +15,7 @@ import AddUser from "./finance/AddUser/AddUser";
 import UpdateProfile from "./finance/UpdateProfile/UpdateProfile";
 import AllUsers from "./finance/AllUsers/AllUsers";
 import NotFound from "./NotFound/NotFound";
+import AboutUs from "./aboutus";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
               <Routes>
                 <Route exact path="/" element={<Login />} />
                 <Route exact path="/dept/" element={<Department />} />
+                <Route path="aboutus" element={<AboutUs />}></Route>
                 <Route exact path="/finance/" element={<Finance />}>
                   <Route path="" element={<FinHome />} />
                   <Route path="dept" element={<DeptDetails />} />
@@ -54,7 +56,7 @@ function App() {
           </DepartmentState>
         </YearState>
       </AlertState>
-    </>
+      </>
   );
 }
 

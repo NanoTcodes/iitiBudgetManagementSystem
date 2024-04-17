@@ -1,5 +1,5 @@
 body{
-  background-color: white;
+  background-color: #CFFAFE;
 }
 table {
   background-color: white;
@@ -20,11 +20,9 @@ th {
   color :white;
   font-weight: bold;
   text-align: center;
-  
 }
 .table th {
   border-right: 1px solid #fcf8f8; 
-  
 }
 
 button {

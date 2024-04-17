@@ -5,6 +5,7 @@ import DepartmentContext from "../../contexts/department/DepartmentContext";
 import { useNavigate } from "react-router-dom";
 import './home.css';
 
+
 const FinHome = () => {
   const { unSuccessful } = useContext(AlertContext);
   const { year } = useContext(YearContext);
@@ -154,6 +155,7 @@ const FinHome = () => {
         </table>
       </div>
     </div>
+   
   );
 };
 

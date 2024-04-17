@@ -73,6 +73,7 @@ const UpdateProfile = ({ props }) => {
   // }, [SelectedUser]);
 
   return (
+    <div className="p-4">
     <div className="add-user">
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username:</label>
@@ -137,6 +138,7 @@ const UpdateProfile = ({ props }) => {
         </div>
       </form>
     </div>
+    </div> 
   );
 };
 

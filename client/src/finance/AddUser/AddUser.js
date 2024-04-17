@@ -46,6 +46,7 @@ const AddUser = () => {
   };
 
   return (
+  <div className="p-4"> 
     <div className="add-user">
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username:</label>
@@ -111,6 +112,7 @@ const AddUser = () => {
         </div>
       </form>
     </div>
+    </div> 
   );
 };
 
