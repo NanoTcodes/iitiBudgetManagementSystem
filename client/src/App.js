@@ -16,6 +16,7 @@ import UpdateProfile from "./finance/UpdateProfile/UpdateProfile";
 import AllUsers from "./finance/AllUsers/AllUsers";
 import NotFound from "./NotFound/NotFound";
 import AboutUs from "./aboutus";
+import Footer from "./footer/footer";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
                 <Route path="/*" element={<NotFound />} />
               </Routes>
             </Router>
+            <Footer/>
             </UserState>
           </DepartmentState>
         </YearState>

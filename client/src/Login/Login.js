@@ -43,7 +43,7 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div style={{minHeight:'94vh'}}>
       <section className="bg-light p-3 p-md-4 p-xl-5">
         <div className="container">
           <div className="row justify-content-center">
@@ -139,7 +139,7 @@ const Login = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
