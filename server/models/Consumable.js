@@ -18,7 +18,7 @@ const ConsumableSchema = new Schema({
       indent_amount: Number,
       amount: { type: Number, default: 0 },
       remark: String,
-      status: Boolean,
+      status: Number,
     },
   ],
   direct_purchase: [
@@ -31,6 +31,7 @@ const ConsumableSchema = new Schema({
       indent_amount: Number,
       amount: Number,
       remark: String,
+      status: Number,
     },
   ],
 });

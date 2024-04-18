@@ -19,7 +19,7 @@ const EquipmentSchema = new Schema({
       amount: {type: Number,default:0},
       remark: String,
       category: String,
-      status: Boolean,
+      status: Number,
     },
   ],
   direct_purchase: [
@@ -33,7 +33,7 @@ const EquipmentSchema = new Schema({
       amount: Number,
       remark: String,
       category: String,
-      active: Boolean,
+      status: {type: Number, default: 0},
     },
   ],
   // indent_pay_done: [
