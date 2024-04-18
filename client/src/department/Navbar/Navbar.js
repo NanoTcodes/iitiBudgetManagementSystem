@@ -93,63 +93,6 @@ const Navbar = () => {
                       })}
                     </ul>
                   </li>
-                  <li className="nav-item dropdown">
-                    <Link
-                      className="nav-link dropdown-toggle"
-                      to="/"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Manage Users
-                    </Link>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          Add new dept
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          Remove existing dept
-                        </Link>
-                      </li>
-                      <hr className="dropdown-divider" />
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          Add new user
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          Remove existing user
-                        </Link>
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <Link
-                      className="nav-link dropdown-toggle"
-                      to="/"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Budget Controls
-                    </Link>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          Increase Allocated Budget
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/">
-                          Reset Financial Year
-                        </Link>
-                      </li>
-                    </ul>
-                  </li>
 
                   {localStorage.getItem("authToken") ? (
                     <li className="nav-item">
