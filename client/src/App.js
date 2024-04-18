@@ -18,6 +18,7 @@ import NotFound from "./NotFound/NotFound";
 import AboutUs from "./aboutus";
 import Footer from "./footer/footer";
 import DeptHome from "./department/Home/DeptHome";
+import BudgetDetails from "./department/BudgetDetails/BudgetDetails";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
                   <Route exact path="/" element={<Login />} />
                   <Route exact path="/dept/" element={<Department />}>
                     <Route path="" element={<DeptHome />} />
+                    <Route path="details" element={<BudgetDetails />} />
                   </Route>
                   <Route path="aboutus" element={<AboutUs />}></Route>
                   <Route exact path="/finance/" element={<Finance />}>
