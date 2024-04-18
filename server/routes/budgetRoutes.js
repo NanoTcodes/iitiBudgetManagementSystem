@@ -11,9 +11,9 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/updateentry", authMiddleware, updateEntry);
+router.post("/updateentry", updateEntry);
 
-router.get("/fetchtable", authMiddleware, fetchTable);
+router.get("/fetchtable",  fetchTable);
 
 router.get("/fetchbudget", authMiddleware, fetchBudget);
 
