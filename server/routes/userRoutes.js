@@ -13,6 +13,8 @@ router.post(
   login
 );
 
+// router.post("/forgotPassword",forgotPassword)
+
 router.get("/allUsers",allUsers);
 
 
