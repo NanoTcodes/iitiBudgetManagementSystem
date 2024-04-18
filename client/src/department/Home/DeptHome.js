@@ -58,7 +58,7 @@ const DeptHome = () => {
     <>
       <div
         className="p-4"
-        style={{ backgroundColor: "white", minHeight: "94vh" }}
+        style={{ backgroundColor: "#edf7fc", minHeight: "94vh" }}
       >
         <h3
             className="m-3 text-center"
