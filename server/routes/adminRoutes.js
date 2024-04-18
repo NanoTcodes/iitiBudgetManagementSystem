@@ -23,7 +23,7 @@ router.post(
       min: 6,
     }),
   ],
-  authMiddleware,
+  // authMiddleware,
   createUser
 );
 

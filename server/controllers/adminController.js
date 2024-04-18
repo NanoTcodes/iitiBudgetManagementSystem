@@ -10,7 +10,7 @@ export const createUser = async (req, res) => {
     return res.status(400).json({ error: errors.array()[0].msg });
   }
   try {
-    const { username, password, role, name } = req.body;
+    const { username, password, role, name, email } = req.body;
     console.log(`body`, req.body);
     let user = await User.findOne({ username });
     if (user) 
@@ -22,6 +22,7 @@ export const createUser = async (req, res) => {
     user = await User.create({
       username,
       name,
+      email,
       password: secPass,
       role,
     });
