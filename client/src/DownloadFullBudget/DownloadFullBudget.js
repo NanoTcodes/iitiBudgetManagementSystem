@@ -36,7 +36,11 @@ function DownloadFullBudget({ props }) {
     }
   };
 
-  useEffect(() => fetchData, []);
+  useEffect(
+    () => fetchData,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
   const s2ab = (s) => {
     const buf = new ArrayBuffer(s.length);
     const view = new Uint8Array(buf);
@@ -88,9 +92,9 @@ function DownloadFullBudget({ props }) {
         C: total.expenditure,
         D: "",
         E: total.inProcess,
-        D: "",
-        G: totalBudget - total.expenditure,
         F: "",
+        G: totalBudget - total.expenditure,
+        H: "",
         I: `${((total.expenditure * 100) / totalBudget).toFixed(2)}%`,
       },
       {},
@@ -326,16 +330,16 @@ function DownloadFullBudget({ props }) {
       if (ind) {
         for (let j = 65; j <= 75; j++) {
           const i = String.fromCharCode(j);
-          if (i === "K" || i == "D") sheet.column(i).width(26);
+          if (i === "K" || i === "D") sheet.column(i).width(26);
           else if (i === "B") sheet.column(i).width(21);
-          else if (i == "C" || i === "F" || i === "I" || i == "J")
+          else if (i === "C" || i === "F" || i === "I" || i === "J")
             sheet.column(i).width(16);
           else sheet.column(i).width(11);
         }
       } else {
         for (let j = 66; j <= 71; j++) {
           const i = String.fromCharCode(j);
-          if (j == 66) sheet.column("B").width(40);
+          if (j === 66) sheet.column("B").width(40);
           else sheet.column(i).width(20);
           dataInfo.tableHead.push("A5:G5");
           dataInfo.table12Range.push(`A6:G${ip.length + 4}`);
@@ -364,7 +368,7 @@ function DownloadFullBudget({ props }) {
           .range(element)
           .merged(true)
           .style({
-            bold: element[1] == "6",
+            bold: element[1] === "6",
             horizontalAlignment: "center",
             verticalAlignment: "center",
           });
@@ -415,7 +419,7 @@ function DownloadFullBudget({ props }) {
       .padStart(2, "0")}-${currentDate.getDate().toString().padStart(2, "0")}`;
     downloadNode.setAttribute(
       "download",
-      `${type == 1 ? "equip" : "consum"}${year % 100}-${
+      `${type === 1 ? "equip" : "consum"}${year % 100}-${
         (year % 100) + 1
       }_${fileName}.xlsx`
     );

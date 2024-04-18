@@ -60,9 +60,9 @@ const DownloadBudget = ({ budget }) => {
         C: total.expenditure,
         D: "",
         E: total.inProcess,
-        D: "",
-        G: totalBudget - total.expenditure,
         F: "",
+        G: totalBudget - total.expenditure,
+        H: "",
         I: `${((total.expenditure * 100) / totalBudget).toFixed(2)}%`,
       },
       {},
@@ -207,9 +207,9 @@ const DownloadBudget = ({ budget }) => {
     workbook.sheets().forEach((sheet) => {
       for (let j = 65; j <= 75; j++) {
         const i = String.fromCharCode(j);
-        if (i === "K" || i == "D") sheet.column(i).width(26);
+        if (i === "K" || i === "D") sheet.column(i).width(26);
         else if (i === "B") sheet.column(i).width(21);
-        else if (i == "C" || i === "F" || i === "I" || i == "J")
+        else if (i === "C" || i === "F" || i === "I" || i === "J")
           sheet.column(i).width(16);
         else sheet.column(i).width(11);
 
@@ -236,7 +236,7 @@ const DownloadBudget = ({ budget }) => {
             .range(element)
             .merged(true)
             .style({
-              bold: element[1] == "6",
+              bold: element[1] === "6",
               horizontalAlignment: "center",
               verticalAlignment: "center",
             });
