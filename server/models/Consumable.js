@@ -7,7 +7,7 @@ const ConsumableSchema = new Schema({
   expenditure: { type: Number, default: 0 },
   in_process: { type: Number, default: 0 },
   year: { type: Number, default: () => new Date().getFullYear() },
-  budget_changes: String,
+  budget_changes: [String],
   indents_process: [
     {
       entry_date: { type: Date, default: Date.now() },
