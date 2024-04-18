@@ -152,7 +152,7 @@ export const fetchBudget = async (req, res) => {
 
 //new addition fetching all budget for excel
 export const fetchCompleteBudget = async (req, res) => {
-  try{const { year } = req.query;
+  try{const { year} = req.query;
   const equipment = await Equipment.find({ year });
   const consumable = await Consumable.find({ year });
   return res.json({ equipment, consumable });}

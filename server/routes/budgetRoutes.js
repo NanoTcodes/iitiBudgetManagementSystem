@@ -19,6 +19,6 @@ router.get("/fetchbudget", authMiddleware, fetchBudget);
 
 router.get("/fetchsummary", authMiddleware, fetchSummary);
 router.post("/deleteAll", authMiddleware, deleteAll);
-router.get("/fetchCompleteBudget",fetchCompleteBudget)
+router.get("/fetchcompletebudget",fetchCompleteBudget)
 
 export default router;
