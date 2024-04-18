@@ -12,10 +12,14 @@ const BudgetDetails = () => {
     indents_process,
     direct_purchase,
     username,
+    budget_changes
   } = department;
   const { type } = department;
   const { year } = useContext(YearContext);
   const statusArr = ["Indent in Process", "Indent Payment Done"];
+  // const init_budget_changes = [];
+  //const [budget_changes, setBudgetChanges] = useState(init_budget_changes);
+
   console.log(department);
   return (
     <>
@@ -89,6 +93,20 @@ const BudgetDetails = () => {
                 </tr>
               </tbody>
             </table>
+            {budget_changes.map((budget_change, index) => (
+              <h5
+                className="m-3 text-left"
+                style={{
+                  fontFamily: "Arial",
+                  fontSize: "13px",
+                  fontWeight: "bold",
+                  color: "black",
+                }}
+                key={index}
+              >
+                {budget_change}
+              </h5>
+            ))}
             <br></br>
             <div>
               <DownloadBudget
