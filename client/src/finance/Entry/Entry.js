@@ -21,7 +21,11 @@ const Entry = ({ props }) => {
     status,
     type,
   } = indent;
-  const statusArr = ["Indent in Process", "Indent Payment Done"];
+  const statusArr = [
+    "Indent in Process",
+    "Indent Payment Done",
+    "Entry Deleted",
+  ];
 
   let date;
   if (entry_date) date = new Date(entry_date).toDateString();

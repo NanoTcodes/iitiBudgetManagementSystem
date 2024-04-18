@@ -6,7 +6,11 @@ const DownloadBudget = ({ budget }) => {
   const { year, department, indents, total, totalBudget } = budget;
   const { name, type, username } = department;
   const { inProcess, directPur } = indents;
-  const statusArr = ["Indent in Process", "Indent Payment Done"];
+  const statusArr = [
+    "Indent in Process",
+    "Indent Payment Done",
+    "Entry Deleted",
+  ];
 
   const s2ab = (s) => {
     const buf = new ArrayBuffer(s.length);
