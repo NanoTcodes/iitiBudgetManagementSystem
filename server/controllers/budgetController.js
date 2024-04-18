@@ -23,8 +23,12 @@ export const updateEntry = async (req, res) => {
       const index = indents_process.findIndex(
         (item) => item.indent_no === indent.indent_no
       );
+      console.log("check")
       console.log(index);
-
+      console.log(index,indent.status)
+      if(index===-1 && indent.status===2){
+        return res.json({error:"Cant delete an entry without creating it"})
+      }
       if (index === -1) {
         table.indents_process.push(indent);
         table.in_process += indent.indent_amount;
@@ -59,7 +63,12 @@ export const updateEntry = async (req, res) => {
         if (!indent.amount) indent.amount = indent.indent_amount;
         table.direct_purchase.push(indent);
         table.expenditure += indent.amount;
-      } else {
+      } 
+      console.log(index, indent.status)
+      if(index===-1 && indent.status===1){
+        return res.json({error:"Cant delete an entry without creating it"})
+      }
+      else {
         if(indent.status===0){if (!indent.amount) indent.amount = indent.indent_amount;
         table.expenditure += indent.amount - direct_purchase[index].amount;
         table.direct_purchase[index] = indent;
