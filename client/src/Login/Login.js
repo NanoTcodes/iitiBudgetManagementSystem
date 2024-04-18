@@ -29,10 +29,10 @@ const Login = () => {
     const json = await response.json();
     if (json.error) unSuccessful(json.error);
     else {
-      const{ role} = json.user;
+      const { role } = json.user;
       localStorage.setItem("authToken", json.authToken);
       localStorage.setItem("userRole", role);
-      console.log(json)
+      console.log(json);
       successful("You have been logged in succesfully.");
       setTimeout(() => {
         if (!role) navigate("/dept");
@@ -43,7 +43,7 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div style={{ minHeight: "94vh" }}>
       <section className="bg-light p-3 p-md-4 p-xl-5">
         <div className="container">
           <div className="row justify-content-center">
@@ -116,6 +116,15 @@ const Login = () => {
                                 >
                                   Password
                                 </label>
+                                <br />
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "right",
+                                  }}
+                                >
+                                  <Link to={'/forgot'}>Forgot Password</Link>
+                                </div>
                               </div>
                             </div>
                             <div className="col-12">
@@ -139,7 +148,7 @@ const Login = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

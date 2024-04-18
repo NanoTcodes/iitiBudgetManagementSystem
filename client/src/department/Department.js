@@ -10,7 +10,6 @@ const Department = () => {
       <main className="flex-grow-1">
         <Outlet />
       </main>
-      <Footer />
     </div>
   );
 };

@@ -7,8 +7,9 @@ import "./home.css";
 const DeptHome = () => {
   const { year } = useContext(YearContext);
   const { unSuccessful } = useContext(AlertContext);
-  const [equipment, setEquipment] = useState();
-  const [consumable, setConsumable] = useState();
+  const initial = { budget: 0, expenditure: 0, in_process: 0 };
+  const [equipment, setEquipment] = useState(initial);
+  const [consumable, setConsumable] = useState(initial);
   const [name, setName] = useState("");
   const navigate = useNavigate();
 
@@ -31,17 +32,23 @@ const DeptHome = () => {
       setEquipment(equipment);
       setConsumable(consumable);
       setName(equipment.department);
+      console.log(json);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, [year]);
 
+  const handleClick = () => {};
+
   return (
     <>
-      <div className="p-4" style={{ backgroundColor: "white" }}>
-        <h3 className="m-3 text-center">{name}</h3>
+      <div
+        className="p-4"
+        style={{ backgroundColor: "white", minHeight: "94vh" }}
+      >
+        <h1 className="m-3 text-center">{name}</h1>
+        <h2 className="m-3 text-center">{name}</h2>
         <div className="p-4">
           <table>
             <thead>
