@@ -6,14 +6,15 @@ import * as XlsxPopulate from "xlsx-populate/browser/xlsx-populate";
 
 function DownloadFullBudget({ props }) {
   const { summary, type } = props;
-  const sheetTables = [],
-    dp = [],
+  const sheetTables = [[]],
+    dp = [""],
     ip = [];
   const statusArr = [
     "Indent in Process",
     "Indent Payment Done",
     "Entry Deleted",
   ];
+  const dirArr = ["Direct Purchased", "Entry Deleted"];
   const [budget, setBudget] = useState({ consumable: [], equipment: [] });
 
   const { unSuccessful } = useContext(AlertContext);
@@ -142,8 +143,9 @@ function DownloadFullBudget({ props }) {
     let table2 = [
       {
         A: "Sr. No.",
-        B: "Entry Date",
-        C: "Particulars",
+        B: "Status",
+        C: "Entry Date",
+        D: "Particulars",
         E: "Year",
         F: "Indenter",
         G: "Indent No.",
@@ -153,12 +155,20 @@ function DownloadFullBudget({ props }) {
     ];
     i = 1;
     directPur.forEach((entry) => {
-      const { entry_date, particulars, indenter, indent_no, amount, remark } =
-        entry;
+      const {
+        entry_date,
+        particulars,
+        indenter,
+        indent_no,
+        amount,
+        remark,
+        status,
+      } = entry;
       table2.push({
         A: i++,
-        B: new Date(entry_date).toDateString(),
-        C: particulars,
+        B: dirArr[status],
+        C: new Date(entry_date).toDateString(),
+        D: particulars,
         E: `${year}-${(year % 100) + 1}`,
         F: indenter,
         G: indent_no,
@@ -176,9 +186,54 @@ function DownloadFullBudget({ props }) {
     });
     return sheet;
   };
+
+  const createSummary = (summary) => {
+    const title = [
+      { A: "INDIAN INSTITUTE OF TECHNOLOGY INDORE" },
+      {},
+      {
+        A: `SUMMARY OF ${
+          type ? "EQUIPMENT" : "CONSUMABLE"
+        } BUDGET FOR THE FINANCIAL YEAR ${year}-${(year % 100) + 1}`,
+      },
+      {},
+    ];
+
+    const table = [
+      {
+        A: "Sr. No.",
+        B: "Department",
+        C: "Budget Allocated",
+        D: "Expenditure",
+        E: "Indents in Process",
+        F: "Fund Available",
+        G: "%Utilised",
+      },
+    ];
+    summary.forEach((dept, i) => {
+      const { name, budget, expenditure, in_process } = dept;
+      table.push({
+        A: i,
+        B: name,
+        C: budget,
+        D: expenditure,
+        E: in_process,
+        F: budget - expenditure,
+        G: `${((expenditure / budget) * 100).toFixed(2)}%`,
+      });
+    });
+    ip.push(summary.length);
+    const finalTable = [...title, ...table];
+    const sheet = XLSX.utils.json_to_sheet(finalTable, {
+      skipHeader: true,
+    });
+    return sheet;
+  };
+
   const handleExport = async () => {
     const wb = XLSX.utils.book_new();
-    console.log(budget.equipment);
+    const sheet = createSummary(summary);
+    XLSX.utils.book_append_sheet(wb, sheet, "summary");
     if (type) {
       for (let i = 0; i < budget.equipment.length; i++) {
         const dept = budget.equipment[i];
@@ -230,22 +285,24 @@ function DownloadFullBudget({ props }) {
     workbook.sheets().forEach((sheet, ind) => {
       const dataInfo = {
         iiti: "A1",
-        iitiRange: "A1:K1",
-        budgetRange: "A3:K3",
-        deptRange: "A4:K4",
-        totalRange: [
-          "A6:B6",
-          "C6:D6",
-          "E6:F6",
-          "G6:H6",
-          "I6:J6",
-          "A7:B7",
-          "C7:D7",
-          "E7:F7",
-          "G7:H7",
-          "I7:J7",
-        ],
-        table0Range: "A6:J7",
+        iitiRange: ind ? "A1:K1" : "A1:G1",
+        budgetRange: ind ? "A3:K3" : "A3:G3",
+        deptRange: ind ? "A4:K4" : "A4:G4",
+        totalRange: ind
+          ? [
+              "A6:B6",
+              "C6:D6",
+              "E6:F6",
+              "G6:H6",
+              "I6:J6",
+              "A7:B7",
+              "C7:D7",
+              "E7:F7",
+              "G7:H7",
+              "I7:J7",
+            ]
+          : [],
+        table0Range: ind ? "A6:J7" : null,
         tableHead: [],
         table12Range: [],
       };
@@ -266,72 +323,80 @@ function DownloadFullBudget({ props }) {
           );
         }
       });
-
-      for (let j = 65; j <= 75; j++) {
-        const i = String.fromCharCode(j);
-        if (i === "K" || i == "D") sheet.column(i).width(26);
-        else if (i === "B") sheet.column(i).width(21);
-        else if (i == "C" || i === "F" || i === "I" || i == "J")
-          sheet.column(i).width(16);
-        else sheet.column(i).width(11);
-
-        sheet.range(dataInfo.iitiRange).merged(true).style({
-          bold: true,
-          horizontalAlignment: "center",
-          verticalAlignment: "center",
-          fontSize: 15,
-        });
-        sheet.range(dataInfo.budgetRange).merged(true).style({
-          bold: true,
-          horizontalAlignment: "center",
-          verticalAlignment: "center",
-          fontSize: 12,
-        });
-        sheet.range(dataInfo.deptRange).merged(true).style({
-          bold: true,
-          horizontalAlignment: "center",
-          verticalAlignment: "center",
-          fontSize: 12,
-        });
-        dataInfo.totalRange.forEach((element) => {
-          sheet
-            .range(element)
-            .merged(true)
-            .style({
-              bold: element[1] == "6",
-              horizontalAlignment: "center",
-              verticalAlignment: "center",
-            });
-        });
+      if (ind) {
+        for (let j = 65; j <= 75; j++) {
+          const i = String.fromCharCode(j);
+          if (i === "K" || i == "D") sheet.column(i).width(26);
+          else if (i === "B") sheet.column(i).width(21);
+          else if (i == "C" || i === "F" || i === "I" || i == "J")
+            sheet.column(i).width(16);
+          else sheet.column(i).width(11);
+        }
+      } else {
+        for (let j = 66; j <= 71; j++) {
+          const i = String.fromCharCode(j);
+          if (j == 66) sheet.column("B").width(40);
+          else sheet.column(i).width(20);
+          dataInfo.tableHead.push("A5:G5");
+          dataInfo.table12Range.push(`A6:G${ip.length + 4}`);
+        }
+      }
+      sheet.range(dataInfo.iitiRange).merged(true).style({
+        bold: true,
+        horizontalAlignment: "center",
+        verticalAlignment: "center",
+        fontSize: 15,
+      });
+      sheet.range(dataInfo.budgetRange).merged(true).style({
+        bold: true,
+        horizontalAlignment: "center",
+        verticalAlignment: "center",
+        fontSize: 12,
+      });
+      sheet.range(dataInfo.deptRange).merged(true).style({
+        bold: true,
+        horizontalAlignment: "center",
+        verticalAlignment: "center",
+        fontSize: 12,
+      });
+      dataInfo.totalRange.forEach((element) => {
         sheet
-          .range(dataInfo.table0Range)
-          .style({ border: true, fill: "DBDBDB" });
-        dataInfo.tableHead.forEach((element, index) => {
-          sheet
-            .range(element)
-            .merged(index % 2 === 0)
-            .style({
-              bold: true,
-              border: true,
-              fill: "F4F3AB",
-              horizontalAlignment: "center",
-              verticalAlignment: "center",
-              fontSize: 12,
-            });
-        });
-        dataInfo.table12Range.forEach((element) => {
-          sheet.range(element).style({
-            fill: "EFEFEF",
-            border: true,
+          .range(element)
+          .merged(true)
+          .style({
+            bold: element[1] == "6",
             horizontalAlignment: "center",
             verticalAlignment: "center",
           });
+      });
+      if (dataInfo.table0Range)
+        sheet
+          .range(dataInfo.table0Range)
+          .style({ border: true, fill: "DBDBDB" });
+      dataInfo.tableHead.forEach((element, index) => {
+        sheet
+          .range(element)
+          .merged(index % 2 === 0)
+          .style({
+            bold: true,
+            border: true,
+            fill: "F4F3AB",
+            horizontalAlignment: "center",
+            verticalAlignment: "center",
+            fontSize: 12,
+          });
+      });
+      dataInfo.table12Range.forEach((element) => {
+        sheet.range(element).style({
+          fill: "EFEFEF",
+          border: true,
+          horizontalAlignment: "center",
+          verticalAlignment: "center",
         });
-        for (let i = 0; i <= dp[ind]; i++) {
-          const idx = i + ip[ind] + 15;
-          sheet.range(`C${idx}:D${idx}`).merged(true);
-          sheet.range(`I${idx}:J${idx}`).merged(true);
-        }
+      });
+      for (let i = 0; i <= dp[ind]; i++) {
+        const idx = i + ip[ind] + 15;
+        sheet.range(`I${idx}:J${idx}`).merged(true);
       }
     });
     workbookBlob = await workbook.outputAsync();
