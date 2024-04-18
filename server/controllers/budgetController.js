@@ -59,17 +59,22 @@ export const updateEntry = async (req, res) => {
       const index = direct_purchase.findIndex(
         (item) => item.indent_no === indent.indent_no
       );
-      if (index === -1) {
-        if (!indent.amount) indent.amount = indent.indent_amount;
-        table.direct_purchase.push(indent);
-        table.expenditure += indent.amount;
-      } 
       console.log(index, indent.status)
       if(index===-1 && indent.status===1){
         return res.json({error:"Cant delete an entry without creating it"})
       }
+      if (index === -1) {
+        console.log("haha")
+        if (!indent.amount) indent.amount = indent.indent_amount;
+        table.direct_purchase.push(indent);
+        table.expenditure += indent.amount;
+      } 
+     
+      
       else {
+        console.log(indent.status)
         if(indent.status===0){if (!indent.amount) indent.amount = indent.indent_amount;
+          console.log(direct_purchase[index].amount)
         table.expenditure += indent.amount - direct_purchase[index].amount;
         table.direct_purchase[index] = indent;
         console.log(table.direct_purchase[index]);}

@@ -13,6 +13,7 @@ export const createUser = async (req, res) => {
     const { username, password, role, name, email } = req.body;
     console.log(`body`, req.body);
     let user = await User.findOne({ username });
+    let dep = await Equipment.findOne({})
     if (user) 
       return res.status(400).json({ error: "Username already exists!" });
     
