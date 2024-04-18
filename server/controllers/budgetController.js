@@ -33,16 +33,21 @@ export const updateEntry = async (req, res) => {
         const { status, amount, indent_amount } = indents_process[index];
         console.log(indent, indents_process[index]);
 
-        if (!indent.status) {
+        if (indent.status===0) {
           table.in_process += indent.indent_amount;
-          if (!status) table.in_process -= indent_amount;
+          if (status===0) table.in_process -= indent_amount;
           table.expenditure +=
-            indent.indent_amount - (status ? amount : indent_amount);
-        } else {
+            indent.indent_amount - (status===1 ? amount : indent_amount);
+        } else if(indent.status===1) {
           // in_process -= indent_amount;
           table.expenditure +=
-            indent.amount - (status ? amount : indent_amount);
-          if (!status) table.in_process -= indent_amount;
+            indent.amount - (status===1 ? amount : indent_amount);
+          if (status===0) table.in_process -= indent_amount;
+        }
+        else{
+          if (status===0) {table.in_process -= indent_amount
+          table.expenditure-=indent_amount}
+          else if(status===1){ table.expenditure-=amount;}
         }
         table.indents_process[index] = indent;
       }
@@ -55,10 +60,14 @@ export const updateEntry = async (req, res) => {
         table.direct_purchase.push(indent);
         table.expenditure += indent.amount;
       } else {
-        if (!indent.amount) indent.amount = indent.indent_amount;
+        if(indent.status===0){if (!indent.amount) indent.amount = indent.indent_amount;
         table.expenditure += indent.amount - direct_purchase[index].amount;
         table.direct_purchase[index] = indent;
-        console.log(table.direct_purchase[index]);
+        console.log(table.direct_purchase[index]);}
+        else{
+          table.expenditure-=indent.amount;
+          table.direct_purchase[index] = indent;
+        }
       }
     }
     console.log(table.expenditure);
@@ -84,12 +93,13 @@ export const fetchTable = async (req, res) => {
         error: " Data not found!",
       });
     }
-    let { indents_process, direct_purchase, expenditure, in_process } = table;
+    let { indents_process, direct_purchase, expenditure, in_process,budget_changes } = table;
     return res.json({
       expenditure,
       in_process,
       indents_process,
       direct_purchase,
+      budget_changes
     });
   } catch (err) {
     console.error(err.message);
