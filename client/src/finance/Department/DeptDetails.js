@@ -69,6 +69,7 @@ const DeptDetails = () => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [year]);
 
   const addEntry = async (type) => {
@@ -92,12 +93,12 @@ const DeptDetails = () => {
       return 0;
     }
     if (indent.type)
-      indents.directPur.map((indent) => {
+      indents.directPur.forEach((indent) => {
         if (indent.indent_no === indent_no && indent_no !== indentActive)
           match = 1;
       });
     else
-      indents.inProcess.map((indent) => {
+      indents.inProcess.forEach((indent) => {
         if (indent.indent_no === indent_no && indent_no !== indentActive)
           match = 1;
       });

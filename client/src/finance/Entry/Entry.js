@@ -67,7 +67,15 @@ const Entry = ({ props }) => {
           </select>
         </td>
       )}
-      <td>{date}</td>
+      <td>
+        {" "}
+        <input
+          type="date"
+          onChange={handleOnChange}
+          name="date"
+          value={indent.date}
+        ></input>
+      </td>
       <td>
         <input
           onChange={handleOnChange}
