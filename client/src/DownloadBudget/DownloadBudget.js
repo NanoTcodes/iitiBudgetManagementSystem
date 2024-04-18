@@ -11,6 +11,7 @@ const DownloadBudget = ({ budget }) => {
     "Indent Payment Done",
     "Entry Deleted",
   ];
+  const dirArr = ["Direct Purchased", "Entry Deleted"];
 
   const s2ab = (s) => {
     const buf = new ArrayBuffer(s.length);
@@ -114,8 +115,9 @@ const DownloadBudget = ({ budget }) => {
     let table2 = [
       {
         A: "Sr. No.",
-        B: "Entry Date",
-        C: "Particulars",
+        B: "Status",
+        C: "Entry Date",
+        D: "Particulars",
         E: "Year",
         F: "Indenter",
         G: "Indent No.",
@@ -125,12 +127,20 @@ const DownloadBudget = ({ budget }) => {
     ];
     i = 1;
     directPur.forEach((entry) => {
-      const { entry_date, particulars, indenter, indent_no, amount, remark } =
-        entry;
+      const {
+        entry_date,
+        particulars,
+        indenter,
+        indent_no,
+        amount,
+        remark,
+        status,
+      } = entry;
       table2.push({
         A: i++,
-        B: new Date(entry_date).toDateString(),
-        C: particulars,
+        B: dirArr[status],
+        C: new Date(entry_date).toDateString(),
+        D: particulars,
         E: `${year}-${(year % 100) + 1}`,
         F: indenter,
         G: indent_no,
@@ -147,7 +157,7 @@ const DownloadBudget = ({ budget }) => {
     const sheet = XLSX.utils.json_to_sheet(finalTable, {
       skipHeader: true,
     });
-    XLSX.utils.book_append_sheet(wb, sheet, "Indents");
+    XLSX.utils.book_append_sheet(wb, sheet, username);
     const workbookBlob = worbook2blob(wb);
     const dataInfo = {
       iiti: "A1",
@@ -257,8 +267,6 @@ const DownloadBudget = ({ budget }) => {
         });
         for (let i = 0; i <= directPur.length; i++) {
           const idx = i + inProcess.length + 15;
-          console.log(idx);
-          sheet.range(`C${idx}:D${idx}`).merged(true);
           sheet.range(`I${idx}:J${idx}`).merged(true);
         }
       }

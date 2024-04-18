@@ -8,7 +8,6 @@ import DownloadBudget from "../../DownloadBudget/DownloadBudget";
 
 const DeptDetails = () => {
   const { department, setDepartment } = useContext(DepartmentContext);
-  console.log(department)
   const { year } = useContext(YearContext);
   const { unSuccessful, successful } = useContext(AlertContext);
   const { name, budget, expenditure, in_process, username, type } = department;
@@ -21,8 +20,8 @@ const DeptDetails = () => {
   const [total, setTotal] = useState({ expenditure, inProcess: in_process });
   const [update, setUpdate] = useState(0);
   const [newAmount, setNewAmount] = useState("");
-  const init_budget_changes=[];
-  const [budget_changes,setBudgetChanges]=useState(init_budget_changes);
+  const init_budget_changes = [];
+  const [budget_changes, setBudgetChanges] = useState(init_budget_changes);
 
   const blankIndent = {
     entry_date: new Date(),
@@ -52,20 +51,25 @@ const DeptDetails = () => {
       unSuccessful(json.error);
       setIndents(initialIndents);
     } else {
-      const { indents_process, direct_purchase, expenditure, in_process,budget_changes } =
-        json;
+      const {
+        indents_process,
+        direct_purchase,
+        expenditure,
+        in_process,
+        budget_changes,
+      } = json;
       setIndents({
         inProcess: indents_process,
         directPur: direct_purchase,
       });
-      setBudgetChanges(budget_changes)
+      setBudgetChanges(budget_changes);
       setTotal({ expenditure, inProcess: in_process });
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, [year,budget_changes]);
+  }, [year]);
 
   const addEntry = async (type) => {
     if (!type) {
@@ -112,7 +116,7 @@ const DeptDetails = () => {
     } = indent;
     indent_amount = indent_amount === "" ? 0 : parseInt(indent_amount);
     amount = amount === "" ? 0 : parseInt(amount);
-    status = status === "1" ? true : false;
+    status = parseInt(status);
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/updateentry`,
       {
@@ -292,16 +296,20 @@ const DeptDetails = () => {
               </tbody>
             </table>
             {budget_changes.map((budget_change, index) => (
-              <h5 className="m-3 text-left"
-              style={{
-                fontFamily: "Arial",
-                fontSize: "13px",
-                fontWeight: "bold",
-                color: "black"
-              }}key={index}>{budget_change}</h5>
+              <h5
+                className="m-3 text-left"
+                style={{
+                  fontFamily: "Arial",
+                  fontSize: "13px",
+                  fontWeight: "bold",
+                  color: "black",
+                }}
+                key={index}
+              >
+                {budget_change}
+              </h5>
             ))}
 
-            
             <br></br>
             <div>
               <DownloadBudget

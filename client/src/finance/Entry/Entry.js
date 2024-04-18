@@ -4,7 +4,6 @@ import "./entry.css";
 
 const Entry = ({ props }) => {
   const { initialIndent, submitIndent, setIndentActive } = props;
-  initialIndent.status = initialIndent.status ? 1 : 0;
   const { year } = useContext(YearContext);
   const [indent, setIndent] = useState(initialIndent);
   const [edit, setEdit] = useState(indent.edit === 1);
@@ -26,6 +25,7 @@ const Entry = ({ props }) => {
     "Indent Payment Done",
     "Entry Deleted",
   ];
+  const dirArr = ["Direct Purchased", "Entry Deleted"];
 
   let date;
   if (entry_date) date = new Date(entry_date).toDateString();
@@ -43,7 +43,17 @@ const Entry = ({ props }) => {
     <tr key={i}>
       <td>{i + 1}</td>
       {type ? (
-        <td>Direct Purchased</td>
+        <td>
+          <select name="status" value={indent.status} onChange={handleOnChange}>
+            {dirArr.map((mess, i) => {
+              return (
+                <option value={i} key={i}>
+                  {mess}
+                </option>
+              );
+            })}
+          </select>
+        </td>
       ) : (
         <td>
           <select name="status" value={indent.status} onChange={handleOnChange}>
@@ -124,7 +134,7 @@ const Entry = ({ props }) => {
   ) : (
     <tr key={i}>
       <td>{i + 1}</td>
-      <td>{type ? "Direct Purchased" : statusArr[status]}</td>
+      <td>{type ? dirArr[status] : statusArr[status]}</td>
       <td>{date}</td>
       <td>{particulars}</td>
       <td>
@@ -137,21 +147,26 @@ const Entry = ({ props }) => {
       <td>{amount}</td>
       <td>{remark}</td>
       <td>
-        <button
-          onClick={() => {
-            setEdit(1);
-            setIndentActive(indent_no);
-          }}
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => {
-            alert("Will be implemented soon.");
-          }}
-        >
-          Delete
-        </button>
+        {type === 1 && parseInt(status) !== 1 && (
+          <button
+            onClick={() => {
+              setEdit(1);
+              setIndentActive(indent_no);
+            }}
+          >
+            Edit
+          </button>
+        )}
+        {type === 0 && parseInt(status) !== 2 && (
+          <button
+            onClick={() => {
+              setEdit(1);
+              setIndentActive(indent_no);
+            }}
+          >
+            Edit
+          </button>
+        )}
       </td>
     </tr>
   );
