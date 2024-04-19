@@ -58,9 +58,17 @@ const DeptHome = () => {
     <>
       <div
         className="p-4"
-        style={{ backgroundColor: "white", minHeight: "94vh" }}
+        style={{ backgroundColor: "#edf7fc", minHeight: "94vh" }}
       >
-        <h1 className="m-3 text-center">{name}</h1>
+        <h3
+            className="m-3 text-center"
+            style={{
+              fontFamily: "Arial",
+              fontSize: "30px",
+              fontWeight: "bold",
+            }}
+          >{name}</h3>
+        {/* <h1 className="m-3 text-center">{name}</h1> */}
         <h2 className="m-3 text-center">
           Year {year}-{(year % 100) + 1}
         </h2>
@@ -68,11 +76,16 @@ const DeptHome = () => {
           <table>
             <thead>
               <tr>
-                <th>Budget Type</th>
-                <th>Budget Allocated</th>
-                <th>Expenditure</th>
-                <th>Available</th>
-                <th>%Utilised</th>
+                <th colSpan="1"
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }} >Budget Type</th>
+                <th colSpan="1"
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}>Budget Allocated</th>
+                <th colSpan="1"
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}>Expenditure</th>
+                <th colSpan="1"
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}>Available</th>
+                <th colSpan="1"
+                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}>%Utilised</th>
               </tr>
             </thead>
             <tbody>

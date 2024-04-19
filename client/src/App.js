@@ -19,6 +19,7 @@ import AboutDevelopers from "./AboutDevelopers/AboutDevelopers";
 import Footer from "./footer/footer";
 import DeptHome from "./department/Home/DeptHome";
 import BudgetDetails from "./department/BudgetDetails/BudgetDetails";
+import ForgotPassword from "./ForgotPassword/ForgotPassword";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
                     <Route path="details" element={<BudgetDetails />} />
                   </Route>
                   <Route path="aboutus" element={<AboutDevelopers />}></Route>
+                  <Route path="forgot-password" element={<ForgotPassword />}></Route>
                   <Route exact path="/finance/" element={<Finance />}>
                     <Route path="" element={<FinHome />} />
                     <Route path="dept" element={<DeptDetails />} />

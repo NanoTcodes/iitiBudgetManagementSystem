@@ -1,3 +1,4 @@
+
 import React, { useContext } from "react";
 import DepartmentContext from "../../contexts/department/DepartmentContext";
 import YearContext from "../../contexts/year/YearContext";
@@ -12,15 +13,16 @@ const BudgetDetails = () => {
     indents_process,
     direct_purchase,
     username,
+    budget_changes
   } = department;
   const { type } = department;
   const { year } = useContext(YearContext);
   const statusArr = ["Indent in Process", "Indent Payment Done"];
-  console.log(department);
+
   return (
     <>
       <div className="body">
-        <div className="p-4" style={{ backgroundColor: "white" }}>
+        <div className="p-4" style={{ backgroundColor: "#edf7fc" }}>
           <h3
             className="m-3 text-center"
             style={{
@@ -30,6 +32,21 @@ const BudgetDetails = () => {
             }}
           >
             {department.department}
+            <div className="float-end">
+              <DownloadBudget
+                budget={{
+                  totalBudget: budget,
+                  total: { expenditure, inProcess: in_process },
+                  totalBudget: budget,
+                  year,
+                  department: { name: department.department, username, type },
+                  indents: {
+                    inProcess: indents_process,
+                    directPur: direct_purchase,
+                  },
+                }}
+              />
+            </div>
           </h3>
           <h4
             className="m-3 text-center"
@@ -43,7 +60,7 @@ const BudgetDetails = () => {
           </h4>
           <div className="p-4">
             <table>
-              <thead>
+            <thead>
                 <tr>
                   <th
                     colSpan="2"
@@ -89,22 +106,22 @@ const BudgetDetails = () => {
                 </tr>
               </tbody>
             </table>
-            <br></br>
-            <div>
-              <DownloadBudget
-                budget={{
-                  totalBudget: budget,
-                  total: { expenditure, inProcess: in_process },
-                  totalBudget: budget,
-                  year,
-                  department: { name: department.department, username, type },
-                  indents: {
-                    inProcess: indents_process,
-                    directPur: direct_purchase,
-                  },
+            {budget_changes.map((budget_change, index) => (
+              <h5
+                className="m-3 text-left"
+                style={{
+                  fontFamily: "Arial",
+                  fontSize: "13px",
+                  fontWeight: "bold",
+                  color: "black",
                 }}
-              />
-            </div>
+                key={index}
+              >
+                {budget_change}
+              </h5>
+            ))}
+            <br></br>
+          
             <div>
               <h4
                 className="m-3  text-center"
