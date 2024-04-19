@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AboutUs = () => {
+const AboutDevelopers = () => {
   return (
     <div className="container my-5">
       <div className="row row-cols-1 row-cols-md-3 g-4">
@@ -157,4 +157,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default AboutDevelopers;

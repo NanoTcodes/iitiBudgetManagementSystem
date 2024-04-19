@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import YearContext from "../../contexts/year/YearContext";
 import "./entry.css";
+import ConfirmationBox from "../../ConfirmationBox/ConfirmationBox";
 
 const Entry = ({ props }) => {
   const { initialIndent, submitIndent, setIndentActive } = props;
@@ -20,6 +21,7 @@ const Entry = ({ props }) => {
     status,
     type,
   } = indent;
+  console.log(indent);
   const statusArr = [
     "Indent in Process",
     "Indent Payment Done",
@@ -33,6 +35,7 @@ const Entry = ({ props }) => {
   const handleOnChange = async (e) => {
     const { name, value } = e.target;
     setIndent({ ...indent, [name]: value });
+    console.log(indent);
   };
   const handleSubmit = async () => {
     const response = await submitIndent(indent);
@@ -72,8 +75,9 @@ const Entry = ({ props }) => {
         <input
           type="date"
           onChange={handleOnChange}
-          name="date"
+          name="entry_date"
           value={indent.date}
+          defaultValue={new Date().toISOString().split("T")[0]}
         ></input>
       </td>
       <td>

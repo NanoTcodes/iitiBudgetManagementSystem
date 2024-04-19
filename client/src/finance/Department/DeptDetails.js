@@ -118,6 +118,7 @@ const DeptDetails = () => {
     indent_amount = indent_amount === "" ? 0 : parseInt(indent_amount);
     amount = amount === "" ? 0 : parseInt(amount);
     status = parseInt(status);
+    const entry_date = new Date(indent.entry_date);
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/updateentry`,
       {
@@ -140,6 +141,7 @@ const DeptDetails = () => {
             indent_amount,
             remark,
             amount,
+            entry_date,
           },
         }),
       }
@@ -253,12 +255,17 @@ const DeptDetails = () => {
                       Enter New Amount
                     </th>
                   )}
-                  <th
-                    colSpan={1 + update}
-                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}
-                  >
-                    Budget Control
-                  </th>
+                  {localStorage.getItem("userRole") == 2 && (
+                    <th
+                      colSpan={1 + update}
+                      style={{
+                        backgroundColor: "#0a5095",
+                        textAlign: "center",
+                      }}
+                    >
+                      Budget Control
+                    </th>
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -284,15 +291,17 @@ const DeptDetails = () => {
                       <button onClick={updateBudget}>Submit</button>
                     </td>
                   )}
-                  <td>
-                    {update ? (
-                      <button onClick={() => setUpdate(0)}>Cancel</button>
-                    ) : (
-                      <button onClick={() => setUpdate(1)}>
-                        Update Allocated Budget
-                      </button>
-                    )}
-                  </td>
+                  {localStorage.getItem("userRole") == 2 && (
+                    <td>
+                      {update ? (
+                        <button onClick={() => setUpdate(0)}>Cancel</button>
+                      ) : (
+                        <button onClick={() => setUpdate(1)}>
+                          Update Allocated Budget
+                        </button>
+                      )}
+                    </td>
+                  )}
                 </tr>
               </tbody>
             </table>
