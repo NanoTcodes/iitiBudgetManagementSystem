@@ -1,49 +1,41 @@
-import React, { useContext, useState } from "react";
-import AlertContext from "../contexts/alert/AlertContext";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import finImage from "../assets/images/finance.webp";
 import logo from "../assets/images/iitindorelogo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-const Login = () => {
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: "",
-  });
+const Verification = () => {
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
 
-  const { successful, unSuccessful } = useContext(AlertContext);
-  const navigate = useNavigate();
-  const handleOnChange = async (e) => {
-    const { name, value } = e.target;
-    setCredentials({ ...credentials, [name]: value });
+  const toggleNewPasswordVisibility = () => {
+    setShowNewPassword(!showNewPassword);
   };
+
+  const handleNewPasswordChange = (e) => {
+    setNewPassword(e.target.value);
+    setPasswordsMatch(e.target.value === confirmPassword);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    setPasswordsMatch(e.target.value === newPassword);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(
-      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/user/login`,
-      {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify(credentials),
-      }
-    );
-    const json = await response.json();
-    if (json.error) unSuccessful(json.error);
-    else {
-      const { role } = json.user;
-      localStorage.setItem("authToken", json.authToken);
-      localStorage.setItem("userRole", role);
-      console.log(json);
-      successful("You have been logged in succesfully.");
-      setTimeout(() => {
-        if (!role) navigate("/dept");
-        else navigate("/finance");
-        window.location.reload();
-      }, 3000);
+    if (!passwordsMatch) {
+      // Passwords do not match
+      return;
     }
+    // Handle password reset process
   };
 
   return (
-    <div style={{ minHeight: "94vh" }}>
+    <>
       <section className="bg-light p-3 p-md-4 p-xl-5">
         <div className="container">
           <div className="row justify-content-center">
@@ -69,33 +61,41 @@ const Login = () => {
                                   <img src={logo} alt="IITI Logo" width="70" />
                                 </Link>
                               </div>
-                              <h4 className="text-center">Welcome User !</h4>
+                              <h4 className="text-center">Forgot Password?</h4>
                               <p className="text-center">
-                                Enter your login credentials
+                                Enter your new password
                               </p>
                             </div>
                           </div>
                         </div>
-                        <div className="row"></div>
                         <form onSubmit={handleSubmit}>
                           <div className="row gy-3 overflow-hidden">
                             <div className="col-12">
                               <div className="form-floating mb-3">
                                 <input
+                                  type={showNewPassword ? "text" : "password"}
                                   className="form-control"
-                                  name="username"
-                                  id="username"
-                                  placeholder="Username"
-                                  onChange={handleOnChange}
-                                  value={credentials.username}
+                                  name="newPassword"
+                                  id="newPassword"
+                                  placeholder="New Password"
+                                  onChange={handleNewPasswordChange}
+                                  value={newPassword}
                                   required
                                 />
                                 <label
-                                  htmlFor="username"
+                                  htmlFor="newPassword"
                                   className="form-label"
                                 >
-                                  Username
+                                  New Password
                                 </label>
+                                <div
+                                  className="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer"
+                                  onClick={toggleNewPasswordVisibility}
+                                >
+                                  <FontAwesomeIcon
+                                    icon={showNewPassword ? faEyeSlash : faEye}
+                                  />
+                                </div>
                               </div>
                             </div>
                             <div className="col-12">
@@ -103,37 +103,34 @@ const Login = () => {
                                 <input
                                   type="password"
                                   className="form-control"
-                                  name="password"
-                                  id="password"
-                                  value={credentials.password}
-                                  placeholder="Password"
-                                  onChange={handleOnChange}
+                                  name="confirmPassword"
+                                  id="confirmPassword"
+                                  placeholder="Confirm Password"
+                                  onChange={handleConfirmPasswordChange}
+                                  value={confirmPassword}
                                   required
                                 />
                                 <label
-                                  htmlFor="password"
+                                  htmlFor="confirmPassword"
                                   className="form-label"
                                 >
-                                  Password
+                                  Confirm Password
                                 </label>
-                                <br />
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                  }}
-                                >
-                                  <Link to={'/forgot-password'}>Forgot Password</Link>
-                                </div>
                               </div>
+                              {!passwordsMatch && (
+                                <p className="text-danger">
+                                  Passwords do not match!
+                                </p>
+                              )}
                             </div>
                             <div className="col-12">
                               <div className="d-grid">
                                 <button
                                   className="btn btn-dark btn-lg"
                                   type="submit"
+                                  disabled={!passwordsMatch}
                                 >
-                                  Log In
+                                  Reset Password
                                 </button>
                               </div>
                             </div>
@@ -148,8 +145,8 @@ const Login = () => {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 
-export default Login;
+export default Verification;
