@@ -189,7 +189,7 @@ const DeptDetails = () => {
   return (
     <>
       <div className="body">
-        <div className="p-4" style={{ backgroundColor: "white" }}>
+        <div className="p-4" style={{ backgroundColor: "#edf7fc" }}>
           <h3
             className="m-3 text-center"
             style={{
@@ -209,6 +209,17 @@ const DeptDetails = () => {
             }}
           >
             {type ? "Equipment" : "Consumable"} Budget {year}-{(year % 100) + 1}
+            <div className="float-end">
+              <DownloadBudget
+                budget={{
+                  total,
+                  totalBudget: budget,
+                  year,
+                  department,
+                  indents,
+                }}
+              />
+            </div>
           </h4>
           <div className="p-4">
             <table>
@@ -321,7 +332,7 @@ const DeptDetails = () => {
             ))}
 
             <br></br>
-            <div>
+            {/* <div>
               <DownloadBudget
                 budget={{
                   total,
@@ -331,7 +342,7 @@ const DeptDetails = () => {
                   indents,
                 }}
               />
-            </div>
+            </div> */}
             <div>
               <h4
                 className="m-3  text-center"
