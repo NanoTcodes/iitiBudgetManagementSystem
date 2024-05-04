@@ -17,7 +17,7 @@ const generateOTP=async()=>{
 
     }
 }
-const {AUTH_EMAIL, AUTH_PASS} = process.env;
+const {AUTH_EMAIL, AUTH_PASS,APP_PASS} = process.env;
 console.log(AUTH_EMAIL,AUTH_PASS)
 export const sendOTP = async(otpDetails)=>{
     try{
@@ -32,10 +32,13 @@ export const sendOTP = async(otpDetails)=>{
 
         const generatedOTP = await generateOTP();
         let transporter = nodemailer.createTransport({
-            host:"smtp-mail.outlook.com",
+          service:"Gmail",
+            host:"smtp.gmail.com",
+            port:465,
+            secure:true,
             auth:{
                 user:AUTH_EMAIL,
-                pass:AUTH_PASS
+                pass:APP_PASS
             }
         })
         const mailOptions ={
