@@ -104,7 +104,7 @@ export const newyear = async (req, res) => {
     const {  curr_year } = req.body;
     const new_year=curr_year+1;
     let exist = await Consumable.find({ year: new_year });
-    if(exist){
+    if(exist.length){
       return res.json({ error: `Year ${new_year} already added` });
     }
     //const department_list=[];

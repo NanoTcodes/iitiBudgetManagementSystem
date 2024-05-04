@@ -9,7 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [years] = useState(() => {
     let years = [];
-    for (let i = 2021; i <= new Date().getFullYear(); i++) years.push(i);
+    for (let i = 2021; i <= new Date().getFullYear()+10; i++) years.push(i);
     return years;
   });
   const { setYear, year } = useContext(YearContext);
