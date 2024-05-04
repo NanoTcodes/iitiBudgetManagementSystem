@@ -31,6 +31,9 @@ const Login = () => {
       }
     );
     const json = await response.json();
+    
+    console.log(json);
+    // return 
     if (json.error) unSuccessful(json.error);
     else {
       const { role } = json.user;
