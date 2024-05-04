@@ -36,7 +36,7 @@ export const login = async (req, res) => {
           .json({ error: "Please try to login with correct credentials." });
     }
     const { name, role } = user;
-    const data = { user: { username, role } };
+    const data = { user: { username: user.username, role } };
     const authToken = jwt.sign(data, JWT_SECRET);
     res.json({ user: { username, name, role }, authToken });
   } catch (err) {
