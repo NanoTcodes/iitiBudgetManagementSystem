@@ -3,6 +3,7 @@ import "./navbar.css";
 import logo from "../../assets/images/iitindorelogo.png";
 import { Link, useNavigate } from "react-router-dom";
 import YearContext from "../../contexts/year/YearContext";
+import AlertContext from "../../contexts/alert/AlertContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -11,9 +12,10 @@ const Navbar = () => {
     for (let i = 2021; i <= new Date().getFullYear(); i++) years.push(i);
     return years;
   });
-  const { setYear } = useContext(YearContext);
+  const { setYear, year } = useContext(YearContext);
+  const { successful, unSuccessful } = useContext(AlertContext);
   const role = localStorage.getItem("userRole");
-  
+
   useEffect(() => {
     if (!localStorage.getItem("authToken")) navigate("/");
   }, []);
@@ -25,6 +27,23 @@ const Navbar = () => {
 
   const changeYear = (i) => {
     setYear(i);
+  };
+
+  const addNewYear = async () => {
+    const response = await fetch(
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/newYear`,
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          "auth-token": localStorage.getItem("authToken"),
+        },
+        body: JSON.stringify({ curr_year: year }),
+      }
+    );
+    const json = await response.json();
+    if (json.error) unSuccessful(json.error);
+    else successful("New year added successfully!");
   };
 
   return (
@@ -67,7 +86,16 @@ const Navbar = () => {
                       aria-current="page"
                       to="/finance"
                     >
-                      Home |
+                      Home
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link active"
+                      aria-current="page"
+                      onClick={addNewYear}
+                    >
+                      Add new Year
                     </Link>
                   </li>
                   <li className="nav-item dropdown">
