@@ -80,7 +80,7 @@ export const updateBudget = async (req, res) => {
     const date3=date.getFullYear();
     console.log("check")
     console.log(table.budget_changes)
-    table.budget_changes.push(old_amount===0?`Budget Allocated: ${new_amount}.`:` Previous Budget: ${old_amount}, Updated Budget: ${new_amount} on ${date1}/${date2}/${date3}. Reason: ${remark}`)
+    table.budget_changes.push(old_amount===0?`Budget Allocated: ${new_amount}. Reason: ${remark}`:` Previous Budget: ${old_amount}, Updated Budget: ${new_amount} on ${date1}/${date2}/${date3}. Reason: ${remark}`)
     // const indent = {
     //   remark: `previous budget was ${old_amount}, increased to ${new_amount} by admin`,
     // };
