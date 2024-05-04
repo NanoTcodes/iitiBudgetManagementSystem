@@ -1,55 +1,87 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import {
+  Link,
+  unstable_HistoryRouter,
+  useAsyncValue,
+  useNavigate,
+} from "react-router-dom";
 import finImage from "../assets/images/finance.webp";
 import logo from "../assets/images/iitindorelogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import AlertContext from "../contexts/alert/AlertContext";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [showOtpInput, setShowOtpInput] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const { successful, unSuccessful } = useContext(AlertContext);
+  const [creds, setcreds] = useState({
+    username: "",
+    email: "",
+    password: "",
+    cPassword: "",
+    otp: "",
+  });
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpButton, setOtpButton] = useState(true);
+  const navigate = useNavigate();
 
-  const handleSendOTP = async (e) => {
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setcreds({ ...creds, [name]: value });
+  };
+
+  const sendOtp = async (e) => {
     e.preventDefault();
-    setShowOtpInput(true);
-  };
-
-  const handleSubmitOTP = async (e) => {
-    e.preventDefault();
-    // Here you can handle the OTP verification process
-  };
-
-  const toggleNewPasswordVisibility = () => {
-    setShowNewPassword(!showNewPassword);
-  };
-
-  const handleNewPasswordChange = (e) => {
-    setNewPassword(e.target.value);
-    setPasswordsMatch(e.target.value === confirmPassword);
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-    setPasswordsMatch(e.target.value === newPassword);
-  };
-
-  const handleSubmitPasswordReset = async (e) => {
-    e.preventDefault();
-    if (!passwordsMatch) {
-      // Passwords do not match
-      return;
+    setOtpButton(false);
+    const response = await fetch(
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/otp/sendotp`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(creds),
+      }
+    );
+    const json = await response.json();
+    console.log(json);
+    if (!json.error) {
+      successful("OTP has been sent to your email");
+      setOtpSent(true);
+    } else {
+      unSuccessful(json.error);
+      setOtpButton(true);
     }
-    // Here you can handle the password reset process
+  };
+
+  const updatePassword = async (e) => {
+    e.preventDefault();
+    const { password, cPassword, username, otp } = creds;
+    if (password !== cPassword) return unSuccessful("Passwords didn'\t match");
+    if (password.length < 6)
+      return unSuccessful("Password should be atleast 6 characters long!");
+    const response = await fetch(
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/otp/resetpassword`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password, otp }),
+      }
+    );
+    const json = await response.json();
+    if (json.error) unSuccessful(json.error);
+    else {
+      successful("Password reset successfully!");
+      setTimeout(() => {
+        navigate("/");
+        window.location.reload();
+      }, 3000);
+    }
   };
 
   return (
-    <>
+    <div style={{ minHeight: "94vh" }}>
       <section className="bg-light p-3 p-md-4 p-xl-5">
         <div className="container">
           <div className="row justify-content-center">
@@ -82,7 +114,7 @@ const ForgotPassword = () => {
                             </div>
                           </div>
                         </div>
-                        <form onSubmit={showOtpInput ? handleSubmitOTP : handleSendOTP}>
+                        <form onSubmit={sendOtp}>
                           <div className="row gy-3 overflow-hidden">
                             <div className="col-12">
                               <div className="form-floating mb-3">
@@ -90,9 +122,9 @@ const ForgotPassword = () => {
                                   className="form-control"
                                   name="username"
                                   id="username"
+                                  value={creds.username}
+                                  onChange={handleOnChange}
                                   placeholder="Username"
-                                  onChange={(e) => setUsername(e.target.value)}
-                                  value={username}
                                   required
                                 />
                                 <label
@@ -104,135 +136,108 @@ const ForgotPassword = () => {
                               </div>
                             </div>
                             <div className="col-12">
-                              <div className="form-floating mb-3">
+                              <div className="form-floating mb-4">
                                 <input
                                   className="form-control"
                                   name="email"
                                   id="email"
                                   placeholder="Email"
-                                  onChange={(e) => setEmail(e.target.value)}
-                                  value={email}
                                   required
+                                  value={creds.email}
+                                  onChange={handleOnChange}
                                 />
-                                <label
-                                  htmlFor="email"
-                                  className="form-label"
-                                >
+                                <label htmlFor="email" className="form-label">
                                   Email
                                 </label>
                               </div>
                             </div>
-                            {!showOtpInput && (
+                            {!otpSent && (
                               <div className="col-12">
                                 <div className="d-grid">
                                   <button
                                     className="btn btn-info btn-lg"
                                     type="submit"
+                                    disabled={otpButton === false}
                                   >
                                     Send OTP
                                   </button>
                                 </div>
                               </div>
                             )}
-                            {showOtpInput && (
-                              <>
-                                <div className="col-12">
-                                  <div className="form-floating mb-3">
-                                    <input
-                                      className="form-control"
-                                      name="otp"
-                                      id="otp"
-                                      placeholder="OTP"
-                                      onChange={(e) => setOtp(e.target.value)}
-                                      value={otp}
-                                      required
-                                    />
-                                    <label htmlFor="otp" className="form-label">
-                                      OTP
-                                    </label>
-                                  </div>
-                                </div>
-                                <div className="col-12">
-                                  <div className="d-grid">
-                                    <button
-                                      className="btn btn-success btn-lg"
-                                      type="submit"
-                                    >
-                                      Verify OTP
-                                    </button>
-                                  </div>
-                                </div>
-                              </>
-                            )}
                           </div>
                         </form>
-                        <form onSubmit={handleSubmitPasswordReset}>
-                          <div className="row gy-3 overflow-hidden">
-                            <div className="col-12">
-                              <div className="form-floating mb-3">
-                                <input
-                                  type={showNewPassword ? "text" : "password"}
-                                  className="form-control"
-                                  name="newPassword"
-                                  id="newPassword"
-                                  placeholder="New Password"
-                                  onChange={handleNewPasswordChange}
-                                  value={newPassword}
-                                  required
-                                />
-                                <label
-                                  htmlFor="newPassword"
-                                  className="form-label"
-                                >
-                                  New Password
-                                </label>
-                                <div
-                                  className="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer"
-                                  onClick={toggleNewPasswordVisibility}
-                                >
-                                  <FontAwesomeIcon
-                                    icon={showNewPassword ? faEyeSlash : faEye}
+                        <form onSubmit={updatePassword}>
+                          {otpSent && (
+                            <div className="row gy-3 overflow-hidden">
+                              <div className="col-12">
+                                <div className="form-floating mb-3">
+                                  <input
+                                    className="form-control"
+                                    name="otp"
+                                    id="otp"
+                                    placeholder="OTP"
+                                    type="number"
+                                    value={creds.otp}
+                                    onChange={handleOnChange}
+                                    required
                                   />
+                                  <label htmlFor="otp" className="form-label">
+                                    OTP
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="col-12">
+                                <div className="form-floating mb-3">
+                                  <input
+                                    type="password"
+                                    className="form-control"
+                                    name="password"
+                                    id="newPassword"
+                                    value={creds.password}
+                                    onChange={handleOnChange}
+                                    placeholder="New Password"
+                                    required
+                                  />
+                                  <label
+                                    htmlFor="newPassword"
+                                    className="form-label"
+                                  >
+                                    New Password
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="col-12">
+                                <div className="form-floating mb-3">
+                                  <input
+                                    type="password"
+                                    className="form-control"
+                                    name="cPassword"
+                                    value={creds.cPassword}
+                                    onChange={handleOnChange}
+                                    id="confirmPassword"
+                                    placeholder="Confirm Password"
+                                    required
+                                  />
+                                  <label
+                                    htmlFor="confirmPassword"
+                                    className="form-label"
+                                  >
+                                    Confirm Password
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="col-12">
+                                <div className="d-grid">
+                                  <button
+                                    className="btn btn-dark btn-lg"
+                                    type="submit"
+                                  >
+                                    Reset Password
+                                  </button>
                                 </div>
                               </div>
                             </div>
-                            <div className="col-12">
-                              <div className="form-floating mb-3">
-                                <input
-                                  type="password"
-                                  className="form-control"
-                                  name="confirmPassword"
-                                  id="confirmPassword"
-                                  placeholder="Confirm Password"
-                                  onChange={handleConfirmPasswordChange}
-                                  value={confirmPassword}
-                                  required
-                                />
-                                <label
-                                  htmlFor="confirmPassword"
-                                  className="form-label"
-                                >
-                                  Confirm Password
-                                </label>
-                              </div>
-                              {!passwordsMatch && (
-                                <p className="text-danger">
-                                  Passwords do not match!
-                                </p>
-                              )}
-                            </div>
-                            <div className="col-12">
-                              <div className="d-grid">
-                                <button
-                                  className="btn btn-dark btn-lg"
-                                  type="submit"
-                                  disabled={!passwordsMatch}
-                                >
-                                  Reset Password
-                                </button>
-                              </div>
-                            </div>
-                          </div>
+                          )}
                         </form>
                       </div>
                     </div>
@@ -243,11 +248,8 @@ const ForgotPassword = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
 export default ForgotPassword;
-
-
-
