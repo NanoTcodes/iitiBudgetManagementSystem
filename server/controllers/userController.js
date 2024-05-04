@@ -15,17 +15,26 @@ export const login = async (req, res) => {
   }
   const { username, password } = req.body;
   try {
-    let user = await User.findOne({ username });
-    if (!user) {
-      return res
-        .status(400)
-        .json({ error: "Please try to login with correct credentials." });
+    let user;
+    const { email } = req;
+    console.log(email);
+    if (email) {
+      user = await User.findOne({ email });
+      if (!user)
+        return res.status(400).json({ error: "You are not registered!" });
+    } else {
+      user = await User.findOne({ username });
+      if (!user) {
+        return res
+          .status(400)
+          .json({ error: "Please try to login with correct credentials." });
+      }
+      const passwordCheck = await bcrypt.compare(password, user.password);
+      if (!passwordCheck)
+        return res
+          .status(400)
+          .json({ error: "Please try to login with correct credentials." });
     }
-    const passwordCheck = await bcrypt.compare(password, user.password);
-    if (!passwordCheck)
-      return res
-        .status(400)
-        .json({ error: "Please try to login with correct credentials." });
     const { name, role } = user;
     const data = { user: { username, role } };
     const authToken = jwt.sign(data, JWT_SECRET);
@@ -54,25 +63,21 @@ export const login = async (req, res) => {
 //adding entry in consumable
 //the entry also adds to the expenditure
 
-
 export const allUsers = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
   try {
-    const users=await User.find({});
-    console.log(users)
+    const users = await User.find({});
+    console.log(users);
     // const users_arr=[];
     // for(let user of users){
     //   users_arr.push(user);
     // }
-    return res.json({users});
-    
+    return res.json({ users });
   } catch (err) {
     console.error(err.message);
     res.status(500).send({ error: "Some error occured!" });
   }
 };
-
-

@@ -15,7 +15,7 @@ import AddUser from "./finance/AddUser/AddUser";
 import UpdateProfile from "./finance/UpdateProfile/UpdateProfile";
 import AllUsers from "./finance/AllUsers/AllUsers";
 import NotFound from "./NotFound/NotFound";
-import AboutUs from "./aboutus";
+import AboutDevelopers from "./AboutDevelopers/AboutDevelopers";
 import Footer from "./footer/footer";
 import DeptHome from "./department/Home/DeptHome";
 import BudgetDetails from "./department/BudgetDetails/BudgetDetails";
@@ -48,7 +48,7 @@ function App() {
                     <Route path="" element={<DeptHome />} />
                     <Route path="details" element={<BudgetDetails />} />
                   </Route>
-                  <Route path="aboutus" element={<AboutUs />}></Route>
+                  <Route path="aboutus" element={<AboutDevelopers />}></Route>
                   <Route path="forgot-password" element={<ForgotPassword />}></Route>
                   <Route exact path="/finance/" element={<Finance />}>
                     <Route path="" element={<FinHome />} />

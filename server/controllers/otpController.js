@@ -114,11 +114,11 @@ export const deleteOTP = async (email)=>{
 export const forgotPasswordEmail =async(req,res)=>{
     try{
       const {username}=req.body;
-      console.log(username)
-      const user=await User.findOne({username});
+      console.log(username,req.body.email)
+      const user=await User.findOne({username,email:req.body.email});
       console.log(user)
       if(!user){
-        return res.status(400).json("Enter valid username")
+        return res.status(400).json({error:"Enter valid username and email"})
       }
       const {email} = user;
       console.log(email)
@@ -129,7 +129,7 @@ export const forgotPasswordEmail =async(req,res)=>{
         duration:1
       }
       const createdOTP=await sendOTP(otpDetails)
-      return res.json("email sent successfully")
+      return res.json({success:"email sent successfully"})
       
 
   
@@ -145,7 +145,7 @@ export const forgotPasswordEmail =async(req,res)=>{
       const user=await User.findOne({username});
     //   console.log(user)
       if(!user){
-        return res.status(400).json("Enter valid username")
+        return res.status(400).json({error:"Enter valid username"})
       }
      const {email} = user
       console.log(email)
@@ -155,7 +155,7 @@ export const forgotPasswordEmail =async(req,res)=>{
       }
       const valid=await verifyOTP(otpDetails)
       if(!valid){
-        return res.status(400).json("enter valid otp");
+        return res.status(400).json({error:"Enter valid OTP"});
       }
 
       const salt = await bcrypt.genSalt(10);
@@ -163,7 +163,7 @@ export const forgotPasswordEmail =async(req,res)=>{
     user.password=secPass
     await deleteOTP(email)
     await user.save()
-    return res.json("password updated")
+    return res.json({success:"password updated"})
 
       
 

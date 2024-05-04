@@ -3,6 +3,7 @@ import AlertContext from "../contexts/alert/AlertContext";
 import { Link, useNavigate } from "react-router-dom";
 import finImage from "../assets/images/finance.webp";
 import logo from "../assets/images/iitindorelogo.png";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -16,13 +17,16 @@ const Login = () => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+
+  const login = async (token) => {
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/user/login`,
       {
         method: "POST",
-        headers: { "Content-type": "application/json" },
+        headers: {
+          "Content-type": "application/json",
+          Authorization:token? `Bearer ${token}`:null,
+        },
         body: JSON.stringify(credentials),
       }
     );
@@ -77,9 +81,25 @@ const Login = () => {
                           </div>
                         </div>
                         <div className="row"></div>
-                        <form onSubmit={handleSubmit}>
+                        <form
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            login();
+                          }}
+                        >
                           <div className="row gy-3 overflow-hidden">
                             <div className="col-12">
+                              <div className="form-floating mb-4">
+                                <GoogleLogin
+                                  onSuccess={(credentialResponse) => {
+                                    const { credential } = credentialResponse;
+                                    if (credential) {
+                                      login(credential);
+                                    }
+                                  }}
+                                  onError={(err) => console.log(err)}
+                                />
+                              </div>
                               <div className="form-floating mb-3">
                                 <input
                                   className="form-control"
@@ -120,10 +140,12 @@ const Login = () => {
                                 <div
                                   style={{
                                     display: "flex",
-                                    justifyContent: "center",
+                                    justifyContent: "left",
                                   }}
                                 >
-                                  <Link to={'/forgot-password'}>Forgot Password</Link>
+                                  <Link to={"/forgot-password"}>
+                                    Forgot Password
+                                  </Link>
                                 </div>
                               </div>
                             </div>
