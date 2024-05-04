@@ -156,7 +156,7 @@ export const newyear = async (req, res) => {
           direct_purchase: [],
         });
       }
-      return res.json({success:`Year ${new_year} added`})
+      return res.json({success:`Year ${new_year}-${new_year%100+1} added`})
     }
   } catch (err) {
     console.error(err.message);
