@@ -101,7 +101,12 @@ export const updateBudget = async (req, res) => {
 
 export const newyear = async (req, res) => {
   try {
-    const { new_year, curr_year } = req.body;
+    const {  curr_year } = req.body;
+    const new_year=curr_year+1;
+    let exist = await Consumable.find({ year: new_year });
+    if(exist){
+      return res.json({ error: `Year ${new_year} already added` });
+    }
     //const department_list=[];
     // let dep_object={
     //   username:String,
