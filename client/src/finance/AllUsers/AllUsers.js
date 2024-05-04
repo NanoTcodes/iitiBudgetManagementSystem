@@ -12,7 +12,7 @@ const AllUsers = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/user/allUsers`,
+        `https://${process.env.REACT_APP_API_HOST}/api/user/allUsers`,
         {
           method: "GET",
           headers: {
@@ -46,7 +46,7 @@ const AllUsers = () => {
   const remUser = async (username) => {
     try {
       const response = await fetch(
-        `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/removeUser`,
+        `https://${process.env.REACT_APP_API_HOST}/api/admin/removeUser`,
         {
           method: "POST",
           headers: {
