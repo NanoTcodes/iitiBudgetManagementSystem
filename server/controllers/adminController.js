@@ -104,9 +104,14 @@ export const newyear = async (req, res) => {
     const {  curr_year } = req.body;
     const new_year=curr_year+1;
     let exist = await Consumable.find({ year: new_year });
+    let tables1 = await Consumable.find({ year: curr_year });
     if(exist.length){
       return res.json({ error: `Year ${new_year}-${new_year%100+1} already added` });
     }
+    if(tables1.length){
+      return res.json({ error: `Year ${curr_year} has not started yet` });
+    }
+
     //const department_list=[];
     // let dep_object={
     //   username:String,
@@ -117,7 +122,7 @@ export const newyear = async (req, res) => {
     //   year:Number
     // };
 
-    let tables1 = await Consumable.find({ year: curr_year });
+
     let users = await User.find({ role: 0 });
     let usernames = [];
     for (let user of users) {
