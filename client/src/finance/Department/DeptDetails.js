@@ -19,7 +19,7 @@ const DeptDetails = () => {
   const [indentActive, setIndentActive] = useState(0);
   const [total, setTotal] = useState({ expenditure, inProcess: in_process });
   const [update, setUpdate] = useState(0);
-  const [newAmount, setNewAmount] = useState("");
+  const [newBudget, setNewBudget] = useState({ amount: "", remark: "" });
   const init_budget_changes = [];
   const [budget_changes, setBudgetChanges] = useState(init_budget_changes);
 
@@ -158,11 +158,12 @@ const DeptDetails = () => {
   };
 
   const handleOnChange = async (e) => {
-    setNewAmount(e.target.value);
+    const { name, value } = e.target;
+    setNewBudget({ ...newBudget, [name]: value });
   };
 
   const updateBudget = async () => {
-    const new_amount = parseInt(newAmount);
+    const new_amount = parseInt(newBudget.amount);
     console.log(new_amount, username, type);
     console.log(localStorage.getItem("authToken"));
     const response = await fetch(
@@ -173,7 +174,13 @@ const DeptDetails = () => {
           "auth-token": localStorage.getItem("authToken"),
           "Content-type": "application/json",
         },
-        body: JSON.stringify({ username, new_amount, type, year }),
+        body: JSON.stringify({
+          username,
+          new_amount: newBudget.amount,
+          type,
+          year,
+          remark: newBudget.remark,
+        }),
       }
     );
     const json = await response.json();
@@ -257,14 +264,25 @@ const DeptDetails = () => {
                     Percent Utilised
                   </th>
                   {update === 1 && (
-                    <th
-                      style={{
-                        backgroundColor: "#0a5095",
-                        textAlign: "center",
-                      }}
-                    >
-                      Enter New Amount
-                    </th>
+                    <>
+                      {" "}
+                      <th
+                        style={{
+                          backgroundColor: "#0a5095",
+                          textAlign: "center",
+                        }}
+                      >
+                        Enter Reason
+                      </th>
+                      <th
+                        style={{
+                          backgroundColor: "#0a5095",
+                          textAlign: "center",
+                        }}
+                      >
+                        Enter New Amount
+                      </th>
+                    </>
                   )}
                   {localStorage.getItem("userRole") == 2 && (
                     <th
@@ -289,13 +307,24 @@ const DeptDetails = () => {
                     {((total.expenditure / budget) * 100).toFixed(2)}%
                   </td>
                   {update === 1 && (
-                    <td>
-                      <input
-                        type="number"
-                        value={newAmount}
-                        onChange={handleOnChange}
-                      ></input>
-                    </td>
+                    <>
+                      <td>
+                        <input
+                        name="remark"
+                          type="string"
+                          value={newBudget.remark}
+                          onChange={handleOnChange}
+                        ></input>
+                      </td>
+                      <td>
+                        <input
+                        name="amount"
+                          type="number"
+                          value={newBudget.amount}
+                          onChange={handleOnChange}
+                        ></input>
+                      </td>
+                    </>
                   )}
                   {update === 1 && (
                     <td>

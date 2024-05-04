@@ -25,9 +25,15 @@ const FinHome = () => {
         },
       }
     );
-    const json = await response.json();
+    let json = await response.json();
     if (json.error) unSuccessful(json.error);
     else {
+      json.con_result.sort((a, b) => {
+        return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
+      });
+      json.eq_result.sort((a, b) => {
+        return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
+      });
       setConsumable(json.con_result);
       setEquipment(json.eq_result);
     }

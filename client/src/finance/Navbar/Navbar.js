@@ -9,7 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [years] = useState(() => {
     let years = [];
-    for (let i = 2021; i <= new Date().getFullYear()+10; i++) years.push(i);
+    for (let i = 2021; i <= new Date().getFullYear() + 2; i++) years.push(i);
     return years;
   });
   const { setYear, year } = useContext(YearContext);
@@ -30,6 +30,7 @@ const Navbar = () => {
   };
 
   const addNewYear = async () => {
+    const numYear=parseInt(year)
     const response = await fetch(
       `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/newYear`,
       {
@@ -38,12 +39,13 @@ const Navbar = () => {
           "Content-type": "application/json",
           "auth-token": localStorage.getItem("authToken"),
         },
-        body: JSON.stringify({ curr_year: year }),
+        body: JSON.stringify({ curr_year: numYear }),
       }
     );
     const json = await response.json();
+    console.log(json)
     if (json.error) unSuccessful(json.error);
-    else successful("New year added successfully!");
+    else successful(json.success);
   };
 
   return (
