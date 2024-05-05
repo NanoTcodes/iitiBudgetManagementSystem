@@ -23,7 +23,7 @@ const DeptHome = () => {
 
   const fetchData = async () => {
     const response = await fetch(
-      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/fetchbudget?year=${year}`,
+      `https://${process.env.REACT_APP_API_HOST}/api/budget/fetchbudget?year=${year}`,
       {
         method: "GET",
         headers: {
