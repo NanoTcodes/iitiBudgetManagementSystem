@@ -1,8 +1,8 @@
 body {
     font-family: sans-serif;
-    /* background-color: #f0f0f0; */
-    color:#CFFAFE;        /*year color*/
-    background-image: url('night1.jpg');
+    background-color: #edf7fc; 
+    color: black;        /*year color*/
+    /* background-image: url('night1.jpg'); */
     background-size: cover;
     background-position: center;
     /* Add blur effect */
@@ -16,7 +16,7 @@ body {
     margin: 0 auto;
     margin-top: 30px;
     padding: 20px;
-    background-color: #fff;
+    background-color: #edf7fc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -92,7 +92,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 
   .centered-div2 {
-    padding: 1%;
+    padding: 0.5%;
+   
     /* Add styling for your centered div here */
   }
 
@@ -121,7 +122,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .table th {
-  background-color:#0891B2;
+  background-color:#0a5095;
   /* font-weight: bold; */
   color: #fff;
 
@@ -131,7 +132,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   /* border-right: 1px solid #080505;  */
   border-bottom: 1px solid #080505; 
   border-left: 1px solid #080505; 
-  background-color: rgb(230, 235, 240); /*table backbround color*/
+  background-color: white; /*table backbround color*/
  
 }
 .table td:last-child {
@@ -156,11 +157,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .body .text-center {
-  text-align: center; 
+  text-align: center;
+ 
 }
-.text-center h3 {
-  color: white; /* Set text color to white */
-}
+
 .table .font-weight-bold {
   font-weight: bold;
   color: white;
