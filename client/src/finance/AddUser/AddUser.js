@@ -22,7 +22,7 @@ const AddUser = () => {
     creds.role = parseInt(creds.role);
     console.log(creds);
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/admin/createuser`,
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/createuser`,
       {
         method: "POST",
         headers: {

@@ -26,7 +26,7 @@ const UpdateProfile = ({ props }) => {
     }
 
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/admin/updateUser`,
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/updateUser`,
       {
         method: "POST",
         headers: {

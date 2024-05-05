@@ -32,7 +32,7 @@ const Navbar = () => {
   const addNewYear = async () => {
     const numYear=parseInt(year)
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/admin/newYear`,
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/newYear`,
       {
         method: "POST",
         headers: {
