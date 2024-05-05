@@ -1,19 +1,10 @@
-/* global bootstrap */
-
 import React, { useContext, useState } from "react";
 import "./navbar.css";
 import logo from "../../assets/images/iitindorelogo.png";
 import { Link } from "react-router-dom";
 import YearContext from "../../contexts/year/YearContext";
-//import useExternalScripts from "../../hooks/useExternalScripts"
-
-//import 'bootstrap/dist/css/bootstrap.min.css';
-
-//import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 const Navbar = () => {
-  //useExternalScripts("https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js")
-
   const {setYear}=useContext(YearContext)
   const [years] = useState(() => {
     let years=[];

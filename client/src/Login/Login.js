@@ -17,10 +17,10 @@ const Login = () => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
   };
-
+console.log(`${process.env.REACT_APP_API_HOST}/api/user/login`)
   const login = async (token) => {
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/user/login`,
+      `${process.env.REACT_APP_API_HOST}/api/user/login`,
       {
         method: "POST",
         headers: {
@@ -31,9 +31,6 @@ const Login = () => {
       }
     );
     const json = await response.json();
-    
-    console.log(json);
-    // return 
     if (json.error) unSuccessful(json.error);
     else {
       const { role } = json.user;

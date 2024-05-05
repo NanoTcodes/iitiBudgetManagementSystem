@@ -23,7 +23,7 @@ const DeptHome = () => {
 
   const fetchData = async () => {
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/budget/fetchbudget?year=${year}`,
+      `${process.env.REACT_APP_API_HOST}/api/budget/fetchbudget?year=${year}`,
       {
         method: "GET",
         headers: {
@@ -68,7 +68,6 @@ const DeptHome = () => {
               fontWeight: "bold",
             }}
           >{name}</h3>
-        {/* <h1 className="m-3 text-center">{name}</h1> */}
         <h2 className="m-3 text-center">
           Year {year}-{(year % 100) + 1}
         </h2>
