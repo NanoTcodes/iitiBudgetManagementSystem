@@ -38,7 +38,7 @@ const DeptDetails = () => {
 
   const fetchData = async () => {
     const response = await fetch(
-      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/fetchtable?username=${username}&type=${type}&year=${year}`,
+      `https://${process.env.REACT_APP_API_HOST}/api/budget/fetchtable?username=${username}&type=${type}&year=${year}`,
       {
         method: "GET",
         headers: {
@@ -120,7 +120,7 @@ const DeptDetails = () => {
     status = parseInt(status);
     const entry_date = new Date(indent.entry_date);
     const response = await fetch(
-      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/updateentry`,
+      `https://${process.env.REACT_APP_API_HOST}/api/budget/updateentry`,
       {
         method: "POST",
         headers: {
@@ -167,7 +167,7 @@ const DeptDetails = () => {
     console.log(new_amount, username, type);
     console.log(localStorage.getItem("authToken"));
     const response = await fetch(
-      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/updatebudget`,
+      `https://${process.env.REACT_APP_API_HOST}/api/admin/updatebudget`,
       {
         method: "POST",
         headers: {

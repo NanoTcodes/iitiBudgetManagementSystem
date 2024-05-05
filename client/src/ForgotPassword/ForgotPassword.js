@@ -33,7 +33,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     setOtpButton(false);
     const response = await fetch(
-      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/otp/sendotp`,
+      `https://${process.env.REACT_APP_API_HOST}/api/otp/sendotp`,
       {
         method: "POST",
         headers: {
@@ -60,7 +60,7 @@ const ForgotPassword = () => {
     if (password.length < 6)
       return unSuccessful("Password should be atleast 6 characters long!");
     const response = await fetch(
-      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/otp/resetpassword`,
+      `https://${process.env.REACT_APP_API_HOST}/api/otp/resetpassword`,
       {
         method: "POST",
         headers: {

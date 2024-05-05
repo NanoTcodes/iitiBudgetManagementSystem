@@ -19,6 +19,13 @@ app.use("/api/budget", budgetRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/otp", otpRoutes);
 
+app.use("/",(req,res)=>{
+  console.log("check");
+  res.send("hahaha");
+
+
+})
+
 app.listen(port, () => {
   console.log(
     `IITI Budget Website backend is listening at https://${host}:${port}`
