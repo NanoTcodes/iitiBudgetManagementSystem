@@ -7,6 +7,8 @@ const AllUsers = () => {
   const { unSuccessful, successful } = useContext(AlertContext);
   const [users, setUsers] = useState({ dept: [], admin: [], emp: [] });
   const [update, setUpdate] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [userToRemove, setUserToRemove] = useState(null);
   const roleArr = ["Admin", "F&A Employee", "Department"];
 
   const fetchData = async () => {
@@ -71,6 +73,22 @@ const AllUsers = () => {
     }
   };
 
+  const handleConfirmRemoval = (user) => {
+    setShowConfirmation(true);
+    setUserToRemove(user);
+  };
+
+  const handleConfirmationCancel = () => {
+    setShowConfirmation(false);
+    setUserToRemove(null);
+  };
+
+  const handleConfirmationConfirm = () => {
+    remUser(userToRemove.username);
+    setShowConfirmation(false);
+    setUserToRemove(null);
+  };
+
   const updateUser = async (user) => {
     console.log(user);
     setUpdate(user);
@@ -88,7 +106,7 @@ const AllUsers = () => {
           <button onClick={() => updateUser(user)}>Update</button>
         </td>
         <td>
-          <button onClick={() => remUser(username, role)}>Remove</button>
+          <button onClick={() => handleConfirmRemoval(user)}>Remove</button>
         </td>
       </tr>
     );
@@ -158,6 +176,38 @@ const AllUsers = () => {
           );
         })}
       </div>
+
+      {showConfirmation && (
+        <div className="confirmation-overlay">
+          <div className="confirmation-card">
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">Confirm Removal</h5>
+                <p className="card-text">
+                  Are you sure you want to remove the user "{userToRemove.username}"?
+                </p>
+              
+                <div className="card-actions">
+                  <button
+                    className="btn btn-danger"
+                    onClick={handleConfirmationConfirm}
+                  >
+                    Confirm
+                  </button>
+                  &nbsp;
+                  <button
+                    className="btn btn-info"
+                    onClick={handleConfirmationCancel}
+                  >
+                    Cancel
+                  </button>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
