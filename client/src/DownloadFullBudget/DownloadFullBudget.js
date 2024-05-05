@@ -21,7 +21,7 @@ function DownloadFullBudget({ props }) {
   const { year } = useContext(YearContext);
   const fetchData = async () => {
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/budget/fetchcompletebudget?year=${year}`,
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/fetchcompletebudget?year=${year}`,
       {
         method: "GET",
         headers: {

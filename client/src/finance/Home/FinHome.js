@@ -17,7 +17,7 @@ const FinHome = () => {
 
   const fetchSummary = async () => {
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/budget/fetchsummary?year=${year}`,
+      `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/api/budget/fetchsummary?year=${year}`,
       {
         method: "GET",
         headers: {
