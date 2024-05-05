@@ -178,15 +178,19 @@ const AllUsers = () => {
       </div>
 
       {showConfirmation && (
-        <div className="confirmation-overlay">
+        <div
+          className="confirmation-overlay"
+          style={{ position: "fixed", top: "0", left: "40%" }}
+        >
           <div className="confirmation-card">
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">Confirm Removal</h5>
                 <p className="card-text">
-                  Are you sure you want to remove the user "{userToRemove.username}"?
+                  Are you sure you want to remove the user "
+                  {userToRemove.username}"?
                 </p>
-              
+
                 <div className="card-actions">
                   <button
                     className="btn btn-danger"
@@ -201,8 +205,7 @@ const AllUsers = () => {
                   >
                     Cancel
                   </button>
-                  </div>
-                
+                </div>
               </div>
             </div>
           </div>

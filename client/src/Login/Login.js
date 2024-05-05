@@ -42,7 +42,7 @@ console.log(`${process.env.REACT_APP_API_HOST}/api/user/login`)
         if (!role) navigate("/dept");
         else navigate("/finance");
         window.location.reload();
-      }, 3000);
+      }, 2000);
     }
   };
 

@@ -1,4 +1,3 @@
-
 import React, { useContext } from "react";
 import DepartmentContext from "../../contexts/department/DepartmentContext";
 import YearContext from "../../contexts/year/YearContext";
@@ -13,11 +12,15 @@ const BudgetDetails = () => {
     indents_process,
     direct_purchase,
     username,
-    budget_changes
+    budget_changes,
   } = department;
   const { type } = department;
   const { year } = useContext(YearContext);
-  const statusArr = ["Indent in Process", "Indent Payment Done"];
+  const statusArr = [
+    "Indent in Process",
+    "Indent Payment Done",
+    "Entry Deleted",
+  ];
 
   return (
     <>
@@ -60,7 +63,7 @@ const BudgetDetails = () => {
           </h4>
           <div className="p-4">
             <table>
-            <thead>
+              <thead>
                 <tr>
                   <th
                     colSpan="2"
@@ -121,7 +124,7 @@ const BudgetDetails = () => {
               </h5>
             ))}
             <br></br>
-          
+
             <div>
               <h4
                 className="m-3  text-center"
@@ -335,7 +338,9 @@ const BudgetDetails = () => {
                     return (
                       <tr key={i}>
                         <td>{i + 1}</td>
-                        <td>Direct Purchased</td>
+                        <td>
+                          {status === 0 ? "Direct Purchased" : "Entry Deleted"}
+                        </td>
                         <td>{date}</td>
                         <td>{particulars}</td>
                         <td>
