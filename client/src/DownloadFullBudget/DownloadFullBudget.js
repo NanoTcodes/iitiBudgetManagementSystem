@@ -20,6 +20,7 @@ function DownloadFullBudget({ props }) {
   const { unSuccessful } = useContext(AlertContext);
   const { year } = useContext(YearContext);
   const fetchData = async () => {
+    console.log('function call')
     const response = await fetch(
       `${process.env.REACT_APP_API_HOST}/api/budget/fetchcompletebudget?year=${year}`,
       {
@@ -30,7 +31,9 @@ function DownloadFullBudget({ props }) {
       }
     );
     const json = await response.json();
-    if (json.error) unSuccessful(json.error);
+    if (json.error){ 
+      console.log(json)
+      unSuccessful(json.error);}
     else {
       setBudget(json);
       console.log(budget,json)
