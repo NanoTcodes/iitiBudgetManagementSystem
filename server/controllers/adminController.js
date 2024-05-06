@@ -13,10 +13,9 @@ export const createUser = async (req, res) => {
     const { username, password, role, name, email } = req.body;
     console.log(`body`, req.body);
     let user = await User.findOne({ username });
-    let dep = await Equipment.findOne({})
-    if (user) 
+    let dep = await Equipment.findOne({});
+    if (user)
       return res.status(400).json({ error: "Username already exists!" });
-    
 
     const salt = await bcrypt.genSalt(10);
     let secPass = await bcrypt.hash(password, salt);
@@ -37,7 +36,7 @@ export const createUser = async (req, res) => {
         budget: 0,
         expdenditure: 0,
         year,
-        budget_changes:[],
+        budget_changes: [],
         indents_process: [],
         direct_purchase: [],
       });
@@ -47,7 +46,7 @@ export const createUser = async (req, res) => {
         budget: 0,
         expenditure: 0,
         year,
-        budget_changes:[],
+        budget_changes: [],
         indents_process: [],
         direct_purchase: [],
       });
@@ -63,7 +62,7 @@ export const createUser = async (req, res) => {
 
 export const updateBudget = async (req, res) => {
   try {
-    const { username, type, new_amount, year,remark } = req.body;
+    const { username, type, new_amount, year, remark } = req.body;
     if (req.user.role != 2) return res.json({ error: "You are not admin!" });
     let table;
     if (type == 1) {
@@ -74,18 +73,22 @@ export const updateBudget = async (req, res) => {
     if (!table) return res.json({ error: "Data not found!" });
     const old_amount = table.budget;
     table.budget = new_amount;
-    const date=new Date();
-    const date1=date.getDate();
-    const date2=date.getMonth()+1;
-    const date3=date.getFullYear();
-    console.log("check")
-    console.log(table.budget_changes)
-    table.budget_changes.push(old_amount===0?`Budget Allocated: ${new_amount}. Reason: ${remark}`:` Previous Budget: ${old_amount}, Updated Budget: ${new_amount} on ${date1}/${date2}/${date3}. Reason: ${remark}`)
+    const date = new Date();
+    const date1 = date.getDate();
+    const date2 = date.getMonth() + 1;
+    const date3 = date.getFullYear();
+    console.log("check");
+    console.log(table.budget_changes);
+    table.budget_changes.push(
+      old_amount === 0
+        ? `Budget Allocated: ${new_amount}. Reason: ${remark}`
+        : ` Previous Budget: ${old_amount}, Updated Budget: ${new_amount} on ${date1}/${date2}/${date3}. Reason: ${remark}`
+    );
     // const indent = {
     //   remark: `previous budget was ${old_amount}, increased to ${new_amount} by admin`,
     // };
     // const first ={
-      
+
     // }
     // table.indents_process.push(indent);
     // table.direct_purchase.push(indent);
@@ -101,14 +104,16 @@ export const updateBudget = async (req, res) => {
 
 export const newyear = async (req, res) => {
   try {
-    const {  curr_year } = req.body;
-    const new_year=curr_year+1;
+    const { curr_year } = req.body;
+    const new_year = curr_year + 1;
     let exist = await Consumable.find({ year: new_year });
     let tables1 = await Consumable.find({ year: curr_year });
-    if(exist.length){
-      return res.json({ error: `Year ${new_year}-${new_year%100+1} already added` });
+    if (exist.length) {
+      return res.json({
+        error: `Year ${new_year}-${(new_year % 100) + 1} already added`,
+      });
     }
-    if(tables1.length){
+    if (tables1.length) {
       return res.json({ error: `Year ${curr_year} has not started yet` });
     }
 
@@ -121,7 +126,6 @@ export const newyear = async (req, res) => {
     //   in_process:{type:Number,default:0},
     //   year:Number
     // };
-
 
     let users = await User.find({ role: 0 });
     let usernames = [];
@@ -161,7 +165,9 @@ export const newyear = async (req, res) => {
           direct_purchase: [],
         });
       }
-      return res.json({success:`Year ${new_year}-${new_year%100+1} added`})
+      return res.json({
+        success: `Year ${new_year}-${(new_year % 100) + 1} added`,
+      });
     }
   } catch (err) {
     console.error(err.message);
@@ -177,7 +183,7 @@ export const newyear = async (req, res) => {
 //removing user
 export const removeUser = async (req, res) => {
   const errors = validationResult(req);
-  console.log(req.body)
+  console.log(req.body);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
@@ -186,7 +192,7 @@ export const removeUser = async (req, res) => {
     if (username == req.user.username)
       return res.json({ error: "You can't remove yourself!" });
     let user = await User.findOne({ username: req.body.username });
-  
+
     if (!user) {
       return res.status(400).json({ error: "Username not found!" });
     } else {
@@ -220,6 +226,7 @@ export const updateUser = async (req, res) => {
 
       if (req.body.password) {
         let user = await User.findOne({ username });
+        const email = user.email;
         if (role != 0 && !role) role = user.role;
         console.log(role);
         await User.findOneAndDelete({ username });
@@ -229,6 +236,7 @@ export const updateUser = async (req, res) => {
         user = await User.create({
           username,
           name,
+          email,
           password: secPass,
           role,
         });

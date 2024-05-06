@@ -17,7 +17,7 @@ const FinHome = () => {
 
   const fetchSummary = async () => {
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/budget/fetchsummary?year=${year}`,
+      `${process.env.REACT_APP_API_HOST}/api/budget/fetchsummary?year=${year}`,
       {
         method: "GET",
         headers: {
@@ -49,7 +49,7 @@ const FinHome = () => {
   }, [year]);
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#edf7fc" }}>
       <div className="container centered-div2">
         <h1 className="text-center">
           <b className="w3-large">
@@ -58,7 +58,11 @@ const FinHome = () => {
         </h1>
       </div>
       <div className="text-center">
-        <h3>Equipment Budget</h3>
+        <h2 className="m-3 text-center"
+            style={{
+              fontFamily: "Arial",
+              fontWeight: "bold",
+            }}>Equipment Budget</h2>
         <DownloadFullBudget props={{ type: 1, summary: equipment }} />
       </div>
       <div className="container table-container"></div>
@@ -113,7 +117,11 @@ const FinHome = () => {
       </div>
       <br />
       <div className="text-center">
-        <h3>Consumable Budget</h3>
+        <h2 className="m-3 text-center"
+            style={{
+              fontFamily: "Arial",
+              fontWeight: "bold",
+            }}>Consumable Budget </h2>
         <DownloadFullBudget props={{ type: 0, consumable }} />
       </div>
       <div className="container table-container">

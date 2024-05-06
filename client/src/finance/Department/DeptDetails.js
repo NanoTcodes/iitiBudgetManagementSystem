@@ -38,7 +38,7 @@ const DeptDetails = () => {
 
   const fetchData = async () => {
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/budget/fetchtable?username=${username}&type=${type}&year=${year}`,
+      `${process.env.REACT_APP_API_HOST}/api/budget/fetchtable?username=${username}&type=${type}&year=${year}`,
       {
         method: "GET",
         headers: {
@@ -120,7 +120,7 @@ const DeptDetails = () => {
     status = parseInt(status);
     const entry_date = new Date(indent.entry_date);
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/budget/updateentry`,
+      `${process.env.REACT_APP_API_HOST}/api/budget/updateentry`,
       {
         method: "POST",
         headers: {
@@ -167,7 +167,7 @@ const DeptDetails = () => {
     console.log(new_amount, username, type);
     console.log(localStorage.getItem("authToken"));
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/admin/updatebudget`,
+      `${process.env.REACT_APP_API_HOST}/api/admin/updatebudget`,
       {
         method: "POST",
         headers: {
@@ -184,12 +184,20 @@ const DeptDetails = () => {
       }
     );
     const json = await response.json();
-    console.log(json);
     if (json.error) unSuccessful(json.error);
     else {
       successful(json.success);
       setUpdate(0);
       setDepartment({ ...department, budget: new_amount });
+      const date = new Date();
+      const date1 = date.getDate();
+      const date2 = date.getMonth() + 1;
+      const date3 = date.getFullYear();
+      const reason =
+        budget === 0
+          ? `Budget Allocated: ${new_amount}. Reason: ${newBudget.remark}`
+          : ` Previous Budget: ${budget}, Updated Budget: ${new_amount} on ${date1}/${date2}/${date3}. Reason: ${newBudget.remark}`;
+      setBudgetChanges([...budget_changes, reason]);
     }
   };
 
@@ -310,7 +318,7 @@ const DeptDetails = () => {
                     <>
                       <td>
                         <input
-                        name="remark"
+                          name="remark"
                           type="string"
                           value={newBudget.remark}
                           onChange={handleOnChange}
@@ -318,7 +326,7 @@ const DeptDetails = () => {
                       </td>
                       <td>
                         <input
-                        name="amount"
+                          name="amount"
                           type="number"
                           value={newBudget.amount}
                           onChange={handleOnChange}

@@ -9,7 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [years] = useState(() => {
     let years = [];
-    for (let i = 2021; i <= new Date().getFullYear() + 2; i++) years.push(i);
+    for (let i = 2021; i <= new Date().getFullYear(); i++) years.push(i);
     return years;
   });
   const { setYear, year } = useContext(YearContext);
@@ -32,7 +32,7 @@ const Navbar = () => {
   const addNewYear = async () => {
     const numYear=parseInt(year)
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/admin/newYear`,
+      `${process.env.REACT_APP_API_HOST}/api/admin/newYear`,
       {
         method: "POST",
         headers: {
