@@ -14,7 +14,7 @@ const Navbar = () => {
   });
   const { setYear, year } = useContext(YearContext);
   const { successful, unSuccessful } = useContext(AlertContext);
-  const role = localStorage.getItem("userRole");
+  const role = parseInt(localStorage.getItem("userRole"));
 
   useEffect(() => {
     if (!localStorage.getItem("authToken")) navigate("/");
@@ -30,7 +30,7 @@ const Navbar = () => {
   };
 
   const addNewYear = async () => {
-    const numYear=parseInt(year)
+    const numYear = parseInt(year);
     const response = await fetch(
       `${process.env.REACT_APP_API_HOST}/api/admin/newYear`,
       {
@@ -43,7 +43,7 @@ const Navbar = () => {
       }
     );
     const json = await response.json();
-    console.log(json)
+    console.log(json);
     if (json.error) unSuccessful(json.error);
     else successful(json.success);
   };
@@ -91,15 +91,17 @@ const Navbar = () => {
                       Home
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link
-                      className="nav-link active"
-                      aria-current="page"
-                      onClick={addNewYear}
-                    >
-                      Add new Year
-                    </Link>
-                  </li>
+                  {role === 2 && (
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link active"
+                        aria-current="page"
+                        onClick={addNewYear}
+                      >
+                        Add new Year
+                      </Link>
+                    </li>
+                  )}
                   <li className="nav-item dropdown">
                     <Link
                       className="nav-link dropdown-toggle"
@@ -125,7 +127,7 @@ const Navbar = () => {
                       })}
                     </ul>
                   </li>
-                  {role == 2 && (
+                  {role === 2 && (
                     <li className="nav-item dropdown">
                       <Link
                         className="nav-link dropdown-toggle"
