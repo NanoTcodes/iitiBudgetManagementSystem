@@ -19,6 +19,7 @@ function DownloadFullBudget({ props }) {
 
   const { unSuccessful } = useContext(AlertContext);
   const { year } = useContext(YearContext);
+
   // const fetchData = async () => {
   //   const response = await fetch(
   //     `${process.env.REACT_APP_API_HOST}/api/budget/fetchcompletebudget?year=${year}`,
@@ -35,6 +36,7 @@ function DownloadFullBudget({ props }) {
   //     setBudget(json);
   //   }
   // };
+
 
   // useEffect(
   //   () => fetchData,
@@ -118,6 +120,7 @@ function DownloadFullBudget({ props }) {
     ];
     let i = 1;
     inProcess.forEach((entry) => {
+      console.log(`reached ${i}`)
       const {
         entry_date,
         particulars,
@@ -215,6 +218,7 @@ function DownloadFullBudget({ props }) {
       },
     ];
     summary.forEach((dept, i) => {
+      
       const { name, budget, expenditure, in_process } = dept;
       table.push({
         A: i,

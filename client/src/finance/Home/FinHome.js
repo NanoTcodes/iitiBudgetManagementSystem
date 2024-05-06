@@ -151,6 +151,7 @@ const FinHome = () => {
           Consumable Budget{" "}
         </h2>
         <DownloadFullBudget props={{ type: 0, summary: consumable,budget }} />
+
       </div>
       <div className="container table-container">
         <table className="table table-bordered">

@@ -14,5 +14,6 @@ const connectToMongo = () => {
       console.log(`There is problem in connecting to database. ${err}`);
     });
 };
+//new commit check
 
 export default connectToMongo;
