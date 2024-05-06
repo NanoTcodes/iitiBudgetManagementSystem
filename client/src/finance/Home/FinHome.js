@@ -122,7 +122,7 @@ const FinHome = () => {
               fontFamily: "Arial",
               fontWeight: "bold",
             }}>Consumable Budget </h2>
-        <DownloadFullBudget props={{ type: 0, consumable }} />
+        <DownloadFullBudget props={{ type: 0,summary: consumable }} />
       </div>
       <div className="container table-container">
         <table className="table table-bordered">
