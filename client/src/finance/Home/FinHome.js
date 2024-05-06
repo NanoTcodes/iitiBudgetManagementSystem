@@ -13,7 +13,26 @@ const FinHome = () => {
 
   const [equipment, setEquipment] = useState([]);
   const [consumable, setConsumable] = useState([]);
+  
+  const [budget, setBudget] = useState({ consumable: [], equipment: [] });
   const navigate = useNavigate();
+
+  const fetchData = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_HOST}/api/budget/fetchcompletebudget?year=${year}`,
+      {
+        method: "GET",
+        headers: {
+          "auth-token": localStorage.getItem("authToken"),
+        },
+      }
+    );
+    const json = await response.json();
+    if (json.error) unSuccessful(json.error);
+    else {
+      setBudget(json);
+    }
+  };
 
   const fetchSummary = async () => {
     const response = await fetch(
@@ -46,6 +65,7 @@ const FinHome = () => {
 
   useEffect(() => {
     fetchSummary();
+    fetchData();
   }, [year]);
 
   return (
@@ -58,12 +78,16 @@ const FinHome = () => {
         </h1>
       </div>
       <div className="text-center">
-        <h2 className="m-3 text-center"
-            style={{
-              fontFamily: "Arial",
-              fontWeight: "bold",
-            }}>Equipment Budget</h2>
-        <DownloadFullBudget props={{ type: 1, summary: equipment }} />
+        <h2
+          className="m-3 text-center"
+          style={{
+            fontFamily: "Arial",
+            fontWeight: "bold",
+          }}
+        >
+          Equipment Budget
+        </h2>
+        <DownloadFullBudget props={{ type: 1, summary: equipment ,budget}} />
       </div>
       <div className="container table-container"></div>
       <div className="container table-container">
@@ -117,12 +141,17 @@ const FinHome = () => {
       </div>
       <br />
       <div className="text-center">
-        <h2 className="m-3 text-center"
-            style={{
-              fontFamily: "Arial",
-              fontWeight: "bold",
-            }}>Consumable Budget </h2>
-        <DownloadFullBudget props={{ type: 0, summary:consumable }} />
+        <h2
+          className="m-3 text-center"
+          style={{
+            fontFamily: "Arial",
+            fontWeight: "bold",
+          }}
+        >
+          Consumable Budget{" "}
+        </h2>
+        <DownloadFullBudget props={{ type: 0, summary: consumable,budget }} />
+
       </div>
       <div className="container table-container">
         <table className="table table-bordered">
