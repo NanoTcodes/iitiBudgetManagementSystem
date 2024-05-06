@@ -33,6 +33,7 @@ function DownloadFullBudget({ props }) {
     if (json.error) unSuccessful(json.error);
     else {
       setBudget(json);
+      console.log(budget,json)
     }
   };
 
