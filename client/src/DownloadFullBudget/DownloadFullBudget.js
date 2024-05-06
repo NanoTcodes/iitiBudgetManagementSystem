@@ -118,6 +118,7 @@ function DownloadFullBudget({ props }) {
     ];
     let i = 1;
     inProcess.forEach((entry) => {
+      console.log(`reached ${i}`)
       const {
         entry_date,
         particulars,
@@ -215,7 +216,7 @@ function DownloadFullBudget({ props }) {
       },
     ];
     summary.forEach((dept, i) => {
-      console.log(`reached ${i}`)
+      
       const { name, budget, expenditure, in_process } = dept;
       table.push({
         A: i,
