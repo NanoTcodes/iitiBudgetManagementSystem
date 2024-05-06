@@ -34,14 +34,15 @@ const DeptHome = () => {
     const json = await response.json();
     if (json.error) {
       unSuccessful(json.error);
-    } else {
+    } else if (json.equipment === null)
+      unSuccessful(`No data for year ${year}-${(year % 100) + 1}`);
+    else {
       let { equipment, consumable } = json;
       equipment.type = 1;
       consumable.type = 0;
       setEquipment(equipment);
       setConsumable(consumable);
       setName(equipment.department);
-      console.log(json);
     }
   };
   useEffect(() => {
@@ -61,13 +62,15 @@ const DeptHome = () => {
         style={{ backgroundColor: "#edf7fc", minHeight: "94vh" }}
       >
         <h3
-            className="m-3 text-center"
-            style={{
-              fontFamily: "Arial",
-              fontSize: "30px",
-              fontWeight: "bold",
-            }}
-          >{name}</h3>
+          className="m-3 text-center"
+          style={{
+            fontFamily: "Arial",
+            fontSize: "30px",
+            fontWeight: "bold",
+          }}
+        >
+          {name}
+        </h3>
         <h2 className="m-3 text-center">
           Year {year}-{(year % 100) + 1}
         </h2>
@@ -75,20 +78,40 @@ const DeptHome = () => {
           <table>
             <thead>
               <tr>
-                <th colSpan="1"
-                    style={{ backgroundColor: "#0a5095", textAlign: "center" }} >Budget Type</th>
-                <th colSpan="1"
-                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}>Budget Allocated</th>
-                <th colSpan="1"
-                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}>Expenditure</th>
-                <th colSpan="1"
-                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}>Available</th>
-                <th colSpan="1"
-                    style={{ backgroundColor: "#0a5095", textAlign: "center" }}>%Utilised</th>
+                <th
+                  colSpan="1"
+                  style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                >
+                  Budget Type
+                </th>
+                <th
+                  colSpan="1"
+                  style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                >
+                  Budget Allocated
+                </th>
+                <th
+                  colSpan="1"
+                  style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                >
+                  Expenditure
+                </th>
+                <th
+                  colSpan="1"
+                  style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                >
+                  Available
+                </th>
+                <th
+                  colSpan="1"
+                  style={{ backgroundColor: "#0a5095", textAlign: "center" }}
+                >
+                  %Utilised
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr role="button" onClick={handleClick}>
+              <tr role="button" onClick={() => handleClick(1)}>
                 <td>Equipment Budget</td>
                 <td>{equipment.budget}</td>
                 <td>{equipment.expenditure}</td>
@@ -100,7 +123,7 @@ const DeptHome = () => {
                   %
                 </td>
               </tr>
-              <tr role="button" onClick={handleClick}>
+              <tr role="button" onClick={() => handleClick(0)}>
                 <td>Consumable Budget</td>
                 <td>{consumable.budget}</td>
                 <td>{consumable.expenditure}</td>

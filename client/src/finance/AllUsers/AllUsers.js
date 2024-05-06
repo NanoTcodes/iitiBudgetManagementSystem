@@ -178,10 +178,7 @@ const AllUsers = () => {
       </div>
 
       {showConfirmation && (
-        <div
-          className="confirmation-overlay"
-          style={{ position: "fixed", top: "0", left: "40%" }}
-        >
+        <div style={{ position: "fixed", top: "0", left: "40%" }}>
           <div className="confirmation-card">
             <div className="card">
               <div className="card-body">
