@@ -5,7 +5,7 @@ import * as XLSX from "xlsx";
 import * as XlsxPopulate from "xlsx-populate/browser/xlsx-populate";
 
 function DownloadFullBudget({ props }) {
-  const { summary, type } = props;
+  const { summary, type,budget } = props;
   const sheetTables = [[]],
     dp = [""],
     ip = [];
@@ -15,32 +15,32 @@ function DownloadFullBudget({ props }) {
     "Entry Deleted",
   ];
   const dirArr = ["Direct Purchased", "Entry Deleted"];
-  const [budget, setBudget] = useState({ consumable: [], equipment: [] });
+  // const [budget, setBudget] = useState({ consumable: [], equipment: [] });
 
   const { unSuccessful } = useContext(AlertContext);
   const { year } = useContext(YearContext);
-  const fetchData = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_HOST}/api/budget/fetchcompletebudget?year=${year}`,
-      {
-        method: "GET",
-        headers: {
-          "auth-token": localStorage.getItem("authToken"),
-        },
-      }
-    );
-    const json = await response.json();
-    if (json.error) unSuccessful(json.error);
-    else {
-      setBudget(json);
-    }
-  };
+  // const fetchData = async () => {
+  //   const response = await fetch(
+  //     `${process.env.REACT_APP_API_HOST}/api/budget/fetchcompletebudget?year=${year}`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         "auth-token": localStorage.getItem("authToken"),
+  //       },
+  //     }
+  //   );
+  //   const json = await response.json();
+  //   if (json.error) unSuccessful(json.error);
+  //   else {
+  //     setBudget(json);
+  //   }
+  // };
 
-  useEffect(
-    () => fetchData,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  // useEffect(
+  //   () => fetchData,
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   []
+  // );
   const s2ab = (s) => {
     const buf = new ArrayBuffer(s.length);
     const view = new Uint8Array(buf);
