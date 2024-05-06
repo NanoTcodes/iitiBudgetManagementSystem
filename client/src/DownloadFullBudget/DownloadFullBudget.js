@@ -19,6 +19,7 @@ function DownloadFullBudget({ props }) {
 
   const { unSuccessful } = useContext(AlertContext);
   const { year } = useContext(YearContext);
+  console.log('before')
   const fetchData = async () => {
     console.log('function call')
     const response = await fetch(
