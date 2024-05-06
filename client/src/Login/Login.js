@@ -20,7 +20,7 @@ const Login = () => {
 console.log(`${process.env.REACT_APP_API_HOST}/api/user/login`)
   const login = async (token) => {
     const response = await fetch(
-      `https://${process.env.REACT_APP_API_HOST}/api/user/login`,
+      `${process.env.REACT_APP_API_HOST}/api/user/login`,
       {
         method: "POST",
         headers: {
